@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import {ITask} from './core/models/task.model';
+import {Subscription} from 'rxjs';
+import {TaskService} from './core/services/task.service';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +12,23 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'Frontend';
+
+  public task : ITask | undefined
+  public taskSubscription: Subscription | undefined
+  constructor(private readonly taskService: TaskService) { }
+
+  ngOnInit(): void {
+    this.getTask()
+  }
+
+  public getTask():void{
+    this.taskSubscription = this.taskService
+      .getTasks(this.task)
+      .subscribe(
+        (_task) => {
+          this.task = _task;
+          console.log("task :", this.task);
+        });
+  }
+
 }
