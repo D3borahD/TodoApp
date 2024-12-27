@@ -28,6 +28,26 @@ var app = builder.Build();
 app.UseCors("AllowSpecificOrigin");
 ```
 
+## Mise en place de Swagger 
+
+```c#
+// Dans le fichier program.cs
+// Services pour générer Swagger
+builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen();
+
+// Configurer Swagger uniquement en environnement de développement
+if (app.Environment.IsDevelopment() || builder.Configuration.GetValue<bool>("EnableSwagger"))
+{
+    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(option =>
+    {
+        option.SwaggerEndpoint("/swagger/v1/swagger.json", "V1");
+    });
+}
+```
+
 # Mise en place du Frontend
 
 - Mettre en place d'un service faisant appel à la route en backend

@@ -9,6 +9,10 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.3.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0"/>
+        <PackageReference Include="Swagger.Net.UI" Version="1.1.0" />
+        <PackageReference Include="SwaggerUi" Version="1.1.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.2.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.2.0" />
     </ItemGroup>
 
 </Project>
