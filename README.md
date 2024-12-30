@@ -1,9 +1,14 @@
+<img src="https://img.shields.io/badge/made%20with- C Sharp-blue.svg" alt="made with c sharp">
+<img src="https://img.shields.io/badge/made%20with- Angular-red.svg" alt="made with c sharp">
+
+Swagger : http://localhost:5062/swagger/index.html
+
 # Mise en place du Backend
 
 ## Créer un projet webApi
 
 - Dans Program.cs : Mettre en place les paramètres de base de l'API
-- Créer un contrôler et mettre en place la première route.
+- Créer un contrôler et mettre en place la première route
 - Lancer l'application et vérifier le retour dans le navigateur.
 
 # Mise en place de la gestion des CORS
