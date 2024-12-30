@@ -1,3 +1,10 @@
-
-{"Id":0,"Name":"Je viens du back  0"};
-{"Id":1,"Name":"Je viens du back 1"};
+[
+  {
+    "Id": 0,
+    "Name": "string"
+  },
+  {
+    "Id": 1,
+    "Name": "string"
+  }
+]
