@@ -1,0 +1,22 @@
+﻿[
+  {
+    "Id": 1,
+    "Name": "All",
+    "Image": "\uD83D\uDC68‍\uD83D\uDC69‍\uD83D\uDC67‍\uD83D\uDC67"
+  },
+  {
+    "Id": 2,
+    "Name": "Girafe ",
+    "Image": "\uD83E\uDD92"
+  },
+  {
+    "Id": 3,
+    "Name": "Girafe",
+    "Image": null
+  },
+  {
+    "Id": 4,
+    "Name": "Castor",
+    "Image": "\uD83E\uDDAB"
+  }
+]
