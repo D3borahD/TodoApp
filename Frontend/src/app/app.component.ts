@@ -1,33 +1,35 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {ITask} from './core/models/task.model';
 import {Subscription} from 'rxjs';
-import {TaskService} from './core/services/task.service';
+import {TitleCasePipe} from '@angular/common';
+import {TeamService} from './core/services/team.service';
+import {ITeam} from './core/models/team.model';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, TitleCasePipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
 
-  public task : ITask | undefined
-  public taskSubscription: Subscription | undefined
-  constructor(private readonly taskService: TaskService) { }
+  public team : ITeam[] | undefined
+  public teamSubscription: Subscription | undefined
+
+  constructor(private readonly teamService: TeamService) { }
 
   ngOnInit(): void {
-    this.getTask()
+    this.getTeams()
   }
 
-  public getTask():void{
-    this.taskSubscription = this.taskService
-      .getTasks(this.task)
+  public getTeams():void{
+    this.teamSubscription = this.teamService
+      .getTeams()
       .subscribe(
-        (_task) => {
-          this.task = _task;
-          console.log("task :", this.task);
+        (_team) => {
+          this.team = _team;
+          console.log("team :", this.team);
         });
   }
 

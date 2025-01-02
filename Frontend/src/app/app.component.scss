@@ -64,4 +64,15 @@ input[type="text"] {
   }
 }
 
+li {
+  list-style-type: none;
+  padding: 1em;
+}
 
+.team-list {
+  background-color: $black;
+  color : $white;
+  width: 20em;
+  margin: auto;
+  border-radius: 5%;
+}

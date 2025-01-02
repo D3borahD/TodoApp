@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {ITask} from '../models/task.model';
+import {ITeam} from '../models/team.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class TaskService {
+export class TeamService {
 
   constructor(private readonly http: HttpClient) { }
-  public url : string = "http://localhost:5062/tasks"
+  public url : string = "http://localhost:5062/Api/Teams/teams"
 
-  public getTasks(name: ITask | undefined): Observable<ITask>
+  public getTeams(): Observable<ITeam[]>
   {
-    return this.http.get<ITask>(this.url)
+    return this.http.get<ITeam[]>(this.url)
   }
 }

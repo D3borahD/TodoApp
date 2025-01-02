@@ -1,7 +1,8 @@
 <header>
   <h1>TODO</h1>
 
-  <h2>test : {{ task?.name }} </h2>
+
+
 
   <div class="todo-input">
     <div class="circle"></div>
@@ -10,6 +11,17 @@
   </div>
 
 </header>
+
+
+<div class="team-list">
+  @for (t of team; track t.id){
+    <!--To Do : ne récupère pas l'adresse de l'image-->
+    <!--<img src="{{t.imageUrl}}" alt="{{t.name | titlecase}}">-->
+    <li> {{t.name | titlecase}}</li>
+  } @empty {
+    <li>Il n'y a pas d'équipe</li>
+  }
+</div>
 
 
 
