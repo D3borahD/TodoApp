@@ -1,28 +1,49 @@
 <header>
-  <h1>TODO</h1>
-
-
-
-
-  <div class="todo-input">
-    <div class="circle"></div>
-    <input type="text" id="name" name="input" placeholder="Create a new todo ...">
-    <button>edit</button>
+  <div class="team-identity">
+    <img class="team-profil" src="https://plus.unsplash.com/premium_photo-1673296129756-e45408e25250?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGdpcmFmZXxlbnwwfHwwfHx8MA%3D%3D" alt="image d'équipe">
+    <p>team</p>
   </div>
+  <h1>Saisie des temps</h1>
+
+
+  <div class="parameters"></div>
 
 </header>
 
-
-<div class="team-list">
-  @for (t of team; track t.id){
-    <!--To Do : ne récupère pas l'adresse de l'image-->
-    <!--<img src="{{t.imageUrl}}" alt="{{t.name | titlecase}}">-->
-    <li> {{t.name | titlecase}}</li>
-  } @empty {
-    <li>Il n'y a pas d'équipe</li>
-  }
+<div class="input">
+  <div class="circle"></div>
+  <input type="text" id="name" name="input" placeholder="Create a new todo ...">
+  <button>edit</button>
 </div>
 
+
+
+<button (click)="toggleSubMenu($event)" class="dropdown-btn">
+  <span>Paramètres</span>
+  <p><i class="fa-solid fa-gear"></i></p>
+</button>
+<ul class="dropdown-menu  " [ngClass]="active : 'active' ">
+  <div>
+    <li>{{active}}</li>
+    <li>option 2</li>
+    <li>option 3</li>
+    <li>option 4</li>
+  </div>
+
+</ul>
+
+
+<div class="dropdown">
+  <div class="dropdown-header">
+    <p><i class="fa-solid fa-gear"></i></p>
+
+  </div>
+
+
+  <ul class="hidden">
+    <li *ngFor="let item of teamList$  | async">{{ item.name }}</li>
+  </ul>
+</div>
 
 
 <router-outlet />
