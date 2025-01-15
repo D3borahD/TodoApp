@@ -1,19 +1,25 @@
 @import "../styles";
 
+
+
 header {
   background-image: url("../assets/gradiant-bg.jpg");
   background-size : cover;
-  height: 360px;
+  height: 200px;
   width: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  .team-profil {
+    width: 150px;
+    height: 150px;
+  }
 }
+
 
 h1 {
   color : $white;
-  font-size: 5em;
+  //font-size: 5em;
 }
 
 input[type="text"] {
@@ -26,7 +32,7 @@ input[type="text"] {
   padding-left: 50px;
 }
 
-.todo-input{
+.input{
   position: relative;
 }
 .circle {
@@ -39,36 +45,68 @@ input[type="text"] {
   border: 1px solid $white;
 }
 
-.task-block {
-  color : $white;
-  border-radius: 8px;
-  background-color: $black;
-  width: 20em;
+i{
+  color: white;
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  font-size: 1.5em;
+}
+
+/*
+.dropdown{
   margin: auto;
+  color: $white;
+  width: 200px;
+  height: 60px;
+  background-color: blue;
+
+  .dropdown-header{
+    padding: 3px 10px;
+    text-align: right;
+    margin: 0;
+  }
+
+
+  ul, li{
+    background-color: red;
+    .hidden{
+      display: none;
+    }
+  }
 
 }
-.task {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  height: 3em;
-  div {
-    display: flex;
-    flex-direction: row;
-  }
-  p {
-    margin-left: 15px;
-  }
-  button {
+*/
 
-  }
+.red {
+  color: red;
 }
+.green {
+  color: green;
+}
+
+
 
 li {
   list-style-type: none;
-  padding: 1em;
+  padding: 1em 0;
+  color: white;
 }
 
+
+.unactive {
+  display: none;
+}
+
+.dropdown-menu,
+.active{
+  display: block;
+}
+
+
+
+
+
+/*
 .team-list {
   background-color: $black;
   color : $white;
@@ -76,3 +114,4 @@ li {
   margin: auto;
   border-radius: 5%;
 }
+*/
