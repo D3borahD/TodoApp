@@ -1,15 +1,17 @@
 @import "../styles";
 
-
-
 header {
   background-image: url("../assets/gradiant-bg.jpg");
   background-size : cover;
-  height: 200px;
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  .team-identity {
+    height: 100%;
+    width: 150px;
+  }
   .team-profil {
     width: 150px;
     height: 150px;
@@ -19,7 +21,6 @@ header {
 
 h1 {
   color : $white;
-  //font-size: 5em;
 }
 
 input[type="text"] {
@@ -52,38 +53,6 @@ i{
   font-size: 1.5em;
 }
 
-/*
-.dropdown{
-  margin: auto;
-  color: $white;
-  width: 200px;
-  height: 60px;
-  background-color: blue;
-
-  .dropdown-header{
-    padding: 3px 10px;
-    text-align: right;
-    margin: 0;
-  }
-
-
-  ul, li{
-    background-color: red;
-    .hidden{
-      display: none;
-    }
-  }
-
-}
-*/
-
-.red {
-  color: red;
-}
-.green {
-  color: green;
-}
-
 
 
 li {
@@ -93,25 +62,26 @@ li {
 }
 
 
-.unactive {
-  display: none;
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 150px;
+  text-align: center;
+  color: $white;
 }
 
-.dropdown-menu,
-.active{
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: $black ;
+  border-radius: 10px;
+  padding: 0;
+  z-index: 1;
+  text-align: center;
+  width: 100%;
+  margin: 0;
+}
+
+.dropdown:hover .dropdown-content {
   display: block;
 }
-
-
-
-
-
-/*
-.team-list {
-  background-color: $black;
-  color : $white;
-  width: 20em;
-  margin: auto;
-  border-radius: 5%;
-}
-*/
