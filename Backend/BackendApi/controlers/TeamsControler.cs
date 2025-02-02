@@ -12,7 +12,7 @@ namespace BackendApi.Controllers;
 [Route("api/[controller]")]
 public class TeamsController : ControllerBase
 {
-    private static readonly string dataBasePath = "/Users/deborah/Documents/dev/TodoApp/Backend";
+    private static readonly string dataBasePath = "/Users/deborah/Documents/dev/TodoApp/Backend/DatasFiles";
     private readonly string teamsdatasPath = $"{dataBasePath}/teamsDatas";
     
     // Options de sérialisation pour désactiver l'encodage des caractères non ASCII
