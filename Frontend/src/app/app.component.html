@@ -5,8 +5,14 @@
     <div class="dropdown" >
       <p>{{selectedTeam}}</p>
       <ul class="dropdown-content ">
-        <li *ngFor="let item of teamList$ | async" (click)="selectTeam(item.name)">{{ item.name }}</li>
+        @if (teamList$ | async; as teamsList)
+        {
+          <li *ngFor="let item of teamsList" (click)="selectTeam(item.name)">{{ item.name }}</li>
+        }
+
       </ul>
+
+
     </div>
   </div>
 
@@ -15,9 +21,14 @@
   <div class="dropdown"   >
     <p><i class="fa-solid fa-gear"></i></p>
     <ul class="dropdown-content ">
+      <li ><a routerLink="teamsProjets"></a>équipes</li>
       <li>projets</li>
     </ul>
   </div>
 </header>
 
+<app-teams-projets></app-teams-projets>
+<body>
 <router-outlet />
+</body>
+
