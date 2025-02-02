@@ -10,10 +10,15 @@ import {ITeam} from '../models/team.model';
 export class TeamService {
 
   constructor(private readonly http: HttpClient) { }
-  public url : string = "http://localhost:5062/Api/Teams/teams"
+  public shortUrl : string = "http://localhost:5062/Api/Teams"
 
   public getTeams(): Observable<ITeam[]>
   {
-    return this.http.get<ITeam[]>(this.url)
+    return this.http.get<ITeam[]>(`${this.shortUrl}/teams`)
+  }
+
+  public addUserTeam(team:ITeam):Observable<ITeam>
+  {
+    return this.http.post<ITeam>(`${this.shortUrl}/teams`, team)
   }
 }
