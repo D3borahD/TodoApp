@@ -1,0 +1,13 @@
+﻿[
+  {
+    "Id": 1,
+    "Reference": "SUP_SINAPPS",
+    "Name": "SUPPORT SINAPPS",
+    "Lot": "/",
+    "TeamProject": {
+      "Id": 0,
+      "Name": "girafe",
+      "Image": "string"
+    }
+  }
+]
