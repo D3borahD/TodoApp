@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { provideRouter } from '@angular/router';
-import {TeamsProjetsComponent} from './teamsProjets/teams-projets/teams-projets.component';
+import {TasksComponent} from './tasks/tasks.component';
 
 export const routes: Routes = [
-  {path: 'teamsProjets', component: TeamsProjetsComponent}
-
+  {path: '', component: TasksComponent},
+  {path: 'tasks', component: TasksComponent}
 ];
 

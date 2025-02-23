@@ -42,6 +42,8 @@ public class TeamsController : ControllerBase
                 return Ok(new List<Teams>());
             }
             
+            // todo : récupérer la liste des projet via la table lien équipe projet
+            
             return Ok(teamsList);
         }
         catch (Exception e)

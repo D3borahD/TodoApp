@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 $black : #022554;
+$blue : #3B68FA;
 $white : azure;
+$grey: #8A8A8A;
 
 *,
 ::after,
@@ -12,18 +14,30 @@ html,
 body {
   margin: 0;
   padding: 0;
-  height: 100vh;
+  height: calc(100% - 56px );
   width: 100%;
 }
 
 body {
-  background-color: #000725;
+  background-color: #F0F0F0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 h1,
 p {
   color: $white;
+}
+
+h1{
+  font-size: 1em;
+}
+h2 {
+  margin-left: 1em;
+  color: $black;
+}
+
+li {
+  list-style-type: none;
+  padding: 1em 0;
+  color: $black;
 }
