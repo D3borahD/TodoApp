@@ -1,8 +1,14 @@
 ﻿[
   {
     "Id": 1,
-    "Reference": "je suis une NEW",
-    "Name": "je suis un NEW",
-    "Lot": "NEW"
+    "Reference": "string",
+    "Name": "string",
+    "Lot": "string"
+  },
+  {
+    "Id": 2,
+    "Reference": "test",
+    "Name": "test",
+    "Lot": "test"
   }
 ]
