@@ -217,6 +217,18 @@ public class ProjectsControler: ControllerBase
         List<Projects> projectsList = new List<Projects>();
         List<LinkTeamsProjects> TeamsProjectsList = new List<LinkTeamsProjects>();
         
+        // Vérification du fichier existant
+        if (System.IO.File.Exists(projectsdatasPath) && new FileInfo(projectsdatasPath).Length > 0)
+        {
+            string json = System.IO.File.ReadAllText(projectsdatasPath, Encoding.UTF8);
+            projectsList = JsonSerializer.Deserialize<List<Projects>>(json) ?? new List<Projects>();
+        }
+        else
+        {
+            projectsList = new List<Projects>();
+        }
+        
+        
         // vérification si le projet existe dans l'équipe 
 
         foreach (Teams teams in teamsList)
