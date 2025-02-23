@@ -1,0 +1,53 @@
+@import "../../styles";
+
+.task-content {
+  height: 100%;
+  width: 100%;
+}
+
+p {
+  color: $black;
+}
+
+.add-content {
+  display: flex;
+  min-width: 300px;
+  width: 450px;
+  max-width: 700px;
+  background-color: $white;
+  border-radius: 15px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1.5em 0 3em;
+  margin: auto;
+  margin-bottom: 1em;
+  p{
+    color: $grey;
+  }
+}
+
+.tasks-list-header {
+  display: flex;
+  justify-content: space-around;
+}
+
+.tasks-list {
+  background-color: $white;
+  width: 600px;
+  border-radius: 12px;
+  margin: auto;
+  i {
+    color: $blue;
+    margin-right: .5em;
+  }
+  ul{
+    padding: 0;
+  }
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-bottom: solid 1px $blue;
+    height: 46px;
+  }
+}

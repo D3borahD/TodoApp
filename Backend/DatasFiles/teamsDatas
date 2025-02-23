@@ -2,21 +2,31 @@
   {
     "Id": 1,
     "Name": "All",
-    "Image": "\uD83D\uDC68‍\uD83D\uDC69‍\uD83D\uDC67‍\uD83D\uDC67"
+    "Image": "\uD83D\uDC68‍\uD83D\uDC69‍\uD83D\uDC67‍\uD83D\uDC67",
+    "Projects": null
   },
   {
     "Id": 2,
     "Name": "Girafe ",
-    "Image": "https://images.unsplash.com/photo-1559090336-3b19608e6a41?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Z2lyYWZlfGVufDB8fDB8fHww"
+    "Image": "https://images.unsplash.com/photo-1559090336-3b19608e6a41?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Z2lyYWZlfGVufDB8fDB8fHww",
+    "Projects": null
   },
   {
     "Id": 3,
     "Name": "Girafe",
-    "Image": null
+    "Image": null,
+    "Projects": null
   },
   {
     "Id": 4,
     "Name": "Castor",
-    "Image": "\uD83E\uDDAB"
+    "Image": "\uD83E\uDDAB",
+    "Projects": null
+  },
+  {
+    "Id": 5,
+    "Name": "test",
+    "Image": "string",
+    "Projects": null
   }
 ]

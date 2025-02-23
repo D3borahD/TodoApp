@@ -5,4 +5,5 @@ public class Teams
     public int Id { get; set; }
     public string Name { get; set; }
     public string? Image { get; set; }
+    public List<Projects>? Projects { get; set; }
 }

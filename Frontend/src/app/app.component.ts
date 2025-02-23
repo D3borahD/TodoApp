@@ -5,7 +5,7 @@ import {AsyncPipe} from '@angular/common';
 import {TeamService} from './core/services/team.service';
 import {ITeam} from './core/models/team.model';
 import {NgFor} from '@angular/common';
-import {TeamsProjetsComponent} from './teamsProjets/teams-projets/teams-projets.component';
+import {TasksComponent} from './tasks/tasks.component';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +16,7 @@ import {TeamsProjetsComponent} from './teamsProjets/teams-projets/teams-projets.
     RouterLinkActive,
     NgFor,
     AsyncPipe,
-    TeamsProjetsComponent,
+    TasksComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.component.html',
