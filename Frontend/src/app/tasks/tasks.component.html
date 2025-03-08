@@ -15,34 +15,22 @@
       <p>RAF</p>
     </div>
     <ul>
-      <li>
-        <i class="fa-regular fa-circle-check"></i>
-        <p>Task 1</p>
-        <p>2 jours</p>
-        <p>2 jours</p>
-        <p>2 jours</p>
-        <div>
-          <i class="fa-solid fa-circle-play"></i>
-          <i class="fa-solid fa-circle-pause"></i>
-          <i class="fa-solid fa-circle-stop"></i>
-          <i class="fa-solid fa-pen"></i>
-        </div>
-      </li>
-      <li>
-        <i class="fa-regular fa-circle-check"></i>
-        <p>Task 1</p>
-        <p>2 jours</p>
-        <p>2 jours</p>
-        <p>2 jours</p>
-        <div>
-          <i class="fa-solid fa-circle-play"></i>
-          <i class="fa-solid fa-circle-pause"></i>
-          <i class="fa-solid fa-circle-stop"></i>
-          <i class="fa-solid fa-pen"></i>
-        </div>
-      </li>
+      @for (user of taskList$ | async; track user.id) {
+        <li>
+          <i class="fa-regular fa-circle-check"></i>
+          <p>{{ user.title }}</p>
+          <p>{{ user.estimatedTime }}</p>
+          <p>{{ user.realisedTime }}</p>
+          <p>{{ user.remainedTime }}</p>
+          <div>
+            <i class="fa-solid fa-circle-play"></i>
+            <i class="fa-solid fa-circle-pause"></i>
+            <i class="fa-solid fa-circle-stop"></i>
+            <i class="fa-solid fa-pen"></i>
+          </div>
+        </li>
+      }
     </ul>
-
   </div>
 </div>
 
