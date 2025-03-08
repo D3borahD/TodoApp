@@ -3,7 +3,8 @@ using BackendApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Text.Encodings.Web;
-using System.IO;
+using BackendApi.Helpers;
+using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 
 namespace BackendApi.Controllers;
 
@@ -12,28 +13,27 @@ namespace BackendApi.Controllers;
 [Route("api/[controller]")]
 public class TeamsController : ControllerBase
 {
-    private static readonly string dataBasePath = "/Users/deborah/Documents/dev/TodoApp/Backend/DatasFiles";
-    private readonly string teamsdatasPath = $"{dataBasePath}/teamsDatas";
-    
+    private string path = ControllerHelper.GetPath("teamsDatas");
+
     // Options de sérialisation pour désactiver l'encodage des caractères non ASCII
     private JsonSerializerOptions options = new JsonSerializerOptions
     {
         WriteIndented = true,
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
     };
-
+    
     [HttpGet]
     [Route("teams")] // Route relative à la route de base "api/task"
     public IActionResult GetTeams()
     {
         try
         {
-            if (!System.IO.File.Exists(teamsdatasPath))
+            if (!System.IO.File.Exists(path))
             {
                 return NotFound("Aucune équipe trouvée. Le fichier de données est manquant.");
             }
             
-            string json = System.IO.File.ReadAllText(teamsdatasPath);
+            string json = System.IO.File.ReadAllText(path);
             
             List<Teams> teamsList = JsonSerializer.Deserialize<List<Teams>>(json);
 
@@ -58,12 +58,12 @@ public class TeamsController : ControllerBase
     {
         try
         {
-            if (!System.IO.File.Exists(teamsdatasPath))
+            if (!System.IO.File.Exists(path))
             {
                 return NotFound("Aucune équipe trouvée. Le fichier de données est manquant.");
             }
             
-            string json = System.IO.File.ReadAllText(teamsdatasPath);
+            string json = System.IO.File.ReadAllText(path);
             
             List<Teams> teamsList = JsonSerializer.Deserialize<List<Teams>>(json);
 
@@ -95,9 +95,9 @@ public class TeamsController : ControllerBase
         List<Teams> teamsList;
 
         // Vérification du fichier existant
-        if (System.IO.File.Exists(teamsdatasPath) && new FileInfo(teamsdatasPath).Length > 0)
+        if (System.IO.File.Exists(path) && new FileInfo(path).Length > 0)
         {
-            string json = System.IO.File.ReadAllText(teamsdatasPath, Encoding.UTF8);
+            string json = System.IO.File.ReadAllText(path, Encoding.UTF8);
             teamsList = JsonSerializer.Deserialize<List<Teams>>(json) ?? new List<Teams>();
         }
         else
@@ -108,7 +108,7 @@ public class TeamsController : ControllerBase
         // Générer un nouvel ID
         int newId = teamsList.Any() ? teamsList.Max(x => x.Id) + 1 : 1;
 
-        // Ajouter la nouvelle tâche
+        // Ajouter la nouvelle équipe
         Teams newTeam = new Teams
         {
             Id = newId,
@@ -121,7 +121,7 @@ public class TeamsController : ControllerBase
         string updatedJson = JsonSerializer.Serialize(teamsList, options);
 
         // Écrire le JSON avec encodage explicite UTF-8
-        using (var writer = new StreamWriter(teamsdatasPath, false, Encoding.UTF8))
+        using (var writer = new StreamWriter(path, false, Encoding.UTF8))
         {
             writer.Write(updatedJson);
         }
@@ -136,9 +136,9 @@ public class TeamsController : ControllerBase
         List<Teams> teamsList ;
         
         // Récupérer les données
-        if (System.IO.File.Exists(teamsdatasPath) && new FileInfo(teamsdatasPath).Length > 0)
+        if (System.IO.File.Exists(path) && new FileInfo(path).Length > 0)
         {
-            string json = System.IO.File.ReadAllText(teamsdatasPath);
+            string json = System.IO.File.ReadAllText(path);
             teamsList = JsonSerializer.Deserialize<List<Teams>>(json) ?? new List<Teams>();
             
             foreach (var task in teamsList.ToList())
@@ -151,7 +151,7 @@ public class TeamsController : ControllerBase
             }
 
             string updatedJson = JsonSerializer.Serialize(teamsList, options);
-            System.IO.File.WriteAllText(teamsdatasPath, updatedJson,  System.Text.Encoding.UTF8);
+            System.IO.File.WriteAllText(path, updatedJson,  System.Text.Encoding.UTF8);
         }
         
         return StatusCode(204, "L'équipe à bien été supprimée");
@@ -164,9 +164,9 @@ public class TeamsController : ControllerBase
         List<Teams> teamsList ;
         
         // Récupérer les données
-        if (System.IO.File.Exists(teamsdatasPath) && new FileInfo(teamsdatasPath).Length > 0)
+        if (System.IO.File.Exists(path) && new FileInfo(path).Length > 0)
         {
-            string json = System.IO.File.ReadAllText(teamsdatasPath);
+            string json = System.IO.File.ReadAllText(path);
             teamsList = JsonSerializer.Deserialize<List<Teams>>(json) ?? new List<Teams>();
             
             foreach (var team in teamsList.ToList())
@@ -180,7 +180,7 @@ public class TeamsController : ControllerBase
             }
 
             string updatedJson = JsonSerializer.Serialize(teamsList, options);
-            System.IO.File.WriteAllText(teamsdatasPath, updatedJson,  System.Text.Encoding.UTF8);
+            System.IO.File.WriteAllText(path, updatedJson,  System.Text.Encoding.UTF8);
         }
         
         return StatusCode(200, $"L'équipe {id} a été modifiée");

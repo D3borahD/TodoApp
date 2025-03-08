@@ -10,7 +10,7 @@ namespace BackendApi.Controllers;
 [Produces("application/json")]
 [ApiController]
 [Route("api/[controller]")]
-public class ProjectsControler: ControllerBase
+public class ProjectsController: ControllerBase
 {
     private static readonly string dataBasePath = "/Users/deborah/Documents/dev/TodoApp/Backend/DatasFiles";
     private readonly string projectsdatasPath = $"{dataBasePath}/projectsDatas";
