@@ -15,4 +15,8 @@ export class TaskService {
     return this.http.get<ITask[]>(`${this.shortUrl}/tasks`)
   }
 
+  public addTask(task: ITask): Observable<ITask> {
+    return this.http.post<ITask>(`${this.shortUrl}/tasks`, task)
+  }
+
 }
