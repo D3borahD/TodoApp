@@ -6,6 +6,7 @@ import {TeamService} from './core/services/team.service';
 import {ITeam} from './core/models/team.model';
 import {NgFor} from '@angular/common';
 import {TasksComponent} from './tasks/tasks.component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ import {TasksComponent} from './tasks/tasks.component';
     NgFor,
     AsyncPipe,
     TasksComponent,
+    ReactiveFormsModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.component.html',
