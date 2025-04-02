@@ -2,15 +2,25 @@
   <h2>{{ title }}</h2>
 
   <div class="add-content">
-    <p>Add new task ... </p>
-    <p>Temps estimé</p>
-    <p><i class="fa-solid fa-plus" style="color: #3b68f9;"></i></p>
+
+   <!-- <p><i class="fa-solid fa-plus" style="color: #3b68f9;"></i></p>-->
   </div>
+
+
+  <form [formGroup]="addTaskForm" (ngSubmit)="addTask()">
+    <label for="title">tache</label>
+    <input id="title" type="text" formControlName="title">
+    <label for="estimatedTime">temps estimé</label>
+    <input id="estimatedTime" type="text" formControlName="estimatedTime">
+    <button type="submit" [disabled]="!addTaskForm.valid">add task</button>
+  </form>
+
+
 
   <div class="tasks-list">
     <div class="tasks-list-header">
-      <p>Task</p>
-      <p>Temps estimé</p>
+      <p>Task :</p>
+      <p>Temps estimé :</p>
       <p>Temps réalisé</p>
       <p>RAF</p>
     </div>

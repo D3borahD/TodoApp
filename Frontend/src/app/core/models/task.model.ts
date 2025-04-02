@@ -4,6 +4,6 @@ export interface ITask {
   estimatedTime : string
   realisedTime : string
   remainedTime : string
-  createdDate : Date
-  closedDate : Date
+  createdDate : string
+  closedDate : string
 }
