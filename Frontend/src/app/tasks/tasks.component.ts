@@ -5,8 +5,6 @@ import {TaskService} from '../core/services/task.service';
 import {AsyncPipe} from '@angular/common';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 
-
-
 @Component({
   selector: 'app-tasks',
   standalone: true,
@@ -42,7 +40,6 @@ export class TasksComponent {
     estimatedTime: new FormControl('')
   })
 
-
   ngOnInit() {
     this.taskList$ = this.taskService.getTasks();
     console.log(this.taskList$.pipe());
@@ -66,11 +63,8 @@ export class TasksComponent {
     }
     this.taskService.addTask(this.task).subscribe({
       next: (response) => {
-        console.log("✅ Task added successfully:", response);
         this.taskList$ = this.taskService.getTasks(); // 🔄 Mise à jour de la liste
       },
-      error: (error) => console.error("❌ Error while adding task:", error)
     });
-
   }
 }

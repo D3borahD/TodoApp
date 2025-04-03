@@ -14,10 +14,6 @@ import {ReactiveFormsModule} from '@angular/forms';
   imports: [
     RouterOutlet,
     RouterLink,
-    RouterLinkActive,
-    NgFor,
-    AsyncPipe,
-    TasksComponent,
     ReactiveFormsModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
