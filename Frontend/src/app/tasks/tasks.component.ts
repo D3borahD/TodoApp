@@ -64,7 +64,13 @@ export class TasksComponent {
       createdDate: '2025-04-02T18:58:47.252Z',
       closedDate: '2025-04-02T18:58:47.252Z'
     }
-    this.taskService.addTask(this.task);
+    this.taskService.addTask(this.task).subscribe({
+      next: (response) => {
+        console.log("✅ Task added successfully:", response);
+        this.taskList$ = this.taskService.getTasks(); // 🔄 Mise à jour de la liste
+      },
+      error: (error) => console.error("❌ Error while adding task:", error)
+    });
 
   }
 }
