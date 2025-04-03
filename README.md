@@ -72,22 +72,6 @@ if (app.Environment.IsDevelopment() || builder.Configuration.GetValue<bool>("Ena
     }
 ```
 
-## Problème : l'image qui ne s'affiche pas dans le html, mais s'affiche dans le css
-```
-// html => ne foncitonne pas
-  <img src="../assets/icons/setting.png" alt="Settings Icon">
-// CSS => fonctionne
-    background-image: url("../assets/gradiant-bg.jpg");
- ```
-### Solution : 
-Dans le ficher angular.json, modifier les assets (en prod et en dev)
-```json
- "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-```
-
 # A faire
 
 ## Backend : 
@@ -95,9 +79,13 @@ Dans le ficher angular.json, modifier les assets (en prod et en dev)
 - [ ] Assurer qu'on entre pas plusieurs fois le même nom d'équipe, de lot, de projet;
 - [ ] Enregistrer l'image au bon format
 
+## Frontend : 
+- [ ] documenter Reactive forme
+- [ ] documenter Observable
+- [ ] Mettre la liste de tache (get task) dans un component, et voir comment refresh le componenent avec les données du back après l'ajout d'une nouvelle tâche.
 
 ##
 - enlever : 
 -  "@angular/cdk": "^17.0.0",
--  "@angular/material": "^17.0.0",
+-  "@angular/material": "^17.0.0"
 
