@@ -39,6 +39,7 @@ export class TasksComponent {
     title: new FormControl(''),
     estimatedTime: new FormControl('')
   })
+  isActive= true;
 
   ngOnInit() {
     this.taskList$ = this.taskService.getTasks();

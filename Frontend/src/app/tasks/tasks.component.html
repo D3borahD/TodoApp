@@ -1,46 +1,25 @@
 <div class="task-content">
-  <h2>{{ title }}</h2>
+  <h2>TODO</h2>
 
-  <div class="add-content">
+  <div class="todo-content">
+    <form [formGroup]="addTaskForm" (ngSubmit)="addTask()">
+      <input id="title" type="text" formControlName="title" placeholder="New Todo">
+      <button type="submit" ><i class="fa-solid fa-plus"></i></button>
+    </form>
 
-   <!-- <p><i class="fa-solid fa-plus" style="color: #3b68f9;"></i></p>-->
-  </div>
-
-
-  <form [formGroup]="addTaskForm" (ngSubmit)="addTask()">
-    <label for="title">tache</label>
-    <input id="title" type="text" formControlName="title">
-    <label for="estimatedTime">temps estimé</label>
-    <input id="estimatedTime" type="text" formControlName="estimatedTime">
-    <button type="submit" >add task</button>
-  </form>
-
-
-
-  <div class="tasks-list">
-    <div class="tasks-list-header">
-      <p>Task :</p>
-      <p>Temps estimé :</p>
-      <p>Temps réalisé</p>
-      <p>RAF</p>
-    </div>
-    <ul>
+    <table>
       @for (user of taskList$ | async; track user.id) {
-        <li>
-          <i class="fa-regular fa-circle-check"></i>
-          <p>{{ user.title }}</p>
-          <p>{{ user.estimatedTime }}</p>
-          <p>{{ user.realisedTime }}</p>
-          <p>{{ user.remainedTime }}</p>
-          <div>
-            <i class="fa-solid fa-circle-play"></i>
-            <i class="fa-solid fa-circle-pause"></i>
-            <i class="fa-solid fa-circle-stop"></i>
-            <i class="fa-solid fa-pen"></i>
-          </div>
-        </li>
+        <tbody>
+          @if (isActive){
+            <th scope="col"><i class="fa-regular fa-circle"></i></th>
+          }
+          @else{
+            <th scope="col"><i class="fa-regular fa-circle-check"></i></th>
+          }
+        <th class="txt-aligne-start" scope="col"><p>{{ user.title }}</p></th>
+        </tbody>
       }
-    </ul>
+    </table>
   </div>
 </div>
 
