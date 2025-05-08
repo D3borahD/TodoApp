@@ -1,20 +1,16 @@
-import {Component, input, Input, model} from '@angular/core';
-import {ITask} from '../core/models/task.model';
-import {Observable} from 'rxjs';
+import {Component, inject, signal} from '@angular/core';
+import {Task} from '../core/models/task.model';
 import {TaskService} from '../core/services/task.service';
-import {AsyncPipe} from '@angular/common';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NewElementComponent} from '../component/new-element/new-element.component';
 import {TaskListComponent} from '../component/task-list/task-list.component';
+import {NewElementComponent} from '../component/new-element/new-element.component';
+
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
-    FormsModule,
-    NewElementComponent,
     TaskListComponent,
+    NewElementComponent
   ],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss'
@@ -22,43 +18,21 @@ import {TaskListComponent} from '../component/task-list/task-list.component';
 export class TasksComponent {
   public title:string | null = 'Saisie des temps'
 
-  public taskList!: ITask[]
+  taskService = inject(TaskService)
 
-  public newTask: ITask = {
-    id: 0,
-    title:  '',
-    isCompleted : false
-  }
+  taskList= signal<Task[]>([])
+
 
   constructor(
-    private readonly taskService:TaskService,
   ) {
-    this.taskList = []
+    console.log(this.taskService.getAllTasks())
 
-    const task1: ITask = {
-      id : 1,
-      title : "course",
-      isCompleted : false
-    }
-    this.taskList.push(task1);
-
-    const task2: ITask = {
-      id : 2,
-      title : "menage",
-      isCompleted : false
-    }
-    this.taskList.push(task2);
-
-    const task3: ITask = {
-      id : 3,
-      title : "lessive",
-      isCompleted : false
-    }
-    this.taskList.push(task3);
-
+    this.taskList.set(this.taskService.getAllTasks())
   }
 
-  setNewTask($event: ITask) {
-    this.newTask = $event
+
+  setNewTask($event: Task) {
+
+    this.taskService.add($event)
   }
 }

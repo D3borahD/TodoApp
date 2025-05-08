@@ -1,7 +1,7 @@
 import {Component, EventEmitter, model, output, Output, OutputEmitterRef, signal} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {TaskService} from '../../core/services/task.service';
-import {ITask} from '../../core/models/task.model';
+import {Task} from '../../core/models/task.model';
 
 @Component({
   selector: 'app-new-element',
@@ -13,9 +13,9 @@ import {ITask} from '../../core/models/task.model';
   styleUrl: './new-element.component.scss'
 })
 export class NewElementComponent {
-  addNewTask:OutputEmitterRef<ITask> = output()
+  addNewTask:OutputEmitterRef<Task> = output()
 
-  public newTask = signal<ITask>(
+  public newTask = signal<Task>(
     {
       id:0,
       title: '',
@@ -36,7 +36,10 @@ export class NewElementComponent {
       isCompleted: false
     }
 
-    this.taskService.addTask(task).subscribe({
+
+
+
+   /* this.taskService.addTask(task).subscribe({
       next: (response) => {
         console.log(response);
         this.addNewTask.emit(response);
@@ -50,7 +53,7 @@ export class NewElementComponent {
       error: (err) => {
         console.error('Erreur lors de l\'ajout de la tâche :', err);
       }
-    });
+    });*/
 
     console.log('test ' + task.title)
     this.addNewTask.emit(task);
