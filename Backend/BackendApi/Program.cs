@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 
 [assembly: ApiController]
@@ -15,7 +16,10 @@ builder.Services.AddCors(options =>
 });
 
 // Ajouter les services nécessaires
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+});
 builder.Services.AddEndpointsApiExplorer();
 // Services pour générer Swagger
 builder.Services.AddOpenApi();

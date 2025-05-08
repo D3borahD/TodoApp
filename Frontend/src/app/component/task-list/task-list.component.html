@@ -1,0 +1,12 @@
+@for (t of task(); track t.id){
+  <div>
+    <p>id: {{t.id}}</p>
+    <p>title : {{t.title}}</p>
+    <p>completed : {{t.isCompleted}}</p>
+  </div>
+} @empty {
+  <p>pas de tâche</p>
+}
+
+
+

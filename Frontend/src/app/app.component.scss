@@ -19,19 +19,6 @@ header {
   }
 }
 
-.input{
-  position: relative;
-}
-input[type="text"] {
-  height: 5em;
-  width: 20em;
-  background-color: $black ;
-  border: none;
-  border-radius: 8px;
-  color: $white;
-  padding-left: 50px;
-}
-
 
 .circle {
   position: absolute;

@@ -2,24 +2,15 @@
   <h2>TODO</h2>
 
   <div class="todo-content">
-    <form [formGroup]="addTaskForm" (ngSubmit)="addTask()">
-      <input id="title" type="text" formControlName="title" placeholder="New Todo">
-      <button type="submit" ><i class="fa-solid fa-plus"></i></button>
-    </form>
 
-    <table>
-      @for (user of taskList$ | async; track user.id) {
-        <tbody>
-          @if (isActive){
-            <th scope="col"><i class="fa-regular fa-circle"></i></th>
-          }
-          @else{
-            <th scope="col"><i class="fa-regular fa-circle-check"></i></th>
-          }
-        <th class="txt-aligne-start" scope="col"><p>{{ user.title }}</p></th>
-        </tbody>
-      }
-    </table>
+    <app-new-element (addNewTask)="setNewTask($event)"/>
+
+    <p> test : {{newTask?.title}}</p>
+
+
+      <app-task-list [task]="taskList"/>
+
+
   </div>
 </div>
 

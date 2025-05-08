@@ -49,8 +49,6 @@ public class TasksController : ControllerBase
         }
     }
     
-    
-    
     [HttpGet]
     [Route("tasks/{id}")] // Route relative à la route de base "api/task"
     public IActionResult GetTasksById(int id)
@@ -112,11 +110,7 @@ public class TasksController : ControllerBase
         {
             Id = newId,
             Title = tasks.Title,
-            EstimatedTime = tasks.EstimatedTime,
-            RealisedTime = tasks.RealisedTime,
-            RemainedTime = tasks.RemainedTime,
-            CreatedDate = tasks.CreatedDate,
-            ClosedDate = tasks.ClosedDate,
+            IsCompleted = tasks.IsCompleted,
         };
         tasksList.Add(newTasks);
 
@@ -160,7 +154,7 @@ public class TasksController : ControllerBase
         return StatusCode(204, "La tâche à bien été supprimée");
     }
     
-    [HttpPut]
+    [HttpPatch]
     [Route("tasks/{id}")] // Route relative à la route de base "api/task"
     public IActionResult UpdateTask(int id, Tasks tasks)
     {
@@ -177,11 +171,7 @@ public class TasksController : ControllerBase
                 if (task.Id == id)
                 {
                     task.Title = tasks.Title;
-                    task.EstimatedTime = tasks.EstimatedTime;
-                    task.RealisedTime = tasks.RealisedTime;
-                    task.RemainedTime = tasks.RemainedTime;
-                    task.CreatedDate= tasks.CreatedDate;
-                    task.ClosedDate= tasks.ClosedDate;
+                    task.IsCompleted = tasks.IsCompleted;
                     continue;
                 }
             }
