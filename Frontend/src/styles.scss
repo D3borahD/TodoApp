@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-$black : #022554;
+$black : #181923;
+$secondary-black : #25263B;
 $blue : #3B68FA;
 $white : azure;
 $grey: #8A8A8A;
@@ -19,7 +20,7 @@ body {
 }
 
 body {
-  background-color: #181824;
+  background-color: $black ;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
@@ -35,4 +36,23 @@ h2 {
   margin-left: 1em;
 }
 
+input {
+  all: unset;
+  flex-grow: 1;
+  padding: 10px 20px;
+  background-color: $secondary-black ;
+}
 
+button {
+  border: none;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 40px;
+  background-color: $secondary-black;
+  width: 30px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: $blue;
+}

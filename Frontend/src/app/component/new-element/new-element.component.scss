@@ -1,0 +1,16 @@
+@import "../../../styles";
+
+:host{
+  display: flex;
+  justify-content: space-between;
+  background-color: $secondary-black ;
+  border-radius: 40px;
+  margin: 50px auto;
+  width: 400px;
+  box-shadow: 3px 3px 10px -3px grey;
+  overflow: hidden;
+  i{
+    color: $white;
+  }
+}
+
