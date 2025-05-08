@@ -1,5 +1,5 @@
-export interface ITask {
-  id: number
-  title: string
-  isCompleted : boolean
+export class Task {
+  id: number = -1
+  title: string = 'task title'
+  isCompleted : boolean = false;
 }

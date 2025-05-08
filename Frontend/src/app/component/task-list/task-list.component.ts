@@ -1,32 +1,18 @@
-import {Component, Input, input, InputSignal} from '@angular/core';
-import {ITask} from '../../core/models/task.model';
-import {AsyncPipe} from '@angular/common';
-import {TaskService} from '../../core/services/task.service';
-
+import {Component, input, InputSignal} from '@angular/core';
+import {Task} from '../../core/models/task.model';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
   imports: [
-    AsyncPipe
   ],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
 })
 export class TaskListComponent {
-  task:InputSignal<ITask[] | undefined> = input()
+  task = input<Task[]>();
 
-
-  constructor(
-    private readonly taskService:TaskService,
-  ) {}
-
-  ngOnInit(): void {
-
+  constructor() {
   }
 
-
-  isCompleted(todo: any) {
-
-  }
 }
