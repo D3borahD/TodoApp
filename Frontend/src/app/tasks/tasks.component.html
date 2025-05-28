@@ -2,7 +2,7 @@
   <h2>TODO</h2>
   <div class="todo-content">
     <app-new-element (addNewTask)="setNewTask($event)"/>
-    <app-task-list [task]="taskList()"/>
+    <app-task-list [task]="taskListSignal()"/>
   </div>
 </div>
 

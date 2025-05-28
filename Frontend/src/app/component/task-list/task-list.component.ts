@@ -10,7 +10,8 @@ import {Task} from '../../core/models/task.model';
   styleUrl: './task-list.component.scss'
 })
 export class TaskListComponent {
-  task = input<Task[]>();
+  task = input<Task[] | undefined>();
+
 
   constructor() {
   }
