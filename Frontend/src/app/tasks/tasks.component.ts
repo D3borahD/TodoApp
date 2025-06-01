@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
+import {Component, inject, input, InputSignal, OnChanges, OnInit, Signal, signal, SimpleChanges} from '@angular/core';
 import {Task} from '../core/models/task.model';
 import {TaskService} from '../core/services/task.service';
 import {TaskListComponent} from '../component/task-list/task-list.component';
@@ -17,33 +17,17 @@ import {Observable} from 'rxjs';
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss'
 })
-export class TasksComponent implements OnInit {
+export class TasksComponent {
   public title:string | null = 'Saisie des temps'
 
   taskService = inject(TaskService)
+  taskListSignal:Signal<Task[] | undefined >
 
-  //taskList= signal<Task[]>([])
- // taskList: Task[]
-  taskListSignal
-  //taskList$: Observable<Task[]> = this.taskService.getTasks()
-
+  taskTitle: string = '';
 
   constructor(
   ) {
-   // console.log(this.taskService.getAllTasks())
-  //  this.taskList= this.taskService.getAllTasks()
     this.taskListSignal = toSignal(this.taskService.getTasks())
-
   }
 
-  ngOnInit() {
-    //this.taskList = this.taskService.getAllTasks()
-
-  }
-
-
-  setNewTask($event: Task) {
-
-    this.taskService.add($event)
-  }
 }

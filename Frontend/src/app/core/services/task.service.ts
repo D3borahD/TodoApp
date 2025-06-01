@@ -40,15 +40,14 @@ export class TaskService {
   }
 
 
-
   public getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(`${this.shortUrl}/tasks`)
   }
 
 
- /* public addTask(task: Task): Observable<Task> {
+  public addTask(task: Task): Observable<Task> {
     return this.http.post<Task>(`${this.shortUrl}/tasks`, task)
-  }*/
+  }
 
 
 /*  public updateTask(task: Task): Observable<Task> {
