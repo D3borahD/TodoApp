@@ -1,11 +1,9 @@
 <div class="task-content">
   <h2>TODO</h2>
   <div class="todo-content">
-    <app-new-element [(taskTitle)]="taskTitle"/>
-
-    <p>Test Output : {{ taskTitle }}</p>
-
-    <app-task-list [task]="taskListSignal()" />
+    <app-new-element (addNewTask)="onTaskAdded($event)" [(taskTitle)]="taskTitle"/>
+    <app-task-list
+      [newTask]="taskTitle"
+      [task]="taskListSignal()" />
   </div>
 </div>
-
