@@ -1,4 +1,15 @@
-import {Component, inject, input, InputSignal, OnChanges, OnInit, Signal, signal, SimpleChanges} from '@angular/core';
+import {
+  Component,
+  inject,
+  Injector,
+  input,
+  InputSignal,
+  OnChanges,
+  OnInit, runInInjectionContext,
+  Signal,
+  signal,
+  SimpleChanges, WritableSignal
+} from '@angular/core';
 import {Task} from '../core/models/task.model';
 import {TaskService} from '../core/services/task.service';
 import {TaskListComponent} from '../component/task-list/task-list.component';
@@ -21,13 +32,40 @@ export class TasksComponent {
   public title:string | null = 'Saisie des temps'
 
   taskService = inject(TaskService)
-  taskListSignal:Signal<Task[] | undefined >
+  taskListSignal:WritableSignal<Task[]> = signal([]);
 
   taskTitle: string = '';
+  viewNewTask:boolean = false;
 
   constructor(
   ) {
-    this.taskListSignal = toSignal(this.taskService.getTasks())
+    this.taskService.getTasks().subscribe(tasks => {
+      this.taskListSignal.set(tasks);
+    });
   }
 
+
+  ngOnChanges(changes: SimpleChanges): void {
+    /*if(this.viewNewTask == true) {
+      this.taskListSignal = toSignal(this.taskService.getTasks())
+    }*/
+    this.taskService.getTasks().subscribe(tasks => {
+      this.taskListSignal.set(tasks);
+    });
+  }
+
+  newTask($event: Boolean) {
+    console.log('new task', $event);
+  }
+
+  onTaskAdded($event: Task) {
+    console.log('Nouvelle tâche ajoutée :', $event);
+    this.refreshTasks();
+  }
+
+  private refreshTasks() {
+    this.taskService.getTasks().subscribe(tasks => {
+      this.taskListSignal.set(tasks);
+    });
+  }
 }
