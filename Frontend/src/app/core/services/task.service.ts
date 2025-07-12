@@ -9,38 +9,13 @@ import {Observable} from 'rxjs';
 export class TaskService {
 
   public taskList: Task[] = []
-
   private _tasks = signal<Task[]>([]);
 
   constructor(private readonly http: HttpClient) {
-    this.loadTasks()
+    this.getTasks()
   }
 
   public shortUrl: string = "http://localhost:5062/api/Tasks"
-
-  private loadTasks(): void {
-    const taskData = localStorage.getItem("taskList");
-    if (taskData) {
-      this.taskList = JSON.parse(taskData).map((taskJson:any) => Object.assign(new Task(),taskJson ));
-    }
-    else {
-      this.init()
-      this.save()
-    }
-  }
-
-  private init() {
-
-  }
-
-  getAllTasks(): Task[] {
-    return this.taskList
-  }
-
-  private save(){
-    localStorage.setItem("tasklist", JSON.stringify(this.taskList));
-  }
-
 
   public getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(`${this.shortUrl}/tasks`)

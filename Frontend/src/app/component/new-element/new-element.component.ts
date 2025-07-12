@@ -42,8 +42,9 @@ export class NewElementComponent {
         console.log(response);
         this.addNewTask.emit(response);
 
-        // Réinitialise le signal
-        this.newTask.set({title: ''});
+        // Réinitialise l'input'
+        this.taskTitle.set('')
+
       },
       error: (err) => {
         console.error('Erreur lors de l\'ajout de la tâche :', err);
