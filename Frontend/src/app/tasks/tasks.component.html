@@ -1,11 +1,7 @@
 <div class="task-content">
   <h2>TODO</h2>
   <div class="todo-content">
-    <app-new-element (addNewTask)="onTaskAdded($event)" [(taskTitle)]="taskTitle"/>
-    <app-task-list
-      [newTask]="taskTitle"
-      [task]="taskListSignal()"
-      [taskListSignal]="taskListSignal"
-     />
+    <app-new-element (addNewTask)="addTask()" [(taskTitle)]="taskTitle"/>
+    <app-task-list/>
   </div>
 </div>

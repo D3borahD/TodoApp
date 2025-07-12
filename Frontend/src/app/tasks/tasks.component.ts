@@ -21,19 +21,18 @@ import {NewElementComponent} from '../component/new-element/new-element.componen
 })
 export class TasksComponent {
 
-  public taskService = inject(TaskService)
-  public taskListSignal:WritableSignal<Task[]> = signal([]);
-
   public taskTitle: string = '';
 
-  constructor(
-  ) {
-    this.taskService.getTasks().subscribe(tasks => {
-      this.taskListSignal.set(tasks);
-    });
-  }
+  private taskService = inject(TaskService)
 
-  public onTaskAdded($event: Task) {
-    this.taskService.refreshTasks(this.taskListSignal);
+
+  public addTask() {
+    const newTask: Task = {
+      id: 0, // l'API devrait l'écraser
+      title: this.taskTitle,
+      isCompleted: false
+    };
+    this.taskService.addTask(newTask);
+    this.taskTitle = ''; // reset input
   }
 }

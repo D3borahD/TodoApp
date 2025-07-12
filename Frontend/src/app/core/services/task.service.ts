@@ -1,40 +1,64 @@
 import {Injectable, signal, WritableSignal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Task} from '../models/task.model';
-import {Observable} from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
 
-  public taskList: Task[] = []
   private _tasks = signal<Task[]>([]);
+  public readonly tasks = this._tasks.asReadonly();
+
+  private shortUrl: string = "http://localhost:5062/api/Tasks"
 
   constructor(private readonly http: HttpClient) {
-    this.getTasks()
+    this.loadTasks();
   }
 
-  public shortUrl: string = "http://localhost:5062/api/Tasks"
+  private loadTasks() {
+    this.http.get<Task[]>(`${this.shortUrl}/tasks`).subscribe(tasks => {
+      this._tasks.set(tasks);
+    });
+  }
 
-  public getTasks(): Observable<Task[]> {
+  public deleteTask(id: number){
+    this.http.delete<void>(`${this.shortUrl}/tasks/${id}`).subscribe({
+      next: () => {
+        this.loadTasks();
+      },
+      error: err => {
+        console.error('Erreur de suppression : ', err);
+      }
+    })
+  }
+
+  public addTask(task: Task){
+    this.http.post<Task>(`${this.shortUrl}/tasks`, task).subscribe({
+      next: () => {
+        this.loadTasks();
+      },
+      error: err => {
+        console.error('Erreur de suppression : ', err);
+      }
+    })
+  }
+
+
+/*  public getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(`${this.shortUrl}/tasks`)
-  }
+  }*/
 
-  public addTask(task: Task): Observable<Task> {
-    return this.http.post<Task>(`${this.shortUrl}/tasks`, task)
-  }
 
-  public deleteTask(id: number): Observable<void> {
-    console.log('id : ' + id);
-    return this.http.delete<void>(`${this.shortUrl}/tasks/${id}`)
-  }
 
-  public refreshTasks(taskListSignal:WritableSignal<Task[]>): void {
+
+
+  /*public refreshTasks(taskListSignal:WritableSignal<Task[]>): void {
     this.getTasks().subscribe(tasks => {
       taskListSignal.set(tasks);
     });
-  }
+  }*/
 
 /*  public updateTask(task: Task): Observable<Task> {
     const body = {
@@ -46,7 +70,6 @@ export class TaskService {
 
     return this.http.patch<Task>(`${this.shortUrl}/tasks/${task.id}`, body)
   }*/
-
 
 
 

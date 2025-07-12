@@ -27,16 +27,9 @@ export class NewElementComponent {
       isCompleted: false
     }
 
-    this.taskService.addTask(task).subscribe({
-      next: (response) => {
-        this.addNewTask.emit(response);
-
+    this.taskService.addTask(task)
         // Réinitialise l'input'
-        this.taskTitle.set('')
-      },
-      error: (err) => {
-        console.error('Erreur lors de l\'ajout de la tâche :', err);
-      }
-    });
+    this.taskTitle.set('')
+
   }
 }
