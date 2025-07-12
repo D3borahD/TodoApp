@@ -1,11 +1,15 @@
-import {Component, computed, inject, Input, input, signal, WritableSignal} from '@angular/core';
+import {Component, computed, inject} from '@angular/core';
 import {Task} from '../../core/models/task.model';
 import {TaskService} from '../../core/services/task.service';
+import {TitleCasePipe} from '@angular/common';
+
+
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
   imports: [
+    TitleCasePipe
   ],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
@@ -15,7 +19,20 @@ export class TaskListComponent{
 
   public tasks = computed(()=> this.taskService.tasks())
 
+
   deleteTask(id: number):void {
     this.taskService.deleteTask(id)
+  }
+
+  updateCompleted(task: Task):void {
+    task.isCompleted = !task.isCompleted;
+    this.taskService.updateTask(task.id!, task);
+    console.log(task.isCompleted);
+  }
+
+  updateTaskTitle(task: Task):void {
+   // task.title = task.title;
+    task.title = 'test task edit';
+    this.taskService.updateTask(task.id!, task);
   }
 }
