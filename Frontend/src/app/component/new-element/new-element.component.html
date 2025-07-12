@@ -1,3 +1,6 @@
 <input type="text" placeholder="New Todo"
-       [(ngModel)]="taskTitle">
-<button (click)="addTask()"><i class="fa-solid fa-plus"></i></button>
+       [(ngModel)]="taskTitle"
+       (keydown.enter)="addTask()">
+<button (click)="addTask()">
+  <i class="fa-solid fa-plus"></i>
+</button>
