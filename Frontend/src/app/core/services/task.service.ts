@@ -45,20 +45,18 @@ export class TaskService {
     })
   }
 
+  public updateTask(id: number, task: Task){
+    this.http.patch<Task>(`${this.shortUrl}/tasks/${id}`, task).subscribe({
+      next: () => {
+        this.loadTasks();
+      },
+      error: err => {}
+    })
+  }
 
-/*  public getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(`${this.shortUrl}/tasks`)
-  }*/
 
 
 
-
-
-  /*public refreshTasks(taskListSignal:WritableSignal<Task[]>): void {
-    this.getTasks().subscribe(tasks => {
-      taskListSignal.set(tasks);
-    });
-  }*/
 
 /*  public updateTask(task: Task): Observable<Task> {
     const body = {
