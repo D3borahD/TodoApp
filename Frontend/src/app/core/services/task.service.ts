@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, signal, WritableSignal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Task} from '../models/task.model';
 import {Observable} from 'rxjs';
@@ -9,6 +9,8 @@ import {Observable} from 'rxjs';
 export class TaskService {
 
   public taskList: Task[] = []
+
+  private _tasks = signal<Task[]>([]);
 
   constructor(private readonly http: HttpClient) {
     this.loadTasks()
@@ -44,11 +46,20 @@ export class TaskService {
     return this.http.get<Task[]>(`${this.shortUrl}/tasks`)
   }
 
-
   public addTask(task: Task): Observable<Task> {
     return this.http.post<Task>(`${this.shortUrl}/tasks`, task)
   }
 
+  public deleteTask(id: number): Observable<void> {
+    console.log('id : ' + id);
+    return this.http.delete<void>(`${this.shortUrl}/tasks/${id}`)
+  }
+
+  public refreshTasks(taskListSignal:WritableSignal<Task[]>): void {
+    this.getTasks().subscribe(tasks => {
+      taskListSignal.set(tasks);
+    });
+  }
 
 /*  public updateTask(task: Task): Observable<Task> {
     const body = {
@@ -60,12 +71,8 @@ export class TaskService {
 
     return this.http.patch<Task>(`${this.shortUrl}/tasks/${task.id}`, body)
   }*/
-  add(task:Task):Task {
-    const newTask = task
 
-    this.taskList.push(newTask);
-    this.save();
 
-    return task
-  }
+
+
 }

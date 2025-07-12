@@ -31,7 +31,6 @@ export class NewElementComponent {
   ) {}
 
   addTask() {
-
     const task = {
       id:0,
       title: this.taskTitle(),

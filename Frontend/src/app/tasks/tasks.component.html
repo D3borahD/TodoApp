@@ -4,6 +4,8 @@
     <app-new-element (addNewTask)="onTaskAdded($event)" [(taskTitle)]="taskTitle"/>
     <app-task-list
       [newTask]="taskTitle"
-      [task]="taskListSignal()" />
+      [task]="taskListSignal()"
+      [taskListSignal]="taskListSignal"
+     />
   </div>
 </div>
