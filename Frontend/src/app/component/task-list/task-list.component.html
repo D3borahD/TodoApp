@@ -3,6 +3,7 @@
     <p>id: {{t.id}}</p>
     <p>title : {{t.title}}</p>
     <p>completed : {{t.isCompleted}}</p>
+    <button (click)="deleteTask(t.id!)"><i class="fa-solid fa-trash"></i></button>
   </div>
 } @empty {
   <p>pas de tâche</p>
