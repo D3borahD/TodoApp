@@ -11,8 +11,25 @@
   <tbody>
     @for (task of tasks(); track task.id){
       <tr>
-       <th>{{task.id}}</th>
-        <th>{{task.title | titlecase}}</th>
+       <th>{{task.id}}
+
+
+
+
+       </th>
+
+
+        <th>
+          <form class="todo" (ngSubmit)="onSubmitForm()">
+            <input name="todo"
+                 [(ngModel)]="task.title"
+                 type="text" placeholder="todo" required>
+            <button><i class="fa-solid fa-pen"></i></button>
+          </form>
+
+        </th>
+
+        <td></td>
         <td>
           <button (click)="updateCompleted(task)">
             @if (task.isCompleted){
@@ -22,7 +39,7 @@
             }
           </button>
         </td>
-        <td><button (click)="updateTaskTitle(task)"><i class="fa-solid fa-pen"></i></button></td>
+
         <td><button (click)="deleteTask(task.id!)"><i class="fa-solid fa-trash"></i></button></td>
       </tr>
     }@empty {
