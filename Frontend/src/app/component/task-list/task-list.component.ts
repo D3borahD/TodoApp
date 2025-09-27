@@ -1,7 +1,6 @@
 import {Component, computed, inject} from '@angular/core';
 import {Task} from '../../core/models/task.model';
 import {TaskService} from '../../core/services/task.service';
-import {TitleCasePipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 
 
@@ -10,7 +9,6 @@ import {FormsModule} from '@angular/forms';
   selector: 'app-task-list',
   standalone: true,
   imports: [
-    TitleCasePipe,
     FormsModule
   ],
   templateUrl: './task-list.component.html',

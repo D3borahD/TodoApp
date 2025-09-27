@@ -1,9 +1,9 @@
-namespace BackendApi.Models;
+namespace BackendApi.Entities;
 
-public class SpecificProjectDAO
+public class SpecificProjectDao
 {
     public int Id { get; set; }
-    public string Label { get; set; }
+    public required string Label { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
 }
