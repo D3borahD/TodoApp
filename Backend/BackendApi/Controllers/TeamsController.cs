@@ -35,11 +35,11 @@ public class TeamsController : ControllerBase
             
             string json = System.IO.File.ReadAllText(path);
             
-            List<Teams> teamsList = JsonSerializer.Deserialize<List<Teams>>(json);
+            List<TeamDao> teamsList = JsonSerializer.Deserialize<List<TeamDao>>(json);
 
             if (teamsList == null || !teamsList.Any())
             {
-                return Ok(new List<Teams>());
+                return Ok(new List<TeamDao>());
             }
             
             // todo : récupérer la liste des projet via la table lien équipe projet
@@ -65,11 +65,11 @@ public class TeamsController : ControllerBase
             
             string json = System.IO.File.ReadAllText(path);
             
-            List<Teams> teamsList = JsonSerializer.Deserialize<List<Teams>>(json);
+            List<TeamDao> teamsList = JsonSerializer.Deserialize<List<TeamDao>>(json);
 
             if (teamsList == null || !teamsList.Any())
             {
-                return Ok(new List<Teams>());
+                return Ok(new List<TeamDao>());
             }
 
             foreach (var team in teamsList)
@@ -90,32 +90,32 @@ public class TeamsController : ControllerBase
 
     [HttpPost]
     [Route("teams")] // Route relative à la route de base "api/task"
-    public IActionResult AddTeam([FromBody] Teams teams)
+    public IActionResult AddTeam([FromBody] TeamDao teamDao)
     {
-        List<Teams> teamsList;
+        List<TeamDao> teamsList;
 
         // Vérification du fichier existant
         if (System.IO.File.Exists(path) && new FileInfo(path).Length > 0)
         {
             string json = System.IO.File.ReadAllText(path, Encoding.UTF8);
-            teamsList = JsonSerializer.Deserialize<List<Teams>>(json) ?? new List<Teams>();
+            teamsList = JsonSerializer.Deserialize<List<TeamDao>>(json) ?? new List<TeamDao>();
         }
         else
         {
-            teamsList = new List<Teams>();
+            teamsList = new List<TeamDao>();
         }
 
         // Générer un nouvel ID
         int newId = teamsList.Any() ? teamsList.Max(x => x.Id) + 1 : 1;
 
         // Ajouter la nouvelle équipe
-        Teams newTeam = new Teams
+        TeamDao newTeamDao = new TeamDao
         {
             Id = newId,
-            Name = teams.Name,
-            Image = teams.Image,
+            Name = teamDao.Name,
+            Image = teamDao.Image,
         };
-        teamsList.Add(newTeam);
+        teamsList.Add(newTeamDao);
 
         // Sérialiser les données en JSON
         string updatedJson = JsonSerializer.Serialize(teamsList, options);
@@ -126,20 +126,20 @@ public class TeamsController : ControllerBase
             writer.Write(updatedJson);
         }
         
-        return StatusCode(201, $"Équipe ajoutée avec succès : Id={newTeam.Id}, Name={newTeam.Name}");
+        return StatusCode(201, $"Équipe ajoutée avec succès : Id={newTeamDao.Id}, Name={newTeamDao.Name}");
     }
     
     [HttpDelete]
     [Route("teams/{id}")] // Route relative à la route de base "api/task"
     public IActionResult DeleteTask(int id)
     {
-        List<Teams> teamsList ;
+        List<TeamDao> teamsList ;
         
         // Récupérer les données
         if (System.IO.File.Exists(path) && new FileInfo(path).Length > 0)
         {
             string json = System.IO.File.ReadAllText(path);
-            teamsList = JsonSerializer.Deserialize<List<Teams>>(json) ?? new List<Teams>();
+            teamsList = JsonSerializer.Deserialize<List<TeamDao>>(json) ?? new List<TeamDao>();
             
             foreach (var task in teamsList.ToList())
             {
@@ -159,22 +159,22 @@ public class TeamsController : ControllerBase
     
     [HttpPut]
     [Route("teams/{id}")] // Route relative à la route de base "api/task"
-    public IActionResult UpdateTask(int id, Teams teams)
+    public IActionResult UpdateTask(int id, TeamDao teamDao)
     {
-        List<Teams> teamsList ;
+        List<TeamDao> teamsList ;
         
         // Récupérer les données
         if (System.IO.File.Exists(path) && new FileInfo(path).Length > 0)
         {
             string json = System.IO.File.ReadAllText(path);
-            teamsList = JsonSerializer.Deserialize<List<Teams>>(json) ?? new List<Teams>();
+            teamsList = JsonSerializer.Deserialize<List<TeamDao>>(json) ?? new List<TeamDao>();
             
             foreach (var team in teamsList.ToList())
             {
                 if (team.Id == id)
                 {
-                    team.Name = teams.Name;
-                    team.Image = teams.Image;
+                    team.Name = teamDao.Name;
+                    team.Image = teamDao.Image;
                     continue;
                 }
             }

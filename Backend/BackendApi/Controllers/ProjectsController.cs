@@ -175,9 +175,9 @@ public class ProjectsController: ControllerBase
             
             string team = System.IO.File.ReadAllText(teamsdatasPath);
             
-            List<Teams> teamsList = JsonSerializer.Deserialize<List<Teams>>(team);
+            List<TeamDao> teamsList = JsonSerializer.Deserialize<List<TeamDao>>(team);
 
-            foreach (Teams teams in teamsList)
+            foreach (TeamDao teams in teamsList)
             {
                 // selection de l'équipe
                 if (teams.Id == teamId)
@@ -210,12 +210,12 @@ public class ProjectsController: ControllerBase
         // récupération de la table lien équipe/projet
         string linkTeamsProjects = System.IO.File.ReadAllText(linkTeamsProjectsdatasPath);
             
-        List<Teams> teamsList = JsonSerializer.Deserialize<List<Teams>>(team);
-        List<LinkTeamsProjects> linkTeamsProjectsList = JsonSerializer.Deserialize<List<LinkTeamsProjects>>(linkTeamsProjects);
+        List<TeamDao> teamsList = JsonSerializer.Deserialize<List<TeamDao>>(team);
+        List<ProductTeamDao> linkTeamsProjectsList = JsonSerializer.Deserialize<List<ProductTeamDao>>(linkTeamsProjects);
         
         
         List<Projects> projectsList = new List<Projects>();
-        List<LinkTeamsProjects> TeamsProjectsList = new List<LinkTeamsProjects>();
+        List<ProductTeamDao> TeamsProjectsList = new List<ProductTeamDao>();
         
         // Vérification du fichier existant
         if (System.IO.File.Exists(projectsdatasPath) && new FileInfo(projectsdatasPath).Length > 0)
@@ -231,7 +231,7 @@ public class ProjectsController: ControllerBase
         
         // vérification si le projet existe dans l'équipe 
 
-        foreach (Teams teams in teamsList)
+        foreach (TeamDao teams in teamsList)
         {
             // selection de l'équipe
             if (teams.Id == teamId)
@@ -263,13 +263,13 @@ public class ProjectsController: ControllerBase
                         projectsList.Add(newProject);
 
                         //ajouter le projet dans la table lien projet équipe
-                        LinkTeamsProjects newLinkTeamsProjects = new LinkTeamsProjects
+                        ProductTeamDao newProductTeamDao = new ProductTeamDao
                         {
                             Id = newLinkId,
                             TeamId = teams.Id,
                             ProjectId = newProjectId,
                         };
-                        linkTeamsProjectsList.Add(newLinkTeamsProjects);
+                        linkTeamsProjectsList.Add(newProductTeamDao);
 
                         // Sérialiser les données en JSON
                         string updatedJson = JsonSerializer.Serialize(projectsList, options);
