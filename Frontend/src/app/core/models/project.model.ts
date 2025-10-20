@@ -1,6 +1,6 @@
 export interface IProject {
   id : number
   reference : string
-  name : string
+  label : string
   lot : string
 }

@@ -3,12 +3,10 @@ using System.Text.Json;
 
 namespace BackendApi.Helpers;
 
-public static class ControllerHelper
+public static class FilePathHelper
 {
     public static string GetPath(string shortUrl)
     {
-         string path = $"/Users/deborah/Documents/dev/TodoApp/Backend/DatasFiles/{shortUrl}";
-
-         return path;
+         return $"/Users/deborah/Documents/dev/TodoApp/Backend/DatasFiles/{shortUrl}";
     }
 }

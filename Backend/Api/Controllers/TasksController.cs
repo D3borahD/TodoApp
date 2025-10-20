@@ -1,11 +1,11 @@
-using System.Text.Json;
-using BackendApi.Models;
+/*using System.Text.Json;
+using Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Text.Encodings.Web;
-using BackendApi.Helpers;
+using Api.Helpers;
 
-namespace BackendApi.Controllers;
+namespace Api.Controllers;
 
 [Produces("application/json")]
 [ApiController]
@@ -183,4 +183,4 @@ public class TasksController : ControllerBase
         return StatusCode(200, $"La tâche {id} a été modifiée");
     }
 
-}
+}*/

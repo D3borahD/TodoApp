@@ -1,32 +1,22 @@
 ﻿[
   {
     "Id": 1,
-    "Name": "All",
-    "Image": "\uD83D\uDC68‍\uD83D\uDC69‍\uD83D\uDC67‍\uD83D\uDC67",
-    "Projects": null
+    "Label": "All"
   },
   {
     "Id": 2,
-    "Name": "Girafe ",
-    "Image": "https://images.unsplash.com/photo-1559090336-3b19608e6a41?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Z2lyYWZlfGVufDB8fDB8fHww",
-    "Projects": null
+    "Label": "Girafe "
   },
   {
     "Id": 3,
-    "Name": "Girafe",
-    "Image": null,
-    "Projects": null
+    "Label": "Girafe"
   },
   {
     "Id": 4,
-    "Name": "Castor",
-    "Image": "\uD83E\uDDAB",
-    "Projects": null
+    "Label": "Castor"
   },
   {
     "Id": 5,
-    "Name": "test",
-    "Image": "string",
-    "Projects": null
+    "Label": "test"
   }
 ]

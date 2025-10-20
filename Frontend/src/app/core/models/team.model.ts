@@ -1,6 +1,6 @@
 export interface ITeam {
   id : number
-  name : string
+  label : string
   imageUrl : string
 }
 
