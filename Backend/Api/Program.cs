@@ -1,4 +1,8 @@
 using System.Text.Json;
+using Application.Interfaces;
+using Application.Services;
+using Infrastructure.IRepository;
+using Infrastructure.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 [assembly: ApiController]
@@ -15,15 +19,21 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Ajouter les services nécessaires
+// Ajouter les services nécessaires JSON
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 });
+
 builder.Services.AddEndpointsApiExplorer();
+
 // Services pour générer Swagger
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
+
+// Injection des dépendances
+builder.Services.AddScoped<ITeamRepository, TeamRepository>();
+builder.Services.AddScoped<ITeamService, TeamService>();
 
 builder.Logging.AddConsole();
 
@@ -37,6 +47,7 @@ if (app.Environment.IsDevelopment() || builder.Configuration.GetValue<bool>("Ena
     app.UseSwaggerUI(option =>
     {
         option.SwaggerEndpoint("/swagger/v1/swagger.json", "V1");
+        option.RoutePrefix = string.Empty; 
     });
 }
 

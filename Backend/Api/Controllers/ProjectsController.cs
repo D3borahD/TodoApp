@@ -1,10 +1,10 @@
-using System.Text;
+/*using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using BackendApi.Models;
+using Api.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BackendApi.Controllers;
+namespace Api.Controllers;
 
 
 [Produces("application/json")]
@@ -354,4 +354,4 @@ public class ProjectsController: ControllerBase
         return StatusCode(200, $"Le projet {id} a été modifié");
     }
     
-}
+}*/
