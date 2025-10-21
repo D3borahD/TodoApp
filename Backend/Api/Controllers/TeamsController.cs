@@ -15,124 +15,52 @@ namespace BackendApi.Controllers;
 public class TeamsController(ITeamService _teamService) : ControllerBase
 {
     
-    [HttpGet]
-    [Route("")]
+    [HttpGet("")]
     public async Task<ActionResult<List<TeamDto>>> GetTeamsAsync()
     {
         var teams = await _teamService.GetTeamsAsync();
 
         if (!teams.Any())
-            return NotFound("Aucune équipe trouvée.");
+            return NotFound("No team found.");
 
         return Ok(teams);
     }
-}
 
-    /*[HttpGet]
-    [Route("")] 
-    public IActionResult GetTeams()
+    [HttpGet("{id}")]
+    public async Task<ActionResult<TeamDto>> GetTeamsByIdAsync(int id)
     {
-        try
+        TeamDto team = await _teamService.GetTeamsByIdAsync(id);
+
+        if (team == null)
         {
-            if (!System.IO.File.Exists(_path))
-            {
-                return NotFound("Aucune équipe trouvée. Le fichier de données est manquant.");
-            }
-            
-            string json = System.IO.File.ReadAllText(_path);
-            
-            List<TeamDao> teamsList = JsonSerializer.Deserialize<List<TeamDao>>(json);
-
-            if (teamsList == null || !teamsList.Any())
-            {
-                return Ok(new List<TeamDao>());
-            }
-            
-            return Ok(teamsList);
-        }
-        catch (Exception e)
-        {
-            return StatusCode(500, $"Erreur lors de la récupération des équipes : {e.Message}");
-        }
-    }*/
-    
-    /*
-    [HttpGet]
-    [Route("{id}")] 
-    public IActionResult GetTeamById(int id)
-    {
-        try
-        {
-            if (!System.IO.File.Exists(_path))
-            {
-                return NotFound("Aucune équipe trouvée. Le fichier de données est manquant.");
-            }
-            
-            string json = System.IO.File.ReadAllText(_path);
-            
-            List<TeamDao> teamsList = JsonSerializer.Deserialize<List<TeamDao>>(json);
-
-            if (teamsList == null || !teamsList.Any())
-            {
-                return Ok(new List<TeamDao>());
-            }
-
-            foreach (var team in teamsList)
-            {
-                if (team.Id == id)
-                {
-                    return Ok(team);
-                }
-            }
-
-            return StatusCode(204, $"Cette équipe n'existe pas");
-        }
-        catch (Exception e)
-        {
-            return StatusCode(500, $"Erreur lors de la récupération des équipes : {e.Message}");
-        }
-    }
-
-    [HttpPost]
-    [Route("")] 
-    public IActionResult AddTeam([FromBody] TeamDao teamDao)
-    {
-        List<TeamDao> teamsList;
-
-        // Vérification du fichier existant
-        if (System.IO.File.Exists(_path) && new FileInfo(_path).Length > 0)
-        {
-            string json = System.IO.File.ReadAllText(_path, Encoding.UTF8);
-            teamsList = JsonSerializer.Deserialize<List<TeamDao>>(json) ?? new List<TeamDao>();
-        }
-        else
-        {
-            teamsList = new List<TeamDao>();
-        }
-
-        // Générer un nouvel ID
-        int newId = teamsList.Any() ? teamsList.Max(x => x.Id) + 1 : 1;
-
-        // Ajouter la nouvelle équipe
-        TeamDao newTeamDao = new TeamDao
-        {
-            Id = newId,
-            Label = teamDao.Label,
-        };
-        teamsList.Add(newTeamDao);
-
-        // Sérialiser les données en JSON
-        string updatedJson = JsonSerializer.Serialize(teamsList, _options);
-
-        // Écrire le JSON avec encodage explicite UTF-8
-        using (var writer = new StreamWriter(_path, false, Encoding.UTF8))
-        {
-            writer.Write(updatedJson);
+            return NotFound($"Team id {id} does not exist.");
         }
         
-        return StatusCode(201, $"Équipe ajoutée avec succès : Id={newTeamDao.Id}, Label={newTeamDao.Label}");
+        return Ok(team);
+    }
+
+    [HttpPost("")]
+    public async Task<ActionResult<TeamDto>> CreateTeamAsync([FromBody] TeamDto teamDto)
+    {
+        if (teamDto == null)
+            return BadRequest("The team data is invalid.");
+        
+        TeamDto createdTeam = await _teamService.CreateTeamAsync(teamDto);
+        
+        if (createdTeam == null)
+            return StatusCode(500, "Error while creating the team.");
+        
+        return Ok(createdTeam);
     }
     
+}
+
+    
+    /*
+    
+
+
+
     [HttpDelete]
     [Route("{id}")] 
     public IActionResult DeleteTask(int id)
