@@ -52,70 +52,33 @@ public class TeamsController(ITeamService _teamService) : ControllerBase
         
         return Ok(createdTeam);
     }
-    
-}
 
-    
-    /*
-    
-
-
-
-    [HttpDelete]
-    [Route("{id}")] 
-    public IActionResult DeleteTask(int id)
+    [HttpPut("{id}")]
+    public async Task<ActionResult<TeamDto>> UpdateTeamAsync(int id, [FromBody] TeamDto teamDto)
     {
-        List<TeamDao> teamsList ;
+        if (teamDto == null)
+            return BadRequest("The team data is invalid.");
+        teamDto.Id = id;
         
-        // Récupérer les données
-        if (System.IO.File.Exists(_path) && new FileInfo(_path).Length > 0)
-        {
-            string json = System.IO.File.ReadAllText(_path);
-            teamsList = JsonSerializer.Deserialize<List<TeamDao>>(json) ?? new List<TeamDao>();
-            
-            foreach (var task in teamsList.ToList())
-            {
-                if (task.Id == id)
-                {
-                    teamsList.Remove(task);
-                    continue;
-                }
-            }
-
-            string updatedJson = JsonSerializer.Serialize(teamsList, _options);
-            System.IO.File.WriteAllText(_path, updatedJson,  System.Text.Encoding.UTF8);
-        }
+        TeamDto updatedTeam = await _teamService.UpdateTeamAsync(teamDto);
+       
+        if (updatedTeam == null)
+           return NotFound($"Team id {id} does not exist.");
         
-        return StatusCode(204, "L'équipe à bien été supprimée");
+        return Ok(updatedTeam);
     }
-    
-    [HttpPut]
-    [Route("{id}")] 
-    public IActionResult UpdateTask(int id, TeamDao teamDao)
-    {
-        List<TeamDao> teamsList ;
-        
-        // Récupérer les données
-        if (System.IO.File.Exists(_path) && new FileInfo(_path).Length > 0)
-        {
-            string json = System.IO.File.ReadAllText(_path);
-            teamsList = JsonSerializer.Deserialize<List<TeamDao>>(json) ?? new List<TeamDao>();
-            
-            foreach (var team in teamsList.ToList())
-            {
-                if (team.Id == id)
-                {
-                    team.Label = teamDao.Label;
-                    continue;
-                }
-            }
 
-            string updatedJson = JsonSerializer.Serialize(teamsList, _options);
-            System.IO.File.WriteAllText(_path, updatedJson,  System.Text.Encoding.UTF8);
-        }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteTeamAsync(int id)
+    {
+        bool deleted = await _teamService.DeleteTeamAsync(id);
         
-        return StatusCode(200, $"L'équipe {id} a été modifiée");
+        if (!deleted)
+            return NotFound($"Team with ID {id} does not exist.");
+        
+        return NoContent();
     }
 }
-*/
+
 

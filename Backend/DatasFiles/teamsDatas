@@ -9,7 +9,7 @@
   },
   {
     "Id": 3,
-    "Label": "Girafe"
+    "Label": "Chat"
   },
   {
     "Id": 4,
@@ -17,6 +17,6 @@
   },
   {
     "Id": 5,
-    "Label": "test"
+    "Label": "Poule"
   }
 ]

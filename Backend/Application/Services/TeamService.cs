@@ -83,4 +83,38 @@ public class TeamService : ITeamService
             Label = createdTeam.Label
         };
     }
+
+    public async Task<TeamDto> UpdateTeamAsync(TeamDto teamDto)
+    {
+        var teamDaoList = await _teamRepository.GetTeamsAsync();
+        var existingTeam = teamDaoList.FirstOrDefault(t => t.Id == teamDto.Id);
+        
+        if (existingTeam == null)
+            return null;
+        
+        existingTeam.Label = teamDto.Label;
+        
+        var updatedTeamDao = await _teamRepository.UpdateTeamAsync(existingTeam);
+        
+        if (updatedTeamDao == null)
+            return null;
+
+        return new TeamDto
+        {
+            Id = updatedTeamDao.Id,
+            Label = updatedTeamDao.Label
+        };
+    }
+
+    public async Task<bool>  DeleteTeamAsync(int id)
+    {
+        var teamDaoList = await _teamRepository.GetTeamsAsync();
+        var existingTeam = teamDaoList.FirstOrDefault(t => t.Id == id);
+        
+        if (existingTeam == null)
+            return false; 
+        
+        await _teamRepository.DeleteTeamAsync(existingTeam.Id);
+        return true;
+    }
 }

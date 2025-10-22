@@ -85,7 +85,69 @@ public class TeamRepository : ITeamRepository
             _logger.LogError(e, "Error during team creation");
             return null;
         }
+    }
+
+    public async Task<TeamDao> UpdateTeamAsync(TeamDao teamDto)
+    {
+        try
+        {
+            var teamsList = await GetTeamsAsync();
             
+            var existingTeam = teamsList.FirstOrDefault(t => t.Id == teamDto.Id);
+            
+            if (existingTeam == null)
+            {
+                _logger.LogWarning("Attempted to update non-existing team with ID {Id}", teamDto.Id);
+                return null;
+            }
+
+            existingTeam.Label = teamDto.Label;
+            
+            // Sérialiser les données en JSON
+            string updatedJson = JsonSerializer.Serialize(teamsList, options);
+            // Écrire le JSON avec encodage explicite UTF-8
+            await File.WriteAllTextAsync(_path, updatedJson, Encoding.UTF8);
+            
+            _logger.LogInformation("✅ Team {Id} updated successfully.", teamDto.Id);
+            
+            return existingTeam;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "❌ Error during team updating");
+            return null;
+        }
+    }
+
+    public async Task DeleteTeamAsync(int id)
+    {
+        try
+        {
+            var teamsList = await GetTeamsAsync();
+            
+            var existingTeam = teamsList.FirstOrDefault(t => t.Id == id);
+            
+            if (existingTeam == null)
+            {
+                _logger.LogWarning("Attempted to delete non-existing team with ID {Id}", id);
+                return; 
+            }
+            
+            teamsList.Remove(existingTeam);
+            
+            // Sérialiser les données en JSON
+            string updatedJson = JsonSerializer.Serialize(teamsList, options);
+            // Écrire le JSON avec encodage explicite UTF-8
+            await File.WriteAllTextAsync(_path, updatedJson, Encoding.UTF8);
+            
+            _logger.LogInformation("✅ Team {Id} deleted successfully.", id);
+     
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "❌ Error during team deleting");
+           throw;
+        }
     }
 }
 
