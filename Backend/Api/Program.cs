@@ -1,12 +1,17 @@
 using System.Text.Json;
 using Application.Interfaces;
 using Application.Services;
+using Infrastructure.Data;
 using Infrastructure.IRepository;
 using Infrastructure.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 [assembly: ApiController]
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite("Data Source=timeSheet.db"));
 
 // Configuration CORS
 builder.Services.AddCors(options =>
