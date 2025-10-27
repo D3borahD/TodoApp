@@ -3,7 +3,6 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using BackendApi.Helpers;
 using BackendApi.Models;
-using Domain.DTO;
 using Infrastructure.IRepository;
 using Microsoft.Extensions.Logging;
 
@@ -13,6 +12,7 @@ public class TeamRepository : ITeamRepository
 {
     private readonly string _path = FilePathHelper.GetPath("teamsDatas");
     private readonly ILogger<TeamRepository> _logger;
+    private static readonly SemaphoreSlim _fileLock = new(1,1);
 
     public TeamRepository(ILogger<TeamRepository> logger)
     {
@@ -24,6 +24,7 @@ public class TeamRepository : ITeamRepository
         WriteIndented = true,
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
     };
+    
 
     public async Task<List<TeamDao>> GetTeamsAsync()
     {

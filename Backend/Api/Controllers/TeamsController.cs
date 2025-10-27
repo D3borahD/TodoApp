@@ -1,10 +1,5 @@
-using System.Text.Json;
-using BackendApi.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Text;
-using System.Text.Encodings.Web;
 using Application.Interfaces;
-using BackendApi.Helpers;
 using Domain.DTO;
 
 namespace BackendApi.Controllers;
@@ -15,26 +10,24 @@ namespace BackendApi.Controllers;
 public class TeamsController(ITeamService _teamService) : ControllerBase
 {
     
-    [HttpGet("")]
+    [HttpGet]
     public async Task<ActionResult<List<TeamDto>>> GetTeamsAsync()
     {
         var teams = await _teamService.GetTeamsAsync();
-
-        if (!teams.Any())
+        
+        if (!teams.Any() || teams.Count == 0)
             return NotFound("No team found.");
-
+        
         return Ok(teams);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<TeamDto>> GetTeamsByIdAsync(int id)
     {
         TeamDto team = await _teamService.GetTeamsByIdAsync(id);
 
-        if (team == null)
-        {
+        if (team == null) 
             return NotFound($"Team id {id} does not exist.");
-        }
         
         return Ok(team);
     }

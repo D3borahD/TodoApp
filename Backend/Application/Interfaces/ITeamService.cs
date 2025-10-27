@@ -1,4 +1,3 @@
-using BackendApi.Models;
 using Domain.DTO;
 
 namespace Application.Interfaces;
