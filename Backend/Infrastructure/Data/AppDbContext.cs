@@ -6,6 +6,7 @@ namespace Infrastructure.Data;
 public class AppDbContext : DbContext
 {
     public DbSet<TeamDao> Teams { get; set; }
+    public DbSet<ProductDao> Products { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -26,6 +27,18 @@ public class AppDbContext : DbContext
             new TeamDao { Id = 7, Label = "Hibou" },
             new TeamDao { Id = 8, Label = "Linx" },
             new TeamDao { Id = 9, Label = "Caméléon" }
+        );
+        
+        modelBuilder.Entity<ProductDao>().HasKey(t => t.Id);
+        base.OnModelCreating(modelBuilder);
+        
+        modelBuilder.Entity<ProductDao>().HasData(
+            new ProductDao { Id = 1, Label = "ElloHono", BusinessUnitId = 1},
+            new ProductDao { Id = 2, Label = "ElloAdjuster", BusinessUnitId = 1 },
+            new ProductDao { Id = 3, Label = "Sinaps", BusinessUnitId = 1},
+            new ProductDao { Id = 4, Label = "Push REC", BusinessUnitId = 1 },
+            new ProductDao { Id = 5, Label = "ElloAuto", BusinessUnitId = 2 },
+            new ProductDao { Id = 6, Label = "ElloWorld", BusinessUnitId = 3 }
         );
     }
 }
