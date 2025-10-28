@@ -65,9 +65,9 @@ public class TeamsController(ITeamService _teamService) : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteTeamAsync(int id)
     {
-        bool deleted = await _teamService.DeleteTeamAsync(id);
+        bool isDeleted = await _teamService.DeleteTeamAsync(id);
         
-        if (!deleted)
+        if (!isDeleted)
             return NotFound($"Team with ID {id} does not exist.");
         
         return NoContent();

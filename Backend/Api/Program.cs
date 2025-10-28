@@ -35,9 +35,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
-// Injection des dépendances
+// Injection des dépendances : Repository
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+// Injection des dépendances : Service
 builder.Services.AddScoped<ITeamService, TeamService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Logging.AddConsole();
 
