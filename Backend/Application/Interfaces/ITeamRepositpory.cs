@@ -1,6 +1,6 @@
-using BackendApi.Models;
+using BackendApi.Entities;
 
-namespace Infrastructure.IRepository;
+namespace Application.Interfaces;
 
 public interface ITeamRepository
 {

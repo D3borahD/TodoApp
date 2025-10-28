@@ -1,4 +1,4 @@
-namespace BackendApi.Models;
+namespace BackendApi.Entities;
 
 public class TeamDao
 {

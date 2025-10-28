@@ -1,6 +1,5 @@
 using Application.Interfaces;
-using BackendApi.Models;
-using Infrastructure.IRepository;
+using BackendApi.Entities;
 using Domain.DTO;
 using Microsoft.Extensions.Logging;
 
@@ -67,7 +66,7 @@ public class TeamService : ITeamService
         TeamDao newTeamDao = new TeamDao
         {
             Id = newId,
-            Label = teamDto.Label,
+            Label = teamDto.Label.ToLower(),
         };
         
         var createdTeam = await _teamRepository.CreateTeamAsync(newTeamDao);
@@ -90,7 +89,7 @@ public class TeamService : ITeamService
         if (existingTeam == null)
             return null;
         
-        existingTeam.Label = teamDto.Label;
+        existingTeam.Label = teamDto.Label.ToLower();
         
         var updatedTeamDao = await _teamRepository.UpdateTeamAsync(existingTeam);
         

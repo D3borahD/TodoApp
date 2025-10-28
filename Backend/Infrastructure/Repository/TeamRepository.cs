@@ -1,6 +1,6 @@
-using BackendApi.Models;
+using Application.Interfaces;
+using BackendApi.Entities;
 using Infrastructure.Data;
-using Infrastructure.IRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository;

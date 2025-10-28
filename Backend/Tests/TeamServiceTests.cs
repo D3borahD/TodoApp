@@ -1,7 +1,7 @@
+using Application.Interfaces;
 using Application.Services;
-using BackendApi.Models;
+using BackendApi.Entities;
 using Domain.DTO;
-using Infrastructure.IRepository;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
