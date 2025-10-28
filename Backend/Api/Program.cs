@@ -2,7 +2,6 @@ using System.Text.Json;
 using Application.Interfaces;
 using Application.Services;
 using Infrastructure.Data;
-using Infrastructure.IRepository;
 using Infrastructure.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

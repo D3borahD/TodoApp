@@ -1,4 +1,4 @@
-using BackendApi.Models;
+using BackendApi.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data;
