@@ -2,6 +2,7 @@ using System.Text.Json;
 using Application.Interfaces;
 using Application.Services;
 using BackendApi.Entities;
+using Domain.DTO;
 using Infrastructure.Data;
 using Infrastructure.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -44,7 +45,7 @@ builder.Services.AddScoped<IBaseRepository<ModuleDao>, ModuleRepository>();
 // Injection des dépendances : Service
 builder.Services.AddScoped<ITeamService, TeamService>();
 builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IModuleService, ModuleService>();
+builder.Services.AddScoped<IBaseService<ModuleDto>, ModuleService>();
 
 builder.Logging.AddConsole();
 
