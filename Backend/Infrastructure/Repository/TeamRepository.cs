@@ -5,39 +5,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository;
 
-public class TeamRepository : ITeamRepository
+public class TeamRepository(AppDbContext context) : IBaseRepository<TeamDao>
 {
-    private readonly AppDbContext _context;
-    public TeamRepository(AppDbContext context)
-    {
-        _context = context;
-    }
-    
-    public async Task<List<TeamDao>> GetTeamsAsync() => await _context.Teams.ToListAsync();
+    public async Task<List<TeamDao>> GetAllAsync() => await context.Teams.ToListAsync();
     
 
-    public async Task<TeamDao?> GetTeamByIdAsync(int id) => await _context.Teams.FindAsync(id);
+    public async Task<TeamDao?> GetByIdAsync(int id) => await context.Teams.FindAsync(id);
     
-    public async Task<TeamDao> CreateTeamAsync(TeamDao team)
+    public async Task<TeamDao> CreateAsync(TeamDao team)
     {
-        _context.Teams.Add(team);
-        await _context.SaveChangesAsync();
+        context.Teams.Add(team);
+        await context.SaveChangesAsync();
         return team;
     }
     
-    public async Task<TeamDao?> UpdateTeamAsync(TeamDao teamDto)
+    public async Task<TeamDao?> UpdateAsync(TeamDao teamDto)
     {
-        _context.Teams.Update(teamDto);
-        await _context.SaveChangesAsync();
+        context.Teams.Update(teamDto);
+        await context.SaveChangesAsync();
         return teamDto;
     }
-
-    public async Task DeleteTeamAsync(int id)
+    
+    public async Task DeleteAsync(int id)
     {
-        var team = await _context.Teams.FindAsync(id);
+        var team = await context.Teams.FindAsync(id);
         if (team == null) return;
-        _context.Teams.Remove(team);
-        await _context.SaveChangesAsync();
+        context.Teams.Remove(team);
+        await context.SaveChangesAsync();
     }
 }
 

@@ -1,7 +1,6 @@
 namespace Domain.DTO;
 
-public class TeamDto
+public class TeamDto : BaseDto
 {
-    public int Id { get; set; }
-    public required string Label { get; set; }
+
 }

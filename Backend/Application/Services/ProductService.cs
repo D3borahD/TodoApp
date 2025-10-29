@@ -5,13 +5,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-public class ProductService(ILogger<ProductService> logger, IProductRepository productRepository)
+public class ProductService(ILogger<ProductService> logger, IBaseRepository<ProductDao> productRepository)
     : IProductService
 {
     public async Task<List<ProductDto>> GetProductsAsync()
     {
         logger.LogInformation("Getting all products");
-        var productsDao = await productRepository.GetProductsAsync();
+        var productsDao = await productRepository.GetAllAsync();
         
         if (!productsDao.Any())
         {
@@ -33,7 +33,7 @@ public class ProductService(ILogger<ProductService> logger, IProductRepository p
     public async Task<ProductDto?> GetProductsByIdAsync(int id)
     {
         logger.LogInformation("Getting products by id");
-        var productsDao = await productRepository.GetProductsByIdAsync(id);
+        var productsDao = await productRepository.GetByIdAsync(id);
 
         if (productsDao == null)
         {
@@ -55,7 +55,7 @@ public class ProductService(ILogger<ProductService> logger, IProductRepository p
 
     public async Task<ProductDto?> CreateProductAsync(ProductDto productDto)
     {
-        var productDaoList = await productRepository.GetProductsAsync();
+        var productDaoList = await productRepository.GetAllAsync();
         int newId = productDaoList.Max(p => p.Id) + 1;
 
         ProductDao newProductDao = new ProductDao()
@@ -65,7 +65,7 @@ public class ProductService(ILogger<ProductService> logger, IProductRepository p
             BusinessUnitId = productDto.BusinessUnitId
         };
         
-        var createdProduct = await productRepository.CreateProductsAsync(newProductDao);
+        var createdProduct = await productRepository.CreateAsync(newProductDao);
 
         return new ProductDto()
         {
@@ -77,14 +77,14 @@ public class ProductService(ILogger<ProductService> logger, IProductRepository p
 
     public async Task<ProductDto?> UpdateProductAsync(ProductDto productDto)
     {
-        var productDaoList = await productRepository.GetProductsAsync();
+        var productDaoList = await productRepository.GetAllAsync();
         var existingProduct = productDaoList.FirstOrDefault(p => p.Id == productDto.Id);
         
         if(existingProduct == null) return null;
         
         existingProduct.Label = productDto.Label.ToLower();
         
-        var updatedProduct = await productRepository.UpdateProductsAsync(existingProduct);
+        var updatedProduct = await productRepository.UpdateAsync(existingProduct);
         
         return new ProductDto()
         {
@@ -96,12 +96,12 @@ public class ProductService(ILogger<ProductService> logger, IProductRepository p
 
     public async Task<bool> DeleteProductAsync(int id)
     {
-        var productDaoList = await productRepository.GetProductsAsync();
+        var productDaoList = await productRepository.GetAllAsync();
         var existingProduct = productDaoList.FirstOrDefault(p => p.Id == id);
         
         if (existingProduct == null) return false;
         
-        await productRepository.DeleteProductsAsync(existingProduct.Id);
+        await productRepository.DeleteAsync(existingProduct.Id);
         return true;
     }
 }

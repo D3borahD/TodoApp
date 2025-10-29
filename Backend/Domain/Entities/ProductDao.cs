@@ -1,8 +1,6 @@
 namespace BackendApi.Entities;
 
-public class ProductDao
+public class ProductDao : BaseDao
 {
-    public int Id { get; set; }
-    public required string Label { get; set; }
     public int BusinessUnitId { get; set; }
 }
