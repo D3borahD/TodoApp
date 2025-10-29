@@ -31,7 +31,7 @@ public class TeamServiceTests
         var dto = new TeamDto{ Label = "New" };
         
         // ACTION
-        var created = await teamService.CreateTeamAsync(dto);
+        var created = await teamService.CreateAsync(dto);
 
         // ASSERT
         Assert.NotNull(created);

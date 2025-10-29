@@ -7,13 +7,13 @@ namespace BackendApi.Controllers;
 [Produces("application/json")]
 [ApiController]
 [Route("api/[controller]")]
-public class TeamsController(ITeamService _teamService) : ControllerBase
+public class TeamsController(IBaseService<TeamDto> teamService) : ControllerBase
 {
     
     [HttpGet]
     public async Task<ActionResult<List<TeamDto>>> GetTeamsAsync()
     {
-        var teams = await _teamService.GetTeamsAsync();
+        var teams = await teamService.GetAllAsync();
         
         if (!teams.Any() || teams.Count == 0)
             return NotFound("No team found.");
@@ -24,7 +24,7 @@ public class TeamsController(ITeamService _teamService) : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<TeamDto>> GetTeamsByIdAsync(int id)
     {
-        TeamDto team = await _teamService.GetTeamsByIdAsync(id);
+        TeamDto team = await teamService.GetByIdAsync(id);
 
         if (team == null) 
             return NotFound($"Team id {id} does not exist.");
@@ -33,12 +33,12 @@ public class TeamsController(ITeamService _teamService) : ControllerBase
     }
 
     [HttpPost("")]
-    public async Task<ActionResult<TeamDto>> CreateTeamAsync([FromBody] TeamDto teamDto)
+    public async Task<ActionResult<TeamDto>> CreateAsync([FromBody] TeamDto teamDto)
     {
         if (teamDto == null)
             return BadRequest("The team data is invalid.");
         
-        TeamDto createdTeam = await _teamService.CreateTeamAsync(teamDto);
+        TeamDto createdTeam = await teamService.CreateAsync(teamDto);
         
         if (createdTeam == null)
             return StatusCode(500, "Error while creating the team.");
@@ -47,13 +47,13 @@ public class TeamsController(ITeamService _teamService) : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<TeamDto>> UpdateTeamAsync(int id, [FromBody] TeamDto teamDto)
+    public async Task<ActionResult<TeamDto>> UpdateAsync(int id, [FromBody] TeamDto teamDto)
     {
         if (teamDto == null)
             return BadRequest("The team data is invalid.");
         teamDto.Id = id;
         
-        TeamDto updatedTeam = await _teamService.UpdateTeamAsync(teamDto);
+        TeamDto updatedTeam = await teamService.UpdateAsync(teamDto);
        
         if (updatedTeam == null)
            return NotFound($"Team id {id} does not exist.");
@@ -65,7 +65,7 @@ public class TeamsController(ITeamService _teamService) : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteTeamAsync(int id)
     {
-        bool isDeleted = await _teamService.DeleteTeamAsync(id);
+        bool isDeleted = await teamService.DeleteAsync(id);
         
         if (!isDeleted)
             return NotFound($"Team with ID {id} does not exist.");

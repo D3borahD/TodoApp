@@ -7,64 +7,47 @@ namespace BackendApi.Controllers;
 [Produces("application/json")]
 [ApiController]
 [Route("api/[controller]")]
-public class ProductsController(IProductService _productService) : ControllerBase
+public class ProductsController(IBaseService<ProductDto> productService) : ControllerBase
 {
 
     [HttpGet]
     public async Task<ActionResult<List<ProductDto>>> GetProductsAsync()
     {
-        var products = await _productService.GetProductsAsync();
-        
-        if (!products.Any() || products.Count == 0)
-        {
-            return NotFound("No products found");
-        };
-        
+        var products = await productService.GetAllAsync();
+        if (!products.Any()) return NotFound("No products found");
         return Ok(products);
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<ProductDto>> GetProductByIdAsync(int id)
+    public async Task<ActionResult<ProductDto>> GetByIdAsync(int id)
     {
-        ProductDto? product = await _productService.GetProductsByIdAsync(id);
-
-        if (product == null) return NotFound("Product not found");
-       
+        var product = await productService.GetByIdAsync(id);
         return Ok(product);
     }
 
     [HttpPost("")]
-    public async Task<ActionResult<ProductDto>> CreateProductAsync([FromBody] ProductDto productDto)
+    public async Task<ActionResult<ProductDto>> CreateAsync([FromBody] ProductDto? productDto)
     {
-        if(productDto == null) return BadRequest("The product is null");
-        
-        ProductDto createdProduct = await _productService.CreateProductAsync(productDto);
-        
-        if (createdProduct == null) return StatusCode(500, "Error while creating the product.");
+        if(productDto is null) return BadRequest("The product is null");
+        var createdProduct = await productService.CreateAsync(productDto);
         return Ok(createdProduct);
     }
 
-    [HttpPut("{id}")]
-    public async Task<ActionResult<ProductDto>> UpdateProductAsync(int id, [FromBody] ProductDto productDto)
+    [HttpPut("{id:int}")]
+    public async Task<ActionResult> UpdateAsync(int id, [FromBody] ProductDto? productDto)
     {
-        if (productDto == null) return BadRequest("The product is null");
+        if (productDto is null) return BadRequest("The product is null");
+        
         productDto.Id = id;
-        
-        ProductDto? updatedProduct = await _productService.UpdateProductAsync(productDto);
-        
-        if (updatedProduct == null) return NotFound($"Product not found with id {id}");
-        
-        return Ok(updatedProduct);
+        var updatedProduct = await productService.UpdateAsync(productDto);
+        return updatedProduct is null ? NotFound("Module could not be updated") : Ok(updatedProduct);
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<ProductDto>> DeleteProductAsync(int id)
+    public async Task<ActionResult<ProductDto>> DeleteAsync(int id)
     {
-        bool isDeleted = await _productService.DeleteProductAsync(id);
-        
-        if (!isDeleted) return NotFound($"Product not found with id {id}");
-        
-        return NoContent();
+        bool isDeleted = await productService.DeleteAsync(id);
+        return isDeleted ? NoContent() : NotFound("Module not found");
     }
     
     

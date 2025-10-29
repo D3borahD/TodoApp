@@ -67,7 +67,6 @@ public class ModuleService(IBaseRepository<ModuleDao> moduleRepository, ILogger<
 
     public async Task<ModuleDto?> UpdateAsync(ModuleDto moduleDto)
     {
-
         var moduleDao = await moduleRepository.GetByIdAsync(moduleDto.Id);
         if (moduleDao == null)
         {

@@ -7,11 +7,8 @@ namespace Infrastructure.Repository;
 
 public class ModuleRepository(AppDbContext context) : IBaseRepository<ModuleDao>
 {
-    public async Task<List<ModuleDao>> GetAllAsync()
-     => await context.Modules.ToListAsync();
-  
-    public async Task<ModuleDao?> GetByIdAsync(int id)
-    => await context.Modules.FirstOrDefaultAsync(t => t.Id == id);
+    public async Task<List<ModuleDao>> GetAllAsync() => await context.Modules.ToListAsync();
+    public async Task<ModuleDao?> GetByIdAsync(int id) => await context.Modules.FirstOrDefaultAsync(t => t.Id == id);
 
     public async Task<ModuleDao> CreateAsync(ModuleDao moduleDao)
     {
@@ -29,7 +26,7 @@ public class ModuleRepository(AppDbContext context) : IBaseRepository<ModuleDao>
 
     public async Task DeleteAsync(int id)
     {
-        var module = await context.Modules.FirstOrDefaultAsync(t => t.Id == id);
+        var module = await context.Modules.FindAsync(id);
         if (module == null) return;
         context.Modules.Remove(module);
         await context.SaveChangesAsync();
