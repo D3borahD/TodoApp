@@ -16,7 +16,7 @@ public class ProductRepository(AppDbContext context) : IBaseRepository<ProductDa
         return productDto;
     }
 
-    public async Task<ProductDao> UpdateAsync(ProductDao productDto)
+    public async Task<ProductDao?> UpdateAsync(ProductDao productDto)
     {
         context.Products.Update(productDto);
         await context.SaveChangesAsync();

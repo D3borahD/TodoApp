@@ -6,31 +6,28 @@ using Microsoft.Extensions.Logging;
 namespace Application.Services;
 
 public class ProductService(ILogger<ProductService> logger, IBaseRepository<ProductDao> productRepository)
-    : IProductService
+    : IBaseService<ProductDto>
 {
-    public async Task<List<ProductDto>> GetProductsAsync()
+    public async Task<List<ProductDto>> GetAllAsync()
     {
         logger.LogInformation("Getting all products");
-        var productsDao = await productRepository.GetAllAsync();
+        var products = await productRepository.GetAllAsync();
         
-        if (!productsDao.Any())
+        if (!products.Any())
         {
             logger.LogInformation("No products found");
             return new List<ProductDto>();
         }
         
-        var result = productsDao.Select(p => new ProductDto
+        return products.Select(p => new ProductDto
         {
             Id = p.Id,
             Label = p.Label,
             BusinessUnitId = p.BusinessUnitId
         }).ToList();
-        
-        logger.LogInformation("Returning products");
-        return result;
     }
 
-    public async Task<ProductDto?> GetProductsByIdAsync(int id)
+    public async Task<ProductDto?> GetByIdAsync(int id)
     {
         logger.LogInformation("Getting products by id");
         var productsDao = await productRepository.GetByIdAsync(id);
@@ -41,26 +38,20 @@ public class ProductService(ILogger<ProductService> logger, IBaseRepository<Prod
             return null;
         }
 
-        var result = new ProductDto()
+        return new ProductDto()
         {
             Id = productsDao.Id,
             Label = productsDao.Label,
             BusinessUnitId = productsDao.BusinessUnitId
         };
-        
-        logger.LogInformation("Returning products");
-        return result;
-
     }
 
-    public async Task<ProductDto?> CreateProductAsync(ProductDto productDto)
+    public async Task<ProductDto> CreateAsync(ProductDto productDto)
     {
-        var productDaoList = await productRepository.GetAllAsync();
-        int newId = productDaoList.Max(p => p.Id) + 1;
-
+        logger.LogInformation("Creating new product");
+        
         ProductDao newProductDao = new ProductDao()
         {
-            Id = newId,
             Label = productDto.Label.ToLower(),
             BusinessUnitId = productDto.BusinessUnitId
         };
@@ -75,16 +66,19 @@ public class ProductService(ILogger<ProductService> logger, IBaseRepository<Prod
         };
     }
 
-    public async Task<ProductDto?> UpdateProductAsync(ProductDto productDto)
+    public async Task<ProductDto?> UpdateAsync(ProductDto productDto)
     {
-        var productDaoList = await productRepository.GetAllAsync();
-        var existingProduct = productDaoList.FirstOrDefault(p => p.Id == productDto.Id);
+        var productDao = await productRepository.GetByIdAsync(productDto.Id);
+        if(productDao == null)
+        {
+            logger.LogInformation("No products found");
+            return null;
+        }
         
-        if(existingProduct == null) return null;
+        productDao.Label = productDto.Label.ToLower();
+        productDao.BusinessUnitId = productDto.BusinessUnitId;
         
-        existingProduct.Label = productDto.Label.ToLower();
-        
-        var updatedProduct = await productRepository.UpdateAsync(existingProduct);
+        var updatedProduct = await productRepository.UpdateAsync(productDao);
         
         return new ProductDto()
         {
@@ -94,14 +88,17 @@ public class ProductService(ILogger<ProductService> logger, IBaseRepository<Prod
         };
     }
 
-    public async Task<bool> DeleteProductAsync(int id)
+    public async Task<bool> DeleteAsync(int id)
     {
-        var productDaoList = await productRepository.GetAllAsync();
-        var existingProduct = productDaoList.FirstOrDefault(p => p.Id == id);
+        var productDao = await productRepository.GetByIdAsync(id);
         
-        if (existingProduct == null) return false;
+        if (productDao == null)
+        {
+            logger.LogInformation("No products found");
+            return false;
+        }
         
-        await productRepository.DeleteAsync(existingProduct.Id);
+        await productRepository.DeleteAsync(productDao.Id);
         return true;
     }
 }

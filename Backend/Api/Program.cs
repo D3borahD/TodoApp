@@ -43,8 +43,8 @@ builder.Services.AddScoped<IBaseRepository<ProductDao>, ProductRepository>();
 builder.Services.AddScoped<IBaseRepository<ModuleDao>, ModuleRepository>();
 
 // Injection des dépendances : Service
-builder.Services.AddScoped<ITeamService, TeamService>();
-builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IBaseService<TeamDto>, TeamService>();
+builder.Services.AddScoped<IBaseService<ProductDto>, ProductService>();
 builder.Services.AddScoped<IBaseService<ModuleDto>, ModuleService>();
 
 builder.Logging.AddConsole();
