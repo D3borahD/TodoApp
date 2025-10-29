@@ -2,5 +2,5 @@ namespace Domain.DTO;
 
 public class ModuleDto : BaseDto
 {
-    public required int ProductId { get; set; }
+    public int ProductId { get; set; }
 }

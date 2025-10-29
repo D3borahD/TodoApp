@@ -15,7 +15,7 @@ public class ModuleRepository(AppDbContext context) : IBaseRepository<ModuleDao>
 
     public async Task<ModuleDao> CreateAsync(ModuleDao moduleDao)
     {
-         context.Modules.AddAsync(moduleDao);
+         await context.Modules.AddAsync(moduleDao);
          await context.SaveChangesAsync();
          return moduleDao;
     }
