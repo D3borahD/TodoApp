@@ -41,15 +41,24 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IBaseRepository<TeamDao>, TeamRepository>();
 builder.Services.AddScoped<IBaseRepository<ProductDao>, ProductRepository>();
 builder.Services.AddScoped<IBaseRepository<ModuleDao>, ModuleRepository>();
+builder.Services.AddScoped<IBaseRepository<ActivityDao>, ActivityRepository>();
 
 // Injection des dépendances : Service
 builder.Services.AddScoped<IBaseService<TeamDto>, TeamService>();
 builder.Services.AddScoped<IBaseService<ProductDto>, ProductService>();
 builder.Services.AddScoped<IBaseService<ModuleDto>, ModuleService>();
+builder.Services.AddScoped<IBaseService<ActivityDto>, ActivityService>();
 
 builder.Logging.AddConsole();
 
 var app = builder.Build();
+
+// Initialisation de la base
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await DbInitializer.InitializeAsync(context);
+}
 
 // Configurer Swagger uniquement en environnement de développement
 if (app.Environment.IsDevelopment() || builder.Configuration.GetValue<bool>("EnableSwagger"))
