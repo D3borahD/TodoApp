@@ -7,11 +7,12 @@ public class AppDbContext : DbContext
 {
     public DbSet<TeamDao> Teams { get; set; }
     public DbSet<ProductDao> Products { get; set; }
+    public DbSet<ModuleDao> Modules { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<TeamDao>().HasKey(t => t.Id);
@@ -39,6 +40,16 @@ public class AppDbContext : DbContext
             new ProductDao { Id = 4, Label = "Push REC", BusinessUnitId = 1 },
             new ProductDao { Id = 5, Label = "ElloAuto", BusinessUnitId = 2 },
             new ProductDao { Id = 6, Label = "ElloWorld", BusinessUnitId = 3 }
+        );
+        
+        modelBuilder.Entity<ModuleDao>().HasKey(t => t.Id);
+        base.OnModelCreating(modelBuilder);
+        
+        modelBuilder.Entity<ModuleDao>().HasData(
+            new ModuleDao { Id = 1, Label = "socle", ProductId = 1},
+            new ModuleDao { Id = 2, Label = "in", ProductId = 1 },
+            new ModuleDao { Id = 3, Label = "out", ProductId = 1},
+            new ModuleDao { Id = 4, Label = "orchestrateur", ProductId = 1 }
         );
     }
 }

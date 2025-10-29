@@ -38,10 +38,12 @@ builder.Services.AddSwaggerGen();
 // Injection des dépendances : Repository
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
 
 // Injection des dépendances : Service
 builder.Services.AddScoped<ITeamService, TeamService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IModuleService, ModuleService>();
 
 builder.Logging.AddConsole();
 
