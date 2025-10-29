@@ -7,7 +7,7 @@ namespace BackendApi.Controllers;
 [Produces("application/json")]
 [ApiController]
 [Route("api/[controller]")]
-public class ProductController(IProductService _productService) : ControllerBase
+public class ProductsController(IProductService _productService) : ControllerBase
 {
 
     [HttpGet]
@@ -50,7 +50,7 @@ public class ProductController(IProductService _productService) : ControllerBase
         if (productDto == null) return BadRequest("The product is null");
         productDto.Id = id;
         
-        ProductDto updatedProduct = await _productService.UpdateProductAsync(productDto);
+        ProductDto? updatedProduct = await _productService.UpdateProductAsync(productDto);
         
         if (updatedProduct == null) return NotFound($"Product not found with id {id}");
         
