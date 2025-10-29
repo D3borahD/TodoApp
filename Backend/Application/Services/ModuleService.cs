@@ -5,12 +5,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-public class ModuleService(IModuleRepository moduleRepository, ILogger<ModuleService> logger) : IModuleService
+public class ModuleService(IBaseRepository<ModuleDao> moduleRepository, ILogger<ModuleService> logger) : IModuleService
 {
     public async Task<List<ModuleDto>> GetModulesAsync()
     {
         logger.LogInformation("Getting all modules.");
-        var modules = await moduleRepository.GetModulesAsync();
+        var modules = await moduleRepository.GetAllAsync();
 
         if (!modules.Any())
         {
@@ -32,7 +32,7 @@ public class ModuleService(IModuleRepository moduleRepository, ILogger<ModuleSer
     public async Task<ModuleDto?> GetModulesByIdAsync(int id)
     {
         logger.LogInformation("Getting modules by id.");
-        var module = await moduleRepository.GetModuleByIdAsync(id);
+        var module = await moduleRepository.GetByIdAsync(id);
 
         if (module == null) 
         {
@@ -52,7 +52,7 @@ public class ModuleService(IModuleRepository moduleRepository, ILogger<ModuleSer
 
     public async  Task<ModuleDto?> CreateModuleAsync(ModuleDto moduleDto)
     {
-        var moduleDaoList = await moduleRepository.GetModulesAsync();
+        var moduleDaoList = await moduleRepository.GetAllAsync();
         int newId = moduleDaoList.Any() ? moduleDaoList.Max(x => x.Id) + 1 : 1;
 
         ModuleDao moduleDao = new ModuleDao()
@@ -62,7 +62,7 @@ public class ModuleService(IModuleRepository moduleRepository, ILogger<ModuleSer
             ProductId = moduleDto.ProductId
         };
         
-        var createdModule = await moduleRepository.CreateModuleAsync(moduleDao);
+        var createdModule = await moduleRepository.CreateAsync(moduleDao);
 
         logger.LogInformation("Creating new module.");
        return new ModuleDto()
@@ -75,14 +75,14 @@ public class ModuleService(IModuleRepository moduleRepository, ILogger<ModuleSer
 
     public async Task<ModuleDto?> UpdateModuleAsync(ModuleDto moduleDto)
     {
-        var moduleDaoList = await moduleRepository.GetModulesAsync();
+        var moduleDaoList = await moduleRepository.GetAllAsync();
         var moduleDao = moduleDaoList.FirstOrDefault(x => x.Id == moduleDto.Id);
 
         if (moduleDao == null) return null;
        
         moduleDao.Label = moduleDto.Label.ToLower();
         
-        var updatedModule = await moduleRepository.UpdateModuleAsync(moduleDao);
+        var updatedModule = await moduleRepository.UpdateAsync(moduleDao);
         
         if (updatedModule == null) return null;
 
@@ -96,12 +96,12 @@ public class ModuleService(IModuleRepository moduleRepository, ILogger<ModuleSer
 
     public async Task<bool> DeleteModuleAsync(int id)
     {
-        var moduleDaoList = await moduleRepository.GetModulesAsync();
+        var moduleDaoList = await moduleRepository.GetAllAsync();
         var moduleDao = moduleDaoList.FirstOrDefault(x => x.Id == id);
         
         if (moduleDao == null) return false;
         
-        await moduleRepository.DeleteModuleAsync(moduleDao.Id);
+        await moduleRepository.DeleteAsync(moduleDao.Id);
         return true;
     }
 }

@@ -5,36 +5,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository;
 
-public class ProductRepository : IProductRepository
+public class ProductRepository(AppDbContext context) : IBaseRepository<ProductDao>
 {
-    private readonly AppDbContext _context;
-
-    public ProductRepository(AppDbContext context)
+    public async Task<List<ProductDao>> GetAllAsync() => await context.Products.ToListAsync();
+    public async Task<ProductDao?> GetByIdAsync(int id) => await context.Products.FindAsync(id);
+    public async Task<ProductDao> CreateAsync(ProductDao productDto)
     {
-        _context = context;
-    }
-    
-    public async Task<List<ProductDao>> GetProductsAsync() => await _context.Products.ToListAsync();
-    public async Task<ProductDao?> GetProductsByIdAsync(int id) => await _context.Products.FindAsync(id);
-    public async Task<ProductDao> CreateProductsAsync(ProductDao productDto)
-    {
-        _context.Products.Add(productDto);
-        await _context.SaveChangesAsync();
+        context.Products.Add(productDto);
+        await context.SaveChangesAsync();
         return productDto;
     }
 
-    public async Task<ProductDao> UpdateProductsAsync(ProductDao productDto)
+    public async Task<ProductDao> UpdateAsync(ProductDao productDto)
     {
-        _context.Products.Update(productDto);
-        await _context.SaveChangesAsync();
+        context.Products.Update(productDto);
+        await context.SaveChangesAsync();
         return productDto;
     }
 
-    public async Task DeleteProductsAsync(int id)
+    public async Task DeleteAsync(int id)
     {
-        var product = await _context.Products.FindAsync(id);
+        var product = await context.Products.FindAsync(id);
         if(product == null) return;
-        _context.Products.Remove(product);
-        await _context.SaveChangesAsync();
+        context.Products.Remove(product);
+        await context.SaveChangesAsync();
     }
 }

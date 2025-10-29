@@ -1,7 +1,6 @@
 namespace BackendApi.Entities;
 
-public class TeamDao
+public class TeamDao : BaseDao
 {
-    public int Id { get; set; }
-    public required string Label { get; set; }
+
 }

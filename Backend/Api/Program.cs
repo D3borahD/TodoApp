@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Application.Interfaces;
 using Application.Services;
+using BackendApi.Entities;
 using Infrastructure.Data;
 using Infrastructure.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -36,9 +37,9 @@ builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
 // Injection des dépendances : Repository
-builder.Services.AddScoped<ITeamRepository, TeamRepository>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
+builder.Services.AddScoped<IBaseRepository<TeamDao>, TeamRepository>();
+builder.Services.AddScoped<IBaseRepository<ProductDao>, ProductRepository>();
+builder.Services.AddScoped<IBaseRepository<ModuleDao>, ModuleRepository>();
 
 // Injection des dépendances : Service
 builder.Services.AddScoped<ITeamService, TeamService>();

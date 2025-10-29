@@ -5,25 +5,17 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-public class TeamService : ITeamService
+public class TeamService(IBaseRepository<TeamDao> teamRepository, ILogger<TeamService> logger)
+    : ITeamService
 {
-    private readonly ITeamRepository _teamRepository;
-    private readonly ILogger<TeamService> _logger;
-
-    public TeamService(ITeamRepository teamRepository, ILogger<TeamService> logger)
-    {
-        _teamRepository = teamRepository;
-        _logger = logger;
-    }
-    
     public async Task<List<TeamDto>> GetTeamsAsync()
     {
-        _logger.LogInformation("🔍 Begin get all teams.");
-        var teamsDao = await _teamRepository.GetTeamsAsync();
+        logger.LogInformation("🔍 Begin get all teams.");
+        var teamsDao = await teamRepository.GetAllAsync();
 
         if (!teamsDao.Any() || teamsDao == null)
         {
-            _logger.LogWarning("⚠️ No teams found.");
+            logger.LogWarning("⚠️ No teams found.");
             return new List<TeamDto>();
         }
         
@@ -33,18 +25,18 @@ public class TeamService : ITeamService
             Label = t.Label
         }).ToList();
 
-        _logger.LogInformation("✅ {Count} teams successfully recovered", result.Count);
+        logger.LogInformation("✅ {Count} teams successfully recovered", result.Count);
         return result;
     }
 
     public async Task<TeamDto?> GetTeamsByIdAsync(int id)
     {
-        _logger.LogInformation("🔍 Team recovery with ID {Id}.", id);
-        var teamDao = await _teamRepository.GetTeamByIdAsync(id);
+        logger.LogInformation("🔍 Team recovery with ID {Id}.", id);
+        var teamDao = await teamRepository.GetByIdAsync(id);
 
         if (teamDao == null)
         {
-            _logger.LogWarning("⚠️ No team found with ID {Id}.",id); 
+            logger.LogWarning("⚠️ No team found with ID {Id}.",id); 
             return null;
         }
         
@@ -54,13 +46,13 @@ public class TeamService : ITeamService
             Label = teamDao.Label
         };
             
-        _logger.LogInformation("✅ Team {Id} retrieved : {Label}", result.Id, result.Label);
+        logger.LogInformation("✅ Team {Id} retrieved : {Label}", result.Id, result.Label);
         return result;
     }
 
     public async Task<TeamDto?> CreateTeamAsync(TeamDto teamDto)
     {
-        var teamsDaoList = await _teamRepository.GetTeamsAsync();
+        var teamsDaoList = await teamRepository.GetAllAsync();
         int newId = teamsDaoList.Any() ? teamsDaoList.Max(x => x.Id) + 1 : 1;
         
         TeamDao newTeamDao = new TeamDao
@@ -69,7 +61,7 @@ public class TeamService : ITeamService
             Label = teamDto.Label.ToLower(),
         };
         
-        var createdTeam = await _teamRepository.CreateTeamAsync(newTeamDao);
+        var createdTeam = await teamRepository.CreateAsync(newTeamDao);
         
         if (createdTeam == null)
             return null;
@@ -83,7 +75,7 @@ public class TeamService : ITeamService
 
     public async Task<TeamDto> UpdateTeamAsync(TeamDto teamDto)
     {
-        var teamDaoList = await _teamRepository.GetTeamsAsync();
+        var teamDaoList = await teamRepository.GetAllAsync();
         var existingTeam = teamDaoList.FirstOrDefault(t => t.Id == teamDto.Id);
         
         if (existingTeam == null)
@@ -91,7 +83,7 @@ public class TeamService : ITeamService
         
         existingTeam.Label = teamDto.Label.ToLower();
         
-        var updatedTeamDao = await _teamRepository.UpdateTeamAsync(existingTeam);
+        var updatedTeamDao = await teamRepository.UpdateAsync(existingTeam);
         
         if (updatedTeamDao == null)
             return null;
@@ -105,13 +97,13 @@ public class TeamService : ITeamService
 
     public async Task<bool>  DeleteTeamAsync(int id)
     {
-        var teamDaoList = await _teamRepository.GetTeamsAsync();
+        var teamDaoList = await teamRepository.GetAllAsync();
         var existingTeam = teamDaoList.FirstOrDefault(t => t.Id == id);
         
         if (existingTeam == null)
             return false; 
         
-        await _teamRepository.DeleteTeamAsync(existingTeam.Id);
+        await teamRepository.DeleteAsync(existingTeam.Id);
         return true;
     }
 }
