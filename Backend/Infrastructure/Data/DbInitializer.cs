@@ -9,19 +9,18 @@ public static class DbInitializer
     {
         // Appliquer les migrations si besoin
         await context.Database.MigrateAsync();
-        
         {
             var teams = new List<TeamDao>
             {
-                new TeamDao { Id = 1, Label = "girafe" },
-                new TeamDao { Id = 2, Label = "toucan" },
-                new TeamDao { Id = 3, Label = "phénix" },
-                new TeamDao { Id = 4, Label = "jaguar" },
-                new TeamDao { Id = 5, Label = "tiger" },
-                new TeamDao { Id = 6, Label = "panther" },
-                new TeamDao { Id = 7, Label = "hibou" },
-                new TeamDao { Id = 8, Label = "linx" },
-                new TeamDao { Id = 9, Label = "caméléon" }
+                new TeamDao { Label = "girafe" },
+                new TeamDao { Label = "toucan" },
+                new TeamDao { Label = "phénix" },
+                new TeamDao { Label = "jaguar" },
+                new TeamDao { Label = "tiger" },
+                new TeamDao { Label = "panther" },
+                new TeamDao { Label = "hibou" },
+                new TeamDao { Label = "linx" },
+                new TeamDao { Label = "caméléon" }
             };
 
             context.Teams.AddRange(teams);
@@ -32,12 +31,12 @@ public static class DbInitializer
         {
             var products = new List<ProductDao>
             {
-                new ProductDao { Id = 1, Label = "ello hono", BusinessUnitId = 1},
-                new ProductDao { Id = 2, Label = "ello adjuster", BusinessUnitId = 1 },
-                new ProductDao { Id = 3, Label = "sinaps", BusinessUnitId = 1},
-                new ProductDao { Id = 4, Label = "push rec", BusinessUnitId = 1 },
-                new ProductDao { Id = 5, Label = "ello auto", BusinessUnitId = 2 },
-                new ProductDao { Id = 6, Label = "ello world", BusinessUnitId = 3 }
+                new ProductDao { Label = "ello hono", BusinessUnitId = 1},
+                new ProductDao { Label = "ello adjuster", BusinessUnitId = 1 },
+                new ProductDao { Label = "sinaps", BusinessUnitId = 1},
+                new ProductDao { Label = "push rec", BusinessUnitId = 1 },
+                new ProductDao { Label = "ello auto", BusinessUnitId = 2 },
+                new ProductDao { Label = "ello world", BusinessUnitId = 3 }
             };
 
             context.Products.AddRange(products);
@@ -48,10 +47,10 @@ public static class DbInitializer
         {
             var modules = new List<ModuleDao>
             {
-                new ModuleDao { Id = 1, Label = "socle", ProductId = 1},
-                new ModuleDao { Id = 2, Label = "in", ProductId = 1 },
-                new ModuleDao { Id = 3, Label = "out", ProductId = 1},
-                new ModuleDao { Id = 4, Label = "orchestrateur", ProductId = 1 }
+                new ModuleDao { Label = "socle", ProductId = 1},
+                new ModuleDao { Label = "in", ProductId = 1 },
+                new ModuleDao { Label = "out", ProductId = 1},
+                new ModuleDao { Label = "orchestrateur", ProductId = 1 }
             };
 
             context.Modules.AddRange(modules);
@@ -62,9 +61,9 @@ public static class DbInitializer
         {
             var activities = new List<ActivityDao>
             {
-                new ActivityDao { Id = 1, Label = "build" },
-                new ActivityDao { Id = 2, Label = "run" },
-                new ActivityDao { Id = 3, Label = "ingé quart" }
+                new ActivityDao { Label = "build" },
+                new ActivityDao { Label = "run" },
+                new ActivityDao { Label = "ingé quart" }
             };
 
             context.Activity.AddRange(activities);

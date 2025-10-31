@@ -42,12 +42,14 @@ builder.Services.AddScoped<IBaseRepository<TeamDao>, TeamRepository>();
 builder.Services.AddScoped<IBaseRepository<ProductDao>, ProductRepository>();
 builder.Services.AddScoped<IBaseRepository<ModuleDao>, ModuleRepository>();
 builder.Services.AddScoped<IBaseRepository<ActivityDao>, ActivityRepository>();
+builder.Services.AddScoped<ITimeEntryRepository, TimeEntryRepository>();
 
 // Injection des dépendances : Service
 builder.Services.AddScoped<IBaseService<TeamDto>, TeamService>();
 builder.Services.AddScoped<IBaseService<ProductDto>, ProductService>();
 builder.Services.AddScoped<IBaseService<ModuleDto>, ModuleService>();
 builder.Services.AddScoped<IBaseService<ActivityDto>, ActivityService>();
+builder.Services.AddScoped<ITimeEntryService, TimeEntryService>();
 
 builder.Logging.AddConsole();
 
