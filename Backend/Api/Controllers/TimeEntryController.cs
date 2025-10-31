@@ -18,13 +18,41 @@ public class TimeEntryController(ITimeEntryService timeEntryService) : Controlle
         return Ok(activities);
     }
     
+    [HttpGet("{date}")]
+    public async Task<IActionResult> GetByDate(DateTime date)
+    {
+        var result = await timeEntryService.GetByDateAsync(date);
+        return Ok(result);
+    }
+    
+    
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> UpdateActivityAsync(int id, [FromBody] TimeEntryCreateDto? timeEntry)
+    {
+        if (timeEntry is null) return BadRequest("Activity is null");
+        
+        timeEntry. Id = id;
+        var updated = await timeEntryService.UpdateAsync(timeEntry);
+        
+        return updated is null ? NotFound("TimeEntry could not be updated") : Ok(updated);
+    }
     
     [HttpPost]
-    public async Task<IActionResult> AddActivityAsync([FromBody] TimeEntryCreateDto? timeEntry)
+    public async Task<IActionResult> AddTimeEntryAsync([FromBody] TimeEntryCreateDto? timeEntry)
     {
         if (timeEntry is null) return BadRequest("Activity is null");
         var created = await timeEntryService.CreateAsync(timeEntry);
         return Ok(created);
     }
+    
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> DeleteTimeEntryAsync(int id)
+    {
+        bool isDeleted = await timeEntryService.DeleteAsync(id);
+        return isDeleted ? NoContent() : NotFound("TimeEntry not found");
+    }
+    
+    
+    
 
 }

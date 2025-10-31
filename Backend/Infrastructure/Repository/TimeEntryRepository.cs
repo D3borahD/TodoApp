@@ -8,9 +8,18 @@ namespace Infrastructure.Repository;
 public class TimeEntryRepository(AppDbContext context): ITimeEntryRepository
 {
     public async Task<List<TimeEntryDao>> GetAllAsync() =>  await context.TimeEntry.ToListAsync();
-    
-    public async Task<TimeEntryDao?> GetByIdAsync(int id) => await context.TimeEntry.FirstOrDefaultAsync(t => t.Id == id);
+  
+    public async Task<IEnumerable<TimeEntryDao>> GetByDateAsync(DateTime date)
+    {
+        return await context.TimeEntry
+            .Where(te => te.WorkDate.Date == date.Date)
+           // .Where(te => EF.Functions.Date(te.WorkDate) == EF.Functions.Date(date))
+            .ToListAsync();
+    }
 
+    public async Task<TimeEntryDao?> GetByIdAsync(int id) => await context.TimeEntry.FirstOrDefaultAsync(t => t.Id == id);
+    
+    
     public async Task<TimeEntryDao> CreateAsync(TimeEntryDao entity)
     {
         await context.TimeEntry.AddAsync(entity);
@@ -24,6 +33,7 @@ public class TimeEntryRepository(AppDbContext context): ITimeEntryRepository
         await context.SaveChangesAsync();
         return entity;
     }
+    
 
     public async Task DeleteAsync(int id)
     {
