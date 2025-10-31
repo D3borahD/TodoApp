@@ -9,6 +9,8 @@ public class AppDbContext : DbContext
     public DbSet<ProductDao> Products { get; set; }
     public DbSet<ModuleDao> Modules { get; set; }
     public DbSet<ActivityDao> Activity { get; set; }
+    
+    public DbSet<TimeEntryDao> TimeEntry { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -43,6 +45,13 @@ public class AppDbContext : DbContext
             .HasKey(m => m.Id);
 
         modelBuilder.Entity<ActivityDao>()
+            .Property(m => m.Id)
+            .ValueGeneratedOnAdd(); 
+        
+        modelBuilder.Entity<TimeEntryDao>()
+            .HasKey(m => m.Id);
+
+        modelBuilder.Entity<TimeEntryDao>()
             .Property(m => m.Id)
             .ValueGeneratedOnAdd(); 
     }

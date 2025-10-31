@@ -5,12 +5,17 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-public class ModuleService(IBaseRepository<ModuleDao> moduleRepository, ILogger<ModuleService> logger) : IBaseService<ModuleDto>
+public class ModuleService(
+    IBaseRepository<ModuleDao> moduleRepository, 
+    IBaseRepository<ProductDao> productRepository, 
+    ILogger<ModuleService> logger) : IBaseService<ModuleDto>
 {
+    
     public async Task<List<ModuleDto>> GetAllAsync()
     {
         logger.LogInformation("Getting all modules.");
         var modules = await moduleRepository.GetAllAsync();
+//var products: await productRepository.GetAllAsync();
 
         if (!modules.Any())
         {
@@ -21,8 +26,8 @@ public class ModuleService(IBaseRepository<ModuleDao> moduleRepository, ILogger<
         return modules.Select(m => new ModuleDto
         {
             Id = m.Id,
-            Label =  m.Label,
-            ProductId = m.ProductId
+            Label =  m.Label
+           
         }).ToList();
     }
     
@@ -41,7 +46,7 @@ public class ModuleService(IBaseRepository<ModuleDao> moduleRepository, ILogger<
         {
             Id = module.Id,
             Label = module.Label,
-            ProductId = module.ProductId
+         
         };
     }
 
@@ -52,7 +57,7 @@ public class ModuleService(IBaseRepository<ModuleDao> moduleRepository, ILogger<
         ModuleDao moduleDao = new ModuleDao()
         {
             Label = moduleDto.Label.ToLower(),
-            ProductId = moduleDto.ProductId
+     
         };
         
         var createdModule = await moduleRepository.CreateAsync(moduleDao);
@@ -61,7 +66,7 @@ public class ModuleService(IBaseRepository<ModuleDao> moduleRepository, ILogger<
         {
             Id = createdModule.Id,
             Label = createdModule.Label,
-            ProductId = createdModule.ProductId
+         
         };
     }
 
@@ -75,17 +80,19 @@ public class ModuleService(IBaseRepository<ModuleDao> moduleRepository, ILogger<
         }
 
         moduleDao.Label = moduleDto.Label.ToLower();
-        moduleDao.ProductId = moduleDto.ProductId;
+      //  moduleDao.ProductId = moduleDto.Products.Id;
 
         var updatedModule = await moduleRepository.UpdateAsync(moduleDao);
         if (updatedModule == null) return null;
 
-        return new ModuleDto()
-        {
-            Id = updatedModule.Id,
-            Label = updatedModule.Label,
-            ProductId = updatedModule.ProductId
-        };
+        if (updatedModule.ProductId != null)
+            return new ModuleDto()
+            {
+                Id = updatedModule.Id,
+                Label = updatedModule.Label,
+               
+            };
+        return null;
     }
 
     public async Task<bool> DeleteAsync(int id)
