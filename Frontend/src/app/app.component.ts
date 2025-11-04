@@ -1,11 +1,10 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {Observable, of, Subscription} from 'rxjs';
-import {AsyncPipe} from '@angular/common';
+import {RouterLink, RouterOutlet} from '@angular/router';
+import {Observable,} from 'rxjs';
+
 import {TeamService} from './core/services/team.service';
 import {ITeam} from './core/models/team.model';
-import {NgFor} from '@angular/common';
-import {TasksComponent} from './tasks/tasks.component';
+
 import {ReactiveFormsModule} from '@angular/forms';
 
 @Component({
