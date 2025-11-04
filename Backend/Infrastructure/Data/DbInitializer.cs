@@ -9,6 +9,8 @@ public static class DbInitializer
     {
         // Appliquer les migrations si besoin
         await context.Database.MigrateAsync();
+     
+        if (!context.Teams.Any())
         {
             var teams = new List<TeamDao>
             {
@@ -19,12 +21,12 @@ public static class DbInitializer
                 new TeamDao { Label = "tiger" },
                 new TeamDao { Label = "panther" },
                 new TeamDao { Label = "hibou" },
-                new TeamDao { Label = "linx" },
+                new TeamDao { Label = "lynx" },
                 new TeamDao { Label = "caméléon" }
             };
 
             context.Teams.AddRange(teams);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(); 
         }
         
         if (!context.Products.Any())
