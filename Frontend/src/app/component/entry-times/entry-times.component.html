@@ -1,0 +1,67 @@
+<div class="header">
+  <img src="{{currentUserTeam.imageUrl}}" alt="{{currentUserTeam.label}}">
+  <h2>{{ currentDate | date: 'MMMM' }}</h2>
+</div>
+
+<!--Filtrer les Produits par équipe-->
+<!--<mat-form-field>
+  <mat-label>Team</mat-label>
+  <mat-select >
+    @for (team of teams; track team.id) {
+      <mat-option [value]="team.id"><img src="{{team.imageUrl}}" alt="{{team.label}}"></mat-option>
+    }
+  </mat-select>
+</mat-form-field>-->
+
+<mat-form-field>
+  <mat-label>Product</mat-label>
+  <mat-select >
+    @for (p of products; track p.id) {
+      <mat-option [value]="p.id">{{p.label}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Module</mat-label>
+  <mat-select >
+    @for (m of modules; track m.id) {
+      <mat-option [value]="m.id">{{m.label}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Activity</mat-label>
+  <mat-select >
+    @for (a of activities; track a.id) {
+      <mat-option [value]="a.id">{{a.label}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Workload</mat-label>
+  <mat-select >
+    @for (w of workloads; track w) {
+      <mat-option [value]=" w">{{ w}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+
+
+
+
+<mat-card class="example-card" appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Période : {{ currentDate | date: 'dd-MM-YYYY' }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+ <!--table-->
+
+  </mat-card-content>
+  <mat-card-actions>
+   <!-- <button matButton>Save</button>-->
+  </mat-card-actions>
+</mat-card>
