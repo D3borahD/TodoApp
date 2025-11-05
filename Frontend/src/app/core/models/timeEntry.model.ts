@@ -1,7 +1,3 @@
-import {Activity} from './activity.model';
-import {Module} from './module.model';
-import {Product} from './product.model';
-import {ITeam} from './team.model';
 import {Workload} from './workload.enum';
 
 export interface ITimeEntry{
@@ -9,10 +5,10 @@ export interface ITimeEntry{
   userId: number
   workDate: string
   workload: Workload
-  activity: Activity
-  team?: ITeam
-  product?: Product
-  module?: Module
+  activityId: number
+  teamId: number
+  productId: number
+  moduleId: number
   specificProjectId: number
   comment: string
 }

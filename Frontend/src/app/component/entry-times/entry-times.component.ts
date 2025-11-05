@@ -10,9 +10,12 @@ import {ModuleService} from '../../core/services/module.service';
 import {Activity} from '../../core/models/activity.model';
 import {ActivityService} from '../../core/services/activity.service';
 import {Workload} from '../../core/models/workload.enum';
-import {FormsModule} from '@angular/forms';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Product} from '../../core/models/product.model';
 import {ProductService} from '../../core/services/product.service';
+import {TimeEntryService} from '../../core/services/timeEntry.service';
+import {ITimeEntry} from '../../core/models/timeEntry.model';
+import {MatOptionModule} from '@angular/material/core';
 
 @Component({
   selector: 'app-entry-times',
@@ -28,7 +31,9 @@ import {ProductService} from '../../core/services/product.service';
     MatFormField,
     MatSelect,
     MatOption,
-    FormsModule
+    MatOptionModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: './entry-times.component.html',
   styleUrl: './entry-times.component.scss'
@@ -39,6 +44,7 @@ export class EntryTimesComponent implements OnInit {
     @Inject(ModuleService) private moduleService: ModuleService,
     @Inject(ActivityService) private activityService: ActivityService,
     @Inject(ProductService) private productService: ProductService,
+    @Inject(TimeEntryService) private timeEntryService: TimeEntryService,
   ) {}
 
   public currentDate = new Date();
@@ -47,7 +53,22 @@ export class EntryTimesComponent implements OnInit {
   public products!: Product[];
   public modules!: Module[];
   public activities!: Activity[];
+  public timeEntry!: ITimeEntry;
   public workloads:(string | Workload)[] = Object.values(Workload).filter(v => typeof v === 'number') as Workload[];
+
+
+  public entryTimesForm= new FormGroup({
+    id: new FormControl(1),
+    userId: new FormControl(1),
+    workDate: new FormControl(new Date().toString()),
+    workload: new FormControl<Workload | null>(Workload.None, [Validators.required]),
+    activityId: new FormControl<number | null>(null, [Validators.required]),
+    teamId: new FormControl<number | null>(null, [Validators.required]),
+    productId: new FormControl<number | null>(null, [Validators.required]),
+    moduleId: new FormControl<number | null>(null, [Validators.required]),
+    specificProjectId: new FormControl<number | null>(null),
+    comment: new FormControl(null)
+  });
 
 
   ngOnInit() {
@@ -103,5 +124,35 @@ export class EntryTimesComponent implements OnInit {
   }
 
 
+  addEntryTimes() {
+    if (this.entryTimesForm.invalid) {
+      console.warn('Le formulaire est invalide');
+      return;
+    }
 
+    const formValue = this.entryTimesForm.value;
+    console.log('Form values:', formValue);
+
+    // ✅ Met à jour ton modèle de manière typée
+    const timeEntry: ITimeEntry = {
+      id: 1,
+      userId: 1,
+      workDate: formValue.workDate ? new Date(formValue.workDate).toISOString() : new Date().toISOString(),
+      workload: formValue.workload!,
+      activityId: formValue.activityId!,
+      teamId: formValue.teamId!,
+      productId: formValue.productId!,
+      moduleId: formValue.moduleId!,
+      specificProjectId: formValue.specificProjectId ?? 0,
+      comment: formValue.comment ?? '',
+    };
+
+    console.log('Updated timeEntry:', timeEntry);
+
+    this.timeEntryService.addTimeEntry(timeEntry).subscribe({
+      next: res => console.log('Success', res),
+      error: err => console.error('Error', err)
+    });
+
+  }
 }
