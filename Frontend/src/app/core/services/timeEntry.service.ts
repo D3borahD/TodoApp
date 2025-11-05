@@ -1,25 +1,29 @@
-import {Injectable, signal, WritableSignal} from '@angular/core';
+import {Inject, Injectable, signal, WritableSignal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Task} from '../models/task.model';
+import {Observable} from 'rxjs';
+import {APP_CONFIG, AppConfig} from '../../app.config';
+import {ITimeEntry} from '../models/timeEntry.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TaskService {
+export class TimeEntryService {
+  private readonly baseURL!:string;
 
-  private _tasks = signal<Task[]>([]);
-  public readonly tasks = this._tasks.asReadonly();
-
-  private shortUrl: string = "http://localhost:5062/api/Tasks"
-
-  constructor(private readonly http: HttpClient) {
-    this.loadTasks();
+  constructor(
+    private readonly http: HttpClient,
+    @Inject(APP_CONFIG) private config: AppConfig
+  ) {
+    this.baseURL = `${config.apiBaseUrl}/TimeEntry`;
   }
 
-  private loadTasks() {
-    this.http.get<Task[]>(`${this.shortUrl}/tasks`).subscribe(tasks => {
-      this._tasks.set(tasks);
-    });
+  public getTimeEntries() {
+    this.http.get<ITimeEntry[]>(this.baseURL);
+  }
+
+  public addTimeEntry(timeEntry:ITimeEntry):Observable<ITimeEntry>
+  {
+    return this.http.post<ITimeEntry>(this.baseURL, timeEntry)
   }
 
 }
