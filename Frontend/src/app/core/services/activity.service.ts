@@ -17,7 +17,7 @@ export class ActivityService {
     this.baseURL = `${config.apiBaseUrl}/Activity`;
   }
 
-  public getActivities(): Observable<Activity[]>{
+  public getActivities$(): Observable<Activity[]>{
     return this.http.get<Activity[]>(this.baseURL);
   }
 }

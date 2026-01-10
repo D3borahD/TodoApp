@@ -17,7 +17,7 @@ export class ModuleService {
     this.baseURL = `${config.apiBaseUrl}/Modules`;
   }
 
-  public getModules(): Observable<Module[]> {
+  public getModules$(): Observable<Module[]> {
     return this.http.get<Module[]>(`${this.baseURL}`);
   }
 }

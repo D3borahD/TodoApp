@@ -2,7 +2,7 @@ import {Inject, Injectable, signal, WritableSignal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {APP_CONFIG, AppConfig} from '../../app.config';
-import {ITimeEntry} from '../models/timeEntry.model';
+import {ITimeEntry, ITimeEntryFull} from '../models/timeEntry.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,8 @@ export class TimeEntryService {
     this.baseURL = `${config.apiBaseUrl}/TimeEntry`;
   }
 
-  public getTimeEntries() {
-    this.http.get<ITimeEntry[]>(this.baseURL);
+  public getTimeEntries(): Observable<ITimeEntryFull[]> {
+    return this.http.get<ITimeEntryFull[]>(this.baseURL);
   }
 
   public addTimeEntry(timeEntry:ITimeEntry):Observable<ITimeEntry>

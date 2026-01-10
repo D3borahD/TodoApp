@@ -2,7 +2,6 @@ import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {APP_CONFIG, AppConfig} from '../../app.config';
 import {Observable} from 'rxjs';
-import {Activity} from '../models/activity.model';
 import {Product} from '../models/product.model';
 
 @Injectable({
@@ -17,7 +16,7 @@ export class ProductService {
     this.baseURL = `${config.apiBaseUrl}/Products`;
   }
 
-  public getProducts(): Observable<Product[]>{
+  public getProducts$(): Observable<Product[]>{
     return this.http.get<Product[]>(this.baseURL);
   }
 }

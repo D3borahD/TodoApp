@@ -17,13 +17,9 @@ export class TeamService {
     this.baseURL = `${config.apiBaseUrl}/Teams`;
   }
 
-  public getTeams(): Observable<ITeam[]>
+  public getTeams$(): Observable<ITeam[]>
   {
     return this.http.get<ITeam[]>(this.baseURL)
   }
 
-  public addUserTeam(team:ITeam):Observable<ITeam>
-  {
-    return this.http.post<ITeam>(this.baseURL, team)
-  }
 }
