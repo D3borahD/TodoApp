@@ -28,7 +28,7 @@ export class AppComponent {
   constructor(private readonly teamService: TeamService) {}
 
   ngOnInit(): void {
-    this.teamList$ = this.teamService.getTeams();
+    this.teamList$ = this.teamService.getTeams$();
   }
 
   selectTeam(teamName: string): void {

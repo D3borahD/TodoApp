@@ -1,76 +1,49 @@
-<div class="header">
-  <img src="{{currentUserTeam.imageUrl}}" alt="{{currentUserTeam.label}}">
-  <h2>{{ currentDate | date: 'MMMM' }}</h2>
-</div>
 
 
 <h2>je suis le formulaire : </h2>
-<form [formGroup]="entryTimesForm" (ngSubmit)="addEntryTimes()">
-  <!--Filtrer les Produits par équipe-->
+
+<form id="entryTimesForm" [formGroup]="entryTimesForm" (ngSubmit)="onSubmit()">
   <mat-form-field>
-    <mat-label>Team</mat-label>
+    <mat-label>Teams</mat-label>
     <mat-select formControlName="teamId">
-      @for (team of teams; track team.id) {
+      @for (team of teams$ | async; track team.id) {
         <mat-option [value]="team.id">{{team.label}}</mat-option>
       }
     </mat-select>
   </mat-form-field>
-
   <mat-form-field>
-    <mat-label>Product</mat-label>
-    <mat-select formControlName="productId" >
-      @for (p of products; track p.id) {
-        <mat-option [value]="p.id">{{p.label}}</mat-option>
+    <mat-label>Products</mat-label>
+    <mat-select formControlName="productId">
+      @for (product of products$ | async; track product.id) {
+        <mat-option [value]="product.id">{{product.label}}</mat-option>
       }
     </mat-select>
   </mat-form-field>
-
   <mat-form-field>
-    <mat-label>Module</mat-label>
+    <mat-label>Modules</mat-label>
     <mat-select formControlName="moduleId">
-      @for (m of modules; track m.id) {
-        <mat-option [value]="m.id">{{m.label}}</mat-option>
+      @for (module of modules$ | async; track module.id) {
+        <mat-option [value]="module.id">{{module.label}}</mat-option>
       }
     </mat-select>
   </mat-form-field>
-
   <mat-form-field>
-    <mat-label>Activity</mat-label>
+    <mat-label>Activities</mat-label>
     <mat-select formControlName="activityId">
-      @for (a of activities; track a.id) {
-        <mat-option [value]="a.id">{{a.label}}</mat-option>
+      @for (activity of activities$ | async; track activity.id) {
+        <mat-option [value]="activity.id">{{activity.label}}</mat-option>
       }
     </mat-select>
   </mat-form-field>
-
   <mat-form-field>
     <mat-label>Workload</mat-label>
     <mat-select formControlName="workload">
-      @for (w of workloads; track w) {
-        <mat-option [value]=" w">{{ w}}</mat-option>
+      @for (workload of workloads$ | async; track workload.value) {
+        <mat-option [value]="workload.value">{{workload.label}}</mat-option>
       }
     </mat-select>
   </mat-form-field>
 
+  <button type="submit">Sauvegarder</button>
 
-  <button type="submit">save</button>
 </form>
-
-
-
-
-
-
-
-<mat-card class="example-card" appearance="outlined">
-  <mat-card-header>
-    <mat-card-title>Période : {{ currentDate | date: 'dd-MM-YYYY' }}</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
- <!--table-->
-
-  </mat-card-content>
-  <mat-card-actions>
-   <!-- <button matButton>Save</button>-->
-  </mat-card-actions>
-</mat-card>
