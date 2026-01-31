@@ -2,8 +2,6 @@ namespace Domain.DTO;
 
 public class TimeEntryDto
 {
-    
-    
     public int Id { get; set; }
     public int UserId { get; set; }
     public DateTime WorkDate { get; set; }

@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, effect, inject, OnInit} from '@angular/core';
 import {TeamService} from '../../core/services/team.service';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators,} from '@angular/forms';
 import {MatOptionModule} from '@angular/material/core';
@@ -8,10 +8,20 @@ import {AsyncPipe} from '@angular/common';
 import {ProductService} from '../../core/services/product.service';
 import {ModuleService} from '../../core/services/module.service';
 import {ActivityService} from '../../core/services/activity.service';
-import {ITimeEntry} from '../../core/models/timeEntry.model';
-import {of} from 'rxjs';
+import {ITimeEntry, ITimeEntryFull} from '../../core/models/timeEntry.model';
+import {Observable, of} from 'rxjs';
 import {Workload, WORKLOAD_OPTIONS} from '../../core/models/workload.model';
 import {TimeEntryService} from '../../core/services/timeEntry.service';
+import {MatTab, MatTabGroup} from '@angular/material/tabs';
+import {
+  MatCell, MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow, MatHeaderRowDef,
+  MatRow, MatRowDef,
+  MatTable, MatTableDataSource
+} from '@angular/material/table';
 
 @Component({
   selector: 'app-entry-times',
@@ -24,17 +34,29 @@ import {TimeEntryService} from '../../core/services/timeEntry.service';
     MatSelect,
     MatLabel,
     MatOptionModule,
+    MatTabGroup,
+    MatTab,
+    MatTable,
+    MatHeaderCell,
+    MatCell,
+    MatHeaderRow,
+    MatRow,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatHeaderRowDef,
+    MatRowDef,
+    MatCellDef,
   ],
   templateUrl: './entry-times.component.html',
   styleUrl: './entry-times.component.scss'
 })
-export class EntryTimesComponent {
+export class EntryTimesComponent implements OnInit {
   private teamService: TeamService = inject(TeamService);
   private productService: ProductService = inject(ProductService);
   private moduleService: ModuleService = inject(ModuleService);
   private activityService: ActivityService = inject(ActivityService);
   private formBuilder: FormBuilder = inject(FormBuilder);
-  private timeEntryService: TimeEntryService = inject(TimeEntryService);
+  protected timeEntryService: TimeEntryService = inject(TimeEntryService);
 
   public readonly workloads$ = of(WORKLOAD_OPTIONS)
 
@@ -43,6 +65,7 @@ export class EntryTimesComponent {
   public modules$ = this.moduleService.getModules$();
   public activities$ = this.activityService.getActivities$();
   public entryTimes!: ITimeEntry;
+  public entryTimes$!: Observable<ITimeEntryFull[]>;
 
   public entryTimesForm = this.formBuilder.group({
     teamId: [0],
@@ -55,30 +78,22 @@ export class EntryTimesComponent {
     comment: [''],
   })
 
-  onSubmit() {
-    const formValue = this.entryTimesForm.getRawValue();
+  dataSource!:  MatTableDataSource<ITimeEntryFull>;
+  displayedColumns: string[] = ['product', 'module', 'activity', 'workload'];
 
-    if (!formValue.workDate || !formValue.workload) {
-      return;
-    }
+  ngOnInit() {
+    this.timeEntryService.loadEntries();
 
-    const entry: ITimeEntry = {
-      userId: 1,
-      teamId: formValue.teamId,
-      workDate: new Date(formValue.workDate).toISOString(),
-      workload: formValue.workload,
-      productId: formValue.productId,
-      moduleId: formValue.moduleId,
-      activityId: formValue.activityId,
-      specificProjectId: formValue.specificProjectId,
-      comment: formValue.comment,
-    };
-
-    this.entryTimes = entry;
-
-    this.timeEntryService.addTimeEntry(entry).subscribe({
-      next: res => console.log('Réponse API:', res),
-      error: err => console.error('Erreur API:', err)
+    effect(() => {
+      this.dataSource.data = this.timeEntryService.entries();
     });
+  }
+
+  onSubmit() {
+    if (this.entryTimesForm.invalid) return;
+
+    this.timeEntryService.addTimeEntry(
+      this.entryTimesForm.getRawValue() as any
+    );
   }
 }
