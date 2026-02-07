@@ -1,8 +1,8 @@
 import {Component, effect, inject, OnInit} from '@angular/core';
 import {TeamService} from '../../core/services/team.service';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators,} from '@angular/forms';
-import {MatOptionModule} from '@angular/material/core';
-import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatNativeDateModule, MatOptionModule} from '@angular/material/core';
+import {MatFormField, MatFormFieldModule, MatLabel} from '@angular/material/form-field';
 import {MatSelect} from '@angular/material/select';
 import {AsyncPipe} from '@angular/common';
 import {ProductService} from '../../core/services/product.service';
@@ -20,8 +20,15 @@ import {
   MatHeaderCellDef,
   MatHeaderRow, MatHeaderRowDef,
   MatRow, MatRowDef,
-  MatTable, MatTableDataSource
+  MatTable, MatTableDataSource,
 } from '@angular/material/table';
+import {
+  MatDatepicker,
+  MatDatepickerInput,
+  MatDatepickerModule,
+  MatDatepickerToggle
+} from '@angular/material/datepicker';
+import {MatInput, MatInputModule} from '@angular/material/input';
 
 @Component({
   selector: 'app-entry-times',
@@ -46,11 +53,20 @@ import {
     MatHeaderRowDef,
     MatRowDef,
     MatCellDef,
+    MatDatepickerInput,
+    MatInput,
+    MatDatepickerToggle,
+    MatDatepicker,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,  // Required for mat-form-field and mat-hint
+    MatInputModule,
   ],
   templateUrl: './entry-times.component.html',
   styleUrl: './entry-times.component.scss'
 })
 export class EntryTimesComponent implements OnInit {
+
   private teamService: TeamService = inject(TeamService);
   private productService: ProductService = inject(ProductService);
   private moduleService: ModuleService = inject(ModuleService);
@@ -69,7 +85,7 @@ export class EntryTimesComponent implements OnInit {
 
   public entryTimesForm = this.formBuilder.group({
     teamId: [0],
-    workDate: this.formBuilder.control<Date | null>(new Date(), [Validators.required]),
+    workDate: this.formBuilder.control<Date | null>(this.getTodayInFrance(), [Validators.required]),
     workload: this.formBuilder.control<Workload | null>(null, Validators.required),
     productId: [0, [Validators.required]],
     moduleId: [0, [Validators.required]],
@@ -81,6 +97,7 @@ export class EntryTimesComponent implements OnInit {
   dataSource!:  MatTableDataSource<ITimeEntryFull>;
   displayedColumns: string[] = ['product', 'module', 'activity', 'workload'];
 
+
   ngOnInit() {
     this.timeEntryService.loadEntries();
 
@@ -89,6 +106,10 @@ export class EntryTimesComponent implements OnInit {
     });
   }
 
+
+  private getTodayInFrance(): Date {
+    return new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Paris' }));
+  }
   onSubmit() {
     if (this.entryTimesForm.invalid) return;
 
