@@ -1,10 +1,10 @@
-import {Component, effect, inject, OnInit} from '@angular/core';
+import {Component, effect, inject, LOCALE_ID, OnInit} from '@angular/core';
 import {TeamService} from '../../core/services/team.service';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators,} from '@angular/forms';
-import {MatNativeDateModule, MatOptionModule} from '@angular/material/core';
+import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from '@angular/material/core';
 import {MatFormField, MatFormFieldModule, MatLabel} from '@angular/material/form-field';
 import {MatSelect} from '@angular/material/select';
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, registerLocaleData} from '@angular/common';
 import {ProductService} from '../../core/services/product.service';
 import {ModuleService} from '../../core/services/module.service';
 import {ActivityService} from '../../core/services/activity.service';
@@ -29,6 +29,10 @@ import {
   MatDatepickerToggle
 } from '@angular/material/datepicker';
 import {MatInput, MatInputModule} from '@angular/material/input';
+import localeFr from '@angular/common/locales/fr';
+import {MatIcon} from '@angular/material/icon';
+
+registerLocaleData(localeFr);
 
 @Component({
   selector: 'app-entry-times',
@@ -61,6 +65,11 @@ import {MatInput, MatInputModule} from '@angular/material/input';
     MatNativeDateModule,
     MatFormFieldModule,  // Required for mat-form-field and mat-hint
     MatInputModule,
+    MatIcon,
+  ],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'fr-FR' },
+    { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }
   ],
   templateUrl: './entry-times.component.html',
   styleUrl: './entry-times.component.scss'
@@ -84,18 +93,18 @@ export class EntryTimesComponent implements OnInit {
   public entryTimes$!: Observable<ITimeEntryFull[]>;
 
   public entryTimesForm = this.formBuilder.group({
-    teamId: [0],
-    workDate: this.formBuilder.control<Date | null>(this.getTodayInFrance(), [Validators.required]),
-    workload: this.formBuilder.control<Workload | null>(null, Validators.required),
-    productId: [0, [Validators.required]],
-    moduleId: [0, [Validators.required]],
     activityId: [0, [Validators.required]],
-    specificProjectId: [0],
     comment: [''],
+    moduleId: [0, [Validators.required]],
+    productId: [0, [Validators.required]],
+    specificProjectId: [0],
+    teamId: [0],
+    workDate: this.formBuilder.control<Date | null>(new Date(), [Validators.required]),
+    workload: this.formBuilder.control<Workload | null>(null, Validators.required),
   })
 
   dataSource!:  MatTableDataSource<ITimeEntryFull>;
-  displayedColumns: string[] = ['product', 'module', 'activity', 'workload'];
+  displayedColumns: string[] = ['id', 'product', 'module', 'activity', 'workload', 'delete'];
 
 
   ngOnInit() {
@@ -107,14 +116,20 @@ export class EntryTimesComponent implements OnInit {
   }
 
 
-  private getTodayInFrance(): Date {
-    return new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Paris' }));
-  }
+
   onSubmit() {
     if (this.entryTimesForm.invalid) return;
 
     this.timeEntryService.addTimeEntry(
       this.entryTimesForm.getRawValue() as any
     );
+  }
+
+  show(row:ITimeEntryFull) {
+    console.log('row', row);
+  }
+
+  delete(element:ITimeEntryFull) {
+    this.timeEntryService.deleteTimeEntry(element.id);
   }
 }

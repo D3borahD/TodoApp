@@ -1,6 +1,5 @@
-import {Inject, Injectable, signal, WritableSignal} from '@angular/core';
+import {Inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
 import {APP_CONFIG, AppConfig} from '../../app.config';
 import {ITimeEntry, ITimeEntryFull} from '../models/timeEntry.model';
 
@@ -43,6 +42,17 @@ export class TimeEntryService {
           ...entries
         ]);
       });
+  }
+
+  // use Signal to update table
+  public deleteTimeEntry(id:number):void{
+    console.log('id ', id)
+    this.http.delete<ITimeEntryFull[]>(`${this.baseURL}/${id}`)
+      .subscribe({
+        next: () => {
+          this._entries.update(entries => entries.filter(entry => entry.id !== id))
+        }}
+    )
   }
 
 }
