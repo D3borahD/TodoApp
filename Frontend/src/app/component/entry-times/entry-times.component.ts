@@ -1,10 +1,10 @@
 import {Component, effect, inject, LOCALE_ID, OnInit} from '@angular/core';
 import {TeamService} from '../../core/services/team.service';
-import {FormBuilder, FormsModule, ReactiveFormsModule, Validators,} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators,} from '@angular/forms';
 import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from '@angular/material/core';
 import {MatFormField, MatFormFieldModule, MatLabel} from '@angular/material/form-field';
 import {MatSelect} from '@angular/material/select';
-import {AsyncPipe, registerLocaleData} from '@angular/common';
+import {AsyncPipe, DatePipe, registerLocaleData} from '@angular/common';
 import {ProductService} from '../../core/services/product.service';
 import {ModuleService} from '../../core/services/module.service';
 import {ActivityService} from '../../core/services/activity.service';
@@ -66,6 +66,7 @@ registerLocaleData(localeFr);
     MatFormFieldModule,  // Required for mat-form-field and mat-hint
     MatInputModule,
     MatIcon,
+    DatePipe,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr-FR' },
@@ -103,16 +104,35 @@ export class EntryTimesComponent implements OnInit {
     workload: this.formBuilder.control<Workload | null>(null, Validators.required),
   })
 
+
+
   dataSource!:  MatTableDataSource<ITimeEntryFull>;
-  displayedColumns: string[] = ['id', 'product', 'module', 'activity', 'workload', 'delete'];
+
+  displayedColumns: string[] = ['id', 'workDate','product', 'module', 'activity', 'workload', 'delete'];
+
+  public updateEntriesForm: FormGroup = new FormGroup({
+    id: new FormControl(Number, [Validators.required]),
+    userId: new FormControl(null, [Validators.required]),
+    workDate: new FormControl(null, [Validators.required]),
+    workload: new FormControl(null, [Validators.required]),
+    productId: new FormControl('', [Validators.required]),
+    teamId: new FormControl('', [Validators.required]),
+    moduleId: new FormControl('', [Validators.required]),
+    activityId: new FormControl('', [Validators.required]),
+    specificProjectId: new FormControl(''),
+    comment: new FormControl(null),
+  });
 
 
   ngOnInit() {
     this.timeEntryService.loadEntries();
+    console.log('datasource : ', this.timeEntryService.loadEntries());
 
     effect(() => {
       this.dataSource.data = this.timeEntryService.entries();
+
     });
+
   }
 
 
@@ -125,8 +145,28 @@ export class EntryTimesComponent implements OnInit {
     );
   }
 
-  show(row:ITimeEntryFull) {
-    console.log('row', row);
+  update(row:ITimeEntryFull) {
+    console.log('row', row.id);
+
+    const update = {
+      id: row.id,
+      userId: 22,
+      workDate: row.workDate,
+      workload: row.workload,
+      productId: row.product.id,
+      teamId: 2,
+      moduleId: row.module.id,
+      activityId: row.activity.id,
+      specificProjectId: 0,
+      comment: row.comment,
+    }
+
+    this.updateEntriesForm.setValue(update);
+    this.updateEntriesForm.getRawValue();
+
+    console.log('update', this.updateEntriesForm);
+
+    this.timeEntryService.updateEntryTimes(this.updateEntriesForm.getRawValue())
   }
 
   delete(element:ITimeEntryFull) {

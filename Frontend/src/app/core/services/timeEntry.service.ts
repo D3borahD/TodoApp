@@ -2,6 +2,7 @@ import {Inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {APP_CONFIG, AppConfig} from '../../app.config';
 import {ITimeEntry, ITimeEntryFull} from '../models/timeEntry.model';
+import {C} from '@angular/cdk/keycodes';
 
 @Injectable({
   providedIn: 'root'
@@ -38,10 +39,24 @@ export class TimeEntryService {
             product: createdEntry.product ?? { id: 0, label: 'inconnu' },
             module: createdEntry.module ?? { id: 0, label: 'inconnu' },
             activity: createdEntry.activity ?? { id: 0, label: 'inconnu' },
+            workDate : createdEntry.workDate ?? new Date
           },
           ...entries
         ]);
       });
+  }
+
+  public updateEntryTimes(timeEntry:ITimeEntry):void{
+    this.http.put<ITimeEntryFull>(`${this.baseURL}/${timeEntry.id}`, timeEntry)
+      .subscribe(updatedEntry => {
+        this._entries.update(entries =>
+          entries.map(entry =>
+            entry.id === updatedEntry.id
+              ? { ...entry, ...updatedEntry }
+              : entry
+          )
+        )}
+    )
   }
 
   // use Signal to update table
