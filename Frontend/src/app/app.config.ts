@@ -4,6 +4,7 @@ import { routes } from './app.routes';
 import {provideHttpClient, withJsonpSupport} from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {environment} from '../environments/environment.development';
+import {provideNativeDateAdapter} from '@angular/material/core';
 
 export interface AppConfig {
   apiBaseUrl: string;
@@ -20,6 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(withJsonpSupport()),
+    provideNativeDateAdapter(),
     provideAnimationsAsync(),
     {
       provide: APP_CONFIG,

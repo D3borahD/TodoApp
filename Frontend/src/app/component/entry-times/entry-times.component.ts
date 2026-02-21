@@ -1,4 +1,4 @@
-import {Component, effect, inject, LOCALE_ID, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, inject, LOCALE_ID, OnInit} from '@angular/core';
 import {TeamService} from '../../core/services/team.service';
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators,} from '@angular/forms';
 import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from '@angular/material/core';
@@ -31,12 +31,13 @@ import {
 import {MatInput, MatInputModule} from '@angular/material/input';
 import localeFr from '@angular/common/locales/fr';
 import {MatIcon} from '@angular/material/icon';
+import { MatDialog} from '@angular/material/dialog';
+import {EditDialogComponent} from '../edit-dialog/edit-dialog.component';
 
 registerLocaleData(localeFr);
 
 @Component({
-  selector: 'app-entry-times',
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -69,11 +70,13 @@ registerLocaleData(localeFr);
     DatePipe,
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'fr-FR' },
-    { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }
+    {provide: LOCALE_ID, useValue: 'fr-FR'},
+    {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'}
   ],
+  selector: 'app-entry-times',
+  standalone: true,
+  styleUrl: './entry-times.component.scss',
   templateUrl: './entry-times.component.html',
-  styleUrl: './entry-times.component.scss'
 })
 export class EntryTimesComponent implements OnInit {
 
@@ -83,6 +86,7 @@ export class EntryTimesComponent implements OnInit {
   private activityService: ActivityService = inject(ActivityService);
   private formBuilder: FormBuilder = inject(FormBuilder);
   protected timeEntryService: TimeEntryService = inject(TimeEntryService);
+  private readonly dialog = inject(MatDialog);
 
   public readonly workloads$ = of(WORKLOAD_OPTIONS)
 
@@ -104,11 +108,9 @@ export class EntryTimesComponent implements OnInit {
     workload: this.formBuilder.control<Workload | null>(null, Validators.required),
   })
 
-
-
+  private selectedRow: ITimeEntryFull | null = null;
   dataSource!:  MatTableDataSource<ITimeEntryFull>;
-
-  displayedColumns: string[] = ['id', 'workDate','product', 'module', 'activity', 'workload', 'delete'];
+  displayedColumns: string[] = ['id', 'workDate','product', 'module', 'activity', 'workload', 'delete', 'edit'];
 
   public updateEntriesForm: FormGroup = new FormGroup({
     id: new FormControl(Number, [Validators.required]),
@@ -123,53 +125,61 @@ export class EntryTimesComponent implements OnInit {
     comment: new FormControl(null),
   });
 
-
   ngOnInit() {
     this.timeEntryService.loadEntries();
     console.log('datasource : ', this.timeEntryService.loadEntries());
 
     effect(() => {
       this.dataSource.data = this.timeEntryService.entries();
-
     });
-
   }
-
-
 
   onSubmit() {
     if (this.entryTimesForm.invalid) return;
-
     this.timeEntryService.addTimeEntry(
       this.entryTimesForm.getRawValue() as any
     );
   }
 
   update(row:ITimeEntryFull) {
-    console.log('row', row.id);
-
+    this.selectedRow = row;
     const update = {
       id: row.id,
-      userId: 22,
+      userId: row.userId,
       workDate: row.workDate,
       workload: row.workload,
-      productId: row.product.id,
-      teamId: 2,
-      moduleId: row.module.id,
-      activityId: row.activity.id,
-      specificProjectId: 0,
+      productId: row.product?.id ?? 0,
+      teamId: row.team?.id ?? 0,
+      moduleId: row.module.id ?? 0,
+      activityId: row.activity.id ?? 0,
+      specificProjectId: row.specificProjectId ?? 0,
       comment: row.comment,
     }
-
     this.updateEntriesForm.setValue(update);
-    this.updateEntriesForm.getRawValue();
-
-    console.log('update', this.updateEntriesForm);
-
-    this.timeEntryService.updateEntryTimes(this.updateEntriesForm.getRawValue())
   }
 
-  delete(element:ITimeEntryFull) {
+  cancelEdit(){
+    this.selectedRow = null;
+    this.updateEntriesForm.reset();
+  }
+
+  public delete(element:ITimeEntryFull) {
     this.timeEntryService.deleteTimeEntry(element.id);
+  }
+
+  openDialog(element:ITimeEntryFull) {
+    this.dialog.open(EditDialogComponent, {
+      data: {
+        timeEntry: element,
+        activities$: this.activities$,
+        workloads$: this.workloads$,
+        teams$: this.teams$,
+        modules$: this.modules$,
+        products$: this.products$,
+      },
+
+    })
+      .afterClosed()
+      .subscribe();
   }
 }

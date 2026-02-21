@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BackendApi.Controllers;
 
-
 [Produces("application/json")]
 [ApiController]
 [Route("api/[controller]")]
@@ -24,7 +23,6 @@ public class TimeEntryController(ITimeEntryService timeEntryService) : Controlle
         var result = await timeEntryService.GetByDateAsync(date);
         return Ok(result);
     }
-    
     
     [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateActivityAsync(int id, [FromBody] TimeEntryCreateDto? timeEntry)
@@ -51,8 +49,4 @@ public class TimeEntryController(ITimeEntryService timeEntryService) : Controlle
         bool isDeleted = await timeEntryService.DeleteAsync(id);
         return isDeleted ? NoContent() : NotFound("TimeEntry not found");
     }
-    
-    
-    
-
 }
