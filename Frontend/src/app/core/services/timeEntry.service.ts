@@ -2,7 +2,7 @@ import {Inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {APP_CONFIG, AppConfig} from '../../app.config';
 import {ITimeEntry, ITimeEntryFull} from '../models/timeEntry.model';
-import {C} from '@angular/cdk/keycodes';
+import {Observable, tap} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,6 @@ export class TimeEntryService {
 
   private readonly baseURL!:string;
   private readonly _entries = signal<ITimeEntryFull[]>([]);
-
   public readonly entries = this._entries.asReadonly();
 
   private constructor(
@@ -46,17 +45,20 @@ export class TimeEntryService {
       });
   }
 
-  public updateEntryTimes(timeEntry:ITimeEntry):void{
-    this.http.put<ITimeEntryFull>(`${this.baseURL}/${timeEntry.id}`, timeEntry)
-      .subscribe(updatedEntry => {
-        this._entries.update(entries =>
-          entries.map(entry =>
-            entry.id === updatedEntry.id
-              ? { ...entry, ...updatedEntry }
-              : entry
-          )
-        )}
-    )
+  public updateEntryTimes(timeEntry: ITimeEntry): Observable<ITimeEntryFull> {
+    return this.http
+      .put<ITimeEntryFull>(`${this.baseURL}/${timeEntry.id}`, timeEntry)
+      .pipe(
+        tap(updatedEntry => {
+          this._entries.update(entries =>
+            entries.map(entry =>
+              entry.id === updatedEntry.id
+                ? { ...entry, ...updatedEntry }
+                : entry
+            )
+          );
+        })
+      );
   }
 
   // use Signal to update table
