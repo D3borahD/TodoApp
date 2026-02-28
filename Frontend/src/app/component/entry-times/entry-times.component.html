@@ -53,18 +53,20 @@
  <mat-tab-group dynamicHeight>
     <mat-tab label="Current week">
 
-          <app-table-content/>
+<!--
+          <app-table-content [value]="timeEntryService.entries"/>
+-->
 
 
     </mat-tab>
     <mat-tab label="Current month">
 
-      <app-table-content/>
+      <app-table-content [value]="timeEntryService.entries"/>
 
     </mat-tab>
     <mat-tab label="Previous month">
 
-        <app-table-content/>
+      <app-table-content [value]="timeEntryService.previousMonthEntries"/>
 
     </mat-tab>
   </mat-tab-group>

@@ -1,4 +1,4 @@
-import {Component, inject, Input, numberAttribute, signal} from '@angular/core';
+import {Component, inject, Input, Signal, signal} from '@angular/core';
 import {
   MatCell,
   MatCellDef,
@@ -21,7 +21,6 @@ import {ActivityService} from '../../../core/services/activity.service';
 import {of} from 'rxjs';
 import {WORKLOAD_OPTIONS} from '../../../core/models/workload.model';
 import {DatePipe} from '@angular/common';
-//import { ReadonlySignal } from '@angular/core';
 
 @Component({
   selector: 'app-table-content',
@@ -48,13 +47,11 @@ export class TableContentComponent {
   private moduleService: ModuleService = inject(ModuleService);
   private activityService: ActivityService = inject(ActivityService);
   private formBuilder: FormBuilder = inject(FormBuilder);
- // public @Input(): ;
+  @Input() public value!: Signal<ITimeEntryFull[]>;
 
   public readonly workloads$ = of(WORKLOAD_OPTIONS)
 
   private readonly _entries = signal<ITimeEntryFull[]>([]);
-  //@Input() value!: ReadonlySignal<ITimeEntryFull[]> ;
-
 
   public displayedColumns: string[] = ['id', 'workDate','product', 'module', 'activity', 'workload', 'delete', 'edit'];
   private selectedRow: ITimeEntryFull | null = null;
