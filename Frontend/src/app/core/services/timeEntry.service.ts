@@ -21,7 +21,9 @@ export class TimeEntryService {
   }
 
   public loadEntries(): void {
-    this.http.get<ITimeEntryFull[]>(this.baseURL)
+    let currentDate = new Date()
+
+    this.http.get<ITimeEntryFull[]>(`${this.baseURL}/${currentDate.toISOString().split('T')[0]}`)
       .subscribe(entries => {
         this._entries.set(entries);
       });
