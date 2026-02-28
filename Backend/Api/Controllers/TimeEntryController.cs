@@ -18,9 +18,9 @@ public class TimeEntryController(ITimeEntryService timeEntryService) : Controlle
     }
     
     [HttpGet("{date}")]
-    public async Task<IActionResult> GetByDate(DateTime date)
+    public async Task<IActionResult> GetByCurrentMonth(DateTime date)
     {
-        var result = await timeEntryService.GetByDateAsync(date);
+        var result = await timeEntryService.GetByCurrentMonthAsync(date);
         return Ok(result);
     }
     
