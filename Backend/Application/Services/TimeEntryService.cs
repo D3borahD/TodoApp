@@ -65,10 +65,10 @@ public class TimeEntryService(
     }
     
     
-    public async Task<IEnumerable<TimeEntryDto>> GetByDateAsync(DateTime date)
+    public async Task<IEnumerable<TimeEntryDto>?> GetByCurrentMonthAsync(DateTime date)
     {
         logger.LogInformation("Getting teams by date.");
-        var timeEntryByDate = await timeEntryRepository.GetByDateAsync(date);
+        var timeEntryByDate = await timeEntryRepository.GetByCurrentMonthAsync(date);
         
         var activities = await activityRepository.GetAllAsync();
         var teams = await teamRepository.GetAllAsync();
@@ -100,6 +100,10 @@ public class TimeEntryService(
         
         return result;
     }
+    
+   
+    
+    
 
     /*public async Task<TimeEntryDto> GetByIdAsync(int id)
     {
@@ -246,4 +250,6 @@ public class TimeEntryService(
         await timeEntryRepository.DeleteAsync(id);
         return true;
     }
+
+   
 }

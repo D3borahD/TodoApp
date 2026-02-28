@@ -9,11 +9,10 @@ public class TimeEntryRepository(AppDbContext context): ITimeEntryRepository
 {
     public async Task<List<TimeEntryDao>> GetAllAsync() =>  await context.TimeEntry.ToListAsync();
   
-    public async Task<IEnumerable<TimeEntryDao>> GetByDateAsync(DateTime date)
+    public async Task<IEnumerable<TimeEntryDao>> GetByCurrentMonthAsync(DateTime date)
     {
         return await context.TimeEntry
-            .Where(te => te.WorkDate.Date == date.Date)
-           // .Where(te => EF.Functions.Date(te.WorkDate) == EF.Functions.Date(date))
+            .Where(te => te.WorkDate.Year == date.Year && te.WorkDate.Month == date.Month)
             .ToListAsync();
     }
 
