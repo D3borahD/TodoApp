@@ -12,6 +12,8 @@ export class TimeEntryService {
   private readonly baseURL!:string;
   private readonly _entries = signal<ITimeEntryFull[]>([]);
   public readonly entries = this._entries.asReadonly();
+  private readonly _previousMonthEntries = signal<ITimeEntryFull[]>([]);
+  public readonly previousMonthEntries = this._previousMonthEntries.asReadonly();
 
   private constructor(
     private readonly http: HttpClient,
@@ -22,10 +24,20 @@ export class TimeEntryService {
 
   public loadEntries(): void {
     let currentDate = new Date()
-
     this.http.get<ITimeEntryFull[]>(`${this.baseURL}/${currentDate.toISOString().split('T')[0]}`)
       .subscribe(entries => {
         this._entries.set(entries);
+      });
+  }
+
+  public loadPreviousMonthEntries(): void {
+    let now = new Date();
+    let previousMonthDate =  new Date(now.getFullYear(), now.getMonth() ,0);
+    console.log('previous', previousMonthDate.toISOString());
+
+    this.http.get<ITimeEntryFull[]>(`${this.baseURL}/${previousMonthDate.toISOString().split('T')[0]}`)
+      .subscribe(entries => {
+        this._previousMonthEntries.set(entries);
       });
   }
 

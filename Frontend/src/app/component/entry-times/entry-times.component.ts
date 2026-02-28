@@ -102,7 +102,7 @@ export class EntryTimesComponent implements OnInit {
 
   ngOnInit() {
     this.timeEntryService.loadEntries();
-  //  console.log('datasource : ', this.timeEntryService.loadEntries());
+    this.timeEntryService.loadPreviousMonthEntries();
 
     effect(() => {
       this.dataSource.data = this.timeEntryService.entries();
