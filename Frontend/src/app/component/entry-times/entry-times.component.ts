@@ -14,13 +14,8 @@ import {Workload, WORKLOAD_OPTIONS} from '../../core/models/workload.model';
 import {TimeEntryService} from '../../core/services/timeEntry.service';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
 import {
-  MatCell, MatCellDef,
-  MatColumnDef,
-  MatHeaderCell,
-  MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef,
-  MatRow, MatRowDef,
-  MatTable, MatTableDataSource,
+  MatTable,
+  MatTableDataSource,
 } from '@angular/material/table';
 import {
   MatDatepicker,
@@ -33,6 +28,7 @@ import localeFr from '@angular/common/locales/fr';
 import {MatIcon} from '@angular/material/icon';
 import { MatDialog} from '@angular/material/dialog';
 import {EditDialogComponent} from '../edit-dialog/edit-dialog.component';
+import {TableContentComponent} from './table-content/table-content.component';
 
 registerLocaleData(localeFr);
 
@@ -48,16 +44,6 @@ registerLocaleData(localeFr);
     MatOptionModule,
     MatTabGroup,
     MatTab,
-    MatTable,
-    MatHeaderCell,
-    MatCell,
-    MatHeaderRow,
-    MatRow,
-    MatColumnDef,
-    MatHeaderCellDef,
-    MatHeaderRowDef,
-    MatRowDef,
-    MatCellDef,
     MatDatepickerInput,
     MatInput,
     MatDatepickerToggle,
@@ -66,8 +52,8 @@ registerLocaleData(localeFr);
     MatNativeDateModule,
     MatFormFieldModule,  // Required for mat-form-field and mat-hint
     MatInputModule,
-    MatIcon,
-    DatePipe,
+    TableContentComponent,
+
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'fr-FR'},
@@ -86,7 +72,7 @@ export class EntryTimesComponent implements OnInit {
   private activityService: ActivityService = inject(ActivityService);
   private formBuilder: FormBuilder = inject(FormBuilder);
   protected timeEntryService: TimeEntryService = inject(TimeEntryService);
-  private readonly dialog = inject(MatDialog);
+
 
   public readonly workloads$ = of(WORKLOAD_OPTIONS)
 
@@ -108,26 +94,15 @@ export class EntryTimesComponent implements OnInit {
     workload: this.formBuilder.control<Workload | null>(null, Validators.required),
   })
 
-  private selectedRow: ITimeEntryFull | null = null;
-  dataSource!:  MatTableDataSource<ITimeEntryFull>;
-  displayedColumns: string[] = ['id', 'workDate','product', 'module', 'activity', 'workload', 'delete', 'edit'];
 
-  public updateEntriesForm: FormGroup = new FormGroup({
-    id: new FormControl(Number, [Validators.required]),
-    userId: new FormControl(null, [Validators.required]),
-    workDate: new FormControl(null, [Validators.required]),
-    workload: new FormControl(null, [Validators.required]),
-    productId: new FormControl('', [Validators.required]),
-    teamId: new FormControl('', [Validators.required]),
-    moduleId: new FormControl('', [Validators.required]),
-    activityId: new FormControl('', [Validators.required]),
-    specificProjectId: new FormControl(''),
-    comment: new FormControl(null),
-  });
+  dataSource!:  MatTableDataSource<ITimeEntryFull>;
+
+
+
 
   ngOnInit() {
     this.timeEntryService.loadEntries();
-    console.log('datasource : ', this.timeEntryService.loadEntries());
+  //  console.log('datasource : ', this.timeEntryService.loadEntries());
 
     effect(() => {
       this.dataSource.data = this.timeEntryService.entries();
@@ -141,45 +116,6 @@ export class EntryTimesComponent implements OnInit {
     );
   }
 
-  update(row:ITimeEntryFull) {
-    this.selectedRow = row;
-    const update = {
-      id: row.id,
-      userId: row.userId,
-      workDate: row.workDate,
-      workload: row.workload,
-      productId: row.product?.id ?? 0,
-      teamId: row.team?.id ?? 0,
-      moduleId: row.module.id ?? 0,
-      activityId: row.activity.id ?? 0,
-      specificProjectId: row.specificProjectId ?? 0,
-      comment: row.comment,
-    }
-    this.updateEntriesForm.setValue(update);
-  }
 
-  cancelEdit(){
-    this.selectedRow = null;
-    this.updateEntriesForm.reset();
-  }
 
-  public delete(element:ITimeEntryFull) {
-    this.timeEntryService.deleteTimeEntry(element.id);
-  }
-
-  openDialog(element:ITimeEntryFull) {
-    this.dialog.open(EditDialogComponent, {
-      data: {
-        timeEntry: element,
-        activities$: this.activities$,
-        workloads$: this.workloads$,
-        teams$: this.teams$,
-        modules$: this.modules$,
-        products$: this.products$,
-      },
-
-    })
-      .afterClosed()
-      .subscribe();
-  }
 }
