@@ -9,10 +9,10 @@ public class TimeEntryRepository(AppDbContext context): ITimeEntryRepository
 {
     public async Task<List<TimeEntryDao>> GetAllAsync() =>  await context.TimeEntry.ToListAsync();
   
-    public async Task<IEnumerable<TimeEntryDao>> GetByCurrentMonthAsync(DateTime date)
+    public async Task<IEnumerable<TimeEntryDao>> GetByDateRangeAsync(DateTime startDate, DateTime endDate)
     {
         return await context.TimeEntry
-            .Where(te => te.WorkDate.Year == date.Year && te.WorkDate.Month == date.Month)
+            .Where(t => t.WorkDate >= startDate && t.WorkDate < endDate)
             .ToListAsync();
     }
 
