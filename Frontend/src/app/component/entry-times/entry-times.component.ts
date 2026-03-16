@@ -94,15 +94,12 @@ export class EntryTimesComponent implements OnInit {
     workload: this.formBuilder.control<Workload | null>(null, Validators.required),
   })
 
-
   dataSource!:  MatTableDataSource<ITimeEntryFull>;
-
-
-
 
   ngOnInit() {
     this.timeEntryService.loadEntries();
     this.timeEntryService.loadPreviousMonthEntries();
+    this.timeEntryService.loadCurrentWeekEntries();
 
     effect(() => {
       this.dataSource.data = this.timeEntryService.entries();
@@ -115,7 +112,4 @@ export class EntryTimesComponent implements OnInit {
       this.entryTimesForm.getRawValue() as any
     );
   }
-
-
-
 }

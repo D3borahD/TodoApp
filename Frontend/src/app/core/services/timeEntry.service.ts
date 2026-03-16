@@ -1,5 +1,5 @@
 import {Inject, Injectable, signal} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {APP_CONFIG, AppConfig} from '../../app.config';
 import {ITimeEntry, ITimeEntryFull} from '../models/timeEntry.model';
 import {Observable, tap} from 'rxjs';
@@ -14,6 +14,8 @@ export class TimeEntryService {
   public readonly entries = this._entries.asReadonly();
   private readonly _previousMonthEntries = signal<ITimeEntryFull[]>([]);
   public readonly previousMonthEntries = this._previousMonthEntries.asReadonly();
+  private readonly _currentWeekEntries = signal<ITimeEntryFull[]>([]);
+  public readonly currentWeekEntries = this._currentWeekEntries.asReadonly();
 
   private constructor(
     private readonly http: HttpClient,
@@ -24,20 +26,46 @@ export class TimeEntryService {
 
   public loadEntries(): void {
     let currentDate = new Date()
-    this.http.get<ITimeEntryFull[]>(`${this.baseURL}/${currentDate.toISOString().split('T')[0]}`)
+    const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
+    const endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
+
+   this.http.get<ITimeEntryFull[]>(`${this.baseURL}/Range`, {
+     params: this.getParams(startDate, endDate)
+   })
       .subscribe(entries => {
         this._entries.set(entries);
       });
   }
 
   public loadPreviousMonthEntries(): void {
-    let now = new Date();
-    let previousMonthDate =  new Date(now.getFullYear(), now.getMonth() ,0);
-    console.log('previous', previousMonthDate.toISOString());
+    let currentDate = new Date()
+    const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth() -1 , 1)
+    const endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() , 0)
 
-    this.http.get<ITimeEntryFull[]>(`${this.baseURL}/${previousMonthDate.toISOString().split('T')[0]}`)
+    this.http.get<ITimeEntryFull[]>(`${this.baseURL}/Range`, {
+      params: this.getParams(startDate, endDate)
+    })
       .subscribe(entries => {
         this._previousMonthEntries.set(entries);
+      });
+  }
+
+  public loadCurrentWeekEntries(): void {
+    let currentDate = new Date()
+
+    const day = currentDate.getDay()
+    const startDate = new Date(currentDate)
+    startDate.setDate(currentDate.getDate() - day + 1)
+
+    const endDate = new Date(startDate)
+    endDate.setDate(startDate.getDate() + 6)
+
+
+    this.http.get<ITimeEntryFull[]>(`${this.baseURL}/Range`, {
+      params: this.getParams(startDate, endDate)
+    })
+      .subscribe(entries => {
+        this._currentWeekEntries.set(entries);
       });
   }
 
@@ -75,7 +103,7 @@ export class TimeEntryService {
       );
   }
 
-  // use Signal to update table
+  // use Signal to update a table
   public deleteTimeEntry(id:number):void{
     console.log('id ', id)
     this.http.delete<ITimeEntryFull[]>(`${this.baseURL}/${id}`)
@@ -83,7 +111,23 @@ export class TimeEntryService {
         next: () => {
           this._entries.update(entries => entries.filter(entry => entry.id !== id))
         }}
-    )
+      )
   }
 
+  private getParams(startDate: Date, endDate: Date):HttpParams{
+    return new HttpParams({
+      fromObject: {
+        start: this.formatDate(startDate),
+        end: this.formatDate(endDate)
+      }
+    });
+  }
+
+  private formatDate(date: Date): string {
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+
+    return `${year}-${month}-${day}`
+  }
 }
