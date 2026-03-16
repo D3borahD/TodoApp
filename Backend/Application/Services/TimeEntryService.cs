@@ -65,10 +65,11 @@ public class TimeEntryService(
     }
     
     
-    public async Task<IEnumerable<TimeEntryDto>?> GetByCurrentMonthAsync(DateTime date)
+    public async Task<IEnumerable<TimeEntryDto>?> GetByDateRangeAsync(DateTime startDate, DateTime endDate)
     {
-        logger.LogInformation("Getting teams by date.");
-        var timeEntryByDate = await timeEntryRepository.GetByCurrentMonthAsync(date);
+        
+        logger.LogInformation("Getting time entries by date range.");
+        var timeEntryByDate = await timeEntryRepository.GetByDateRangeAsync(startDate, endDate);
         
         var activities = await activityRepository.GetAllAsync();
         var teams = await teamRepository.GetAllAsync();
@@ -100,48 +101,11 @@ public class TimeEntryService(
         
         return result;
     }
-    
-   
-    
-    
-
-    /*public async Task<TimeEntryDto> GetByIdAsync(int id)
-    {
-        logger.LogInformation("Getting time entry by id.");
-        var timeEntry = await timeEntryRepository.GetByIdAsync(id);
-        
-        if (timeEntry == null)
-        {
-            logger.LogWarning("No time entry found.");
-            return null;
-        }
-        
-        var activity = await activityRepository.GetByIdAsync(timeEntry.ActivityId);
-        var team = await teamRepository.GetByIdAsync(timeEntry.TeamId);
-        var product = await productRepository.GetByIdAsync(timeEntry.ProductId);
-        var module = await moduleRepository.GetByIdAsync(timeEntry.ModuleId);
-        
-            return new TimeEntryDto
-            {
-                Id = timeEntry.Id,
-                UserId = timeEntry.UserId,
-                WorkDate = timeEntry.WorkDate,
-                Workload = timeEntry.Workload,
-                SpecificProjectId = timeEntry.SpecificProjectId,
-                Comment = timeEntry.Comment,
-                Activity = activity != null ? new ActivityDto { Id = activity.Id, Label = activity.Label } : null,
-                Team = team != null ? new TeamDto { Id = team.Id, Label = team.Label } : null,
-                Product = product != null ? new ProductDto { Id = product.Id, Label = product.Label, BusinessUnitId = product.BusinessUnitId} : null,
-                Module = module != null ? new ModuleSummaryDto()  { Id = module.Id, Label = module.Label } : null
-            };
-            
-    }*/
 
     public async Task<TimeEntryDto> CreateAsync(TimeEntryCreateDto entity)
     {
         logger.LogInformation("Creating new team.");
-
-    
+        
             TimeEntryDao newTimeEntry = new TimeEntryDao()
             {
                 UserId = entity.UserId,
@@ -204,10 +168,7 @@ public class TimeEntryService(
         
         var updatedTimeEntry = await timeEntryRepository.UpdateAsync(timeEntry);
         if (updatedTimeEntry == null) return null;
-
-        if (updatedTimeEntry != null)
-        {
-            
+        
             var activity = await activityRepository.GetByIdAsync(updatedTimeEntry.ActivityId);
             var team = await teamRepository.GetByIdAsync(updatedTimeEntry.TeamId);
             var product = await productRepository.GetByIdAsync(updatedTimeEntry.ProductId);
@@ -234,8 +195,6 @@ public class TimeEntryService(
                     ? new ModuleSummaryDto { Id = module.Id, Label = module.Label } 
                     : null
             };
-        }
-        return null;
     }
 
     public async Task<bool> DeleteAsync(int id)
