@@ -17,7 +17,7 @@ public class TimeEntryController(ITimeEntryService timeEntryService) : Controlle
         return Ok(activities);
     }
     
-    [HttpGet("{date}")]
+    [HttpGet("Range")]
     public async Task<IActionResult> GetByDateRange( [FromQuery] DateTime start,
         [FromQuery] DateTime end)
     {
