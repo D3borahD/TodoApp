@@ -5,8 +5,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-public class ProductService(ILogger<ProductService> logger, IBaseRepository<ProductDao> productRepository)
-    : IBaseService<ProductDto>
+public class ProductService(ILogger<ProductService> logger, IBaseRepository<ProductDao> productRepository, 
+    IModuleRepository moduleRepository
+)
+    : IBaseService<ProductDto>, IProductService
 {
     public async Task<List<ProductDto>> GetAllAsync()
     {
@@ -24,6 +26,17 @@ public class ProductService(ILogger<ProductService> logger, IBaseRepository<Prod
             Id = p.Id,
             Label = p.Label,
             BusinessUnitId = p.BusinessUnitId
+        }).ToList();
+    }
+
+    public async Task<List<ModuleDto>> GetModuleByProductAsync(int productId)
+    {
+        var modules = await moduleRepository.GetModuleByProductAsync(productId);
+        
+        return modules.Select(m => new ModuleDto
+        {
+            Id = m.Id,
+            Label = m.Label,
         }).ToList();
     }
 
@@ -82,7 +95,7 @@ public class ProductService(ILogger<ProductService> logger, IBaseRepository<Prod
         
         return new ProductDto()
         {
-            Id = updatedProduct.Id,
+            Id = updatedProduct!.Id,
             Label = updatedProduct.Label,
             BusinessUnitId = updatedProduct.BusinessUnitId
         };
