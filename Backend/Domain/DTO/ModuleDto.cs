@@ -4,5 +4,5 @@ namespace Domain.DTO;
 
 public class ModuleDto : BaseDto
 {
-    public List<ProductDto?>? Products { get; set; } = new ();
+   // public List<ProductDto?>? Products { get; set; } = new ();
 }
