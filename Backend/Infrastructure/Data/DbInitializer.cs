@@ -68,7 +68,7 @@ public static class DbInitializer
                 
                 new ProductDao { Label = "APPLICATION_SUPPORT_N2", TeamId  = 11, Code = "15"},
                 new ProductDao { Label = "BPM_ADENES", TeamId  = 11, Code = "16"},
-                new ProductDao { Label = "PUSH_BOT", TeamId  = 1,Code = "17"},
+                new ProductDao { Label = "PUSH_BOT", TeamId  = 11,Code = "17"},
                 
                 new ProductDao { Label = "CONNECTEUR_CLIENT", TeamId  = 6,Code = "18"},
                 new ProductDao { Label = "ELENA", TeamId  = 6, Code = "19"},

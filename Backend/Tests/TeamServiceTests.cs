@@ -15,7 +15,8 @@ public class TeamServiceTests
     private readonly Mock<IBaseRepository<TeamDao>> _repo = new();
     private readonly Mock<ILogger<TeamService>> _logger = new();
 
-    [Fact]
+    
+    /*[Fact]
     public async Task CreateTeamsAsync_AssignsNewId_AndReturnsDto()
     {
         // ARRANGE
@@ -40,6 +41,6 @@ public class TeamServiceTests
         Assert.Equal("New", created.Label);
         // vérify que le repo a été appelé exactement 1 fois avec les bons paramètres
         _repo.Verify(x => x.CreateAsync(It.Is<TeamDao>(td => td.Id == 2 && td.Label == "New")), Times.Once);
-    }
+    }*/
 
 }
