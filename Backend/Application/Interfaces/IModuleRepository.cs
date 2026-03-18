@@ -1,4 +1,5 @@
 using BackendApi.Entities;
+using Domain.Entities;
 
 namespace Application.Interfaces;
 

@@ -20,4 +20,6 @@ export class ModuleService {
   public getModules$(): Observable<Module[]> {
     return this.http.get<Module[]>(`${this.baseURL}`);
   }
+
+
 }

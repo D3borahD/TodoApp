@@ -1,4 +1,6 @@
-namespace BackendApi.Entities;
+using BackendApi.Entities;
+
+namespace Domain.Entities;
 
 public class CompanyDao :BaseDao
 {

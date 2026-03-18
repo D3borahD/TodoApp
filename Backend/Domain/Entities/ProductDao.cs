@@ -1,6 +1,8 @@
-namespace BackendApi.Entities;
+using BackendApi.Entities;
+
+namespace Domain.Entities;
 
 public class ProductDao : BaseDao
 {
-    public int BusinessUnitId { get; set; }
+    public int TeamId { get; set; }
 }

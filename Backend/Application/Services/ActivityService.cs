@@ -1,6 +1,7 @@
 using Application.Interfaces;
 using BackendApi.Entities;
 using Domain.DTO;
+using Domain.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
@@ -43,21 +44,22 @@ public class ActivityService(IBaseRepository<ActivityDao> activityRepository, IL
         };
     }
 
-    public async Task<ActivityDto> CreateAsync(ActivityDto entity)
+    public async Task<ActivityDto?> CreateAsync(ActivityDto entity)
     {
         logger.LogInformation("Creating new activity.");
-
+        if (entity.Code == null) return null;
+        
         ActivityDao activity = new ActivityDao()
-        {
-            Label = entity.Label.ToLower()
+        { Label = entity.Label.ToLower(), 
+            Code = entity.Code
         };
         
         var createdModule = await activityRepository.CreateAsync(activity);
             
         return new ActivityDto()
-        {
-            Id = createdModule.Id,
-            Label = createdModule.Label
+        { Id = createdModule.Id,
+            Label = createdModule.Label,
+            Code = createdModule.Code
         };
     }
 

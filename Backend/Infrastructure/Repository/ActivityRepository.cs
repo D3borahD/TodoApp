@@ -1,5 +1,6 @@
 using Application.Interfaces;
 using BackendApi.Entities;
+using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
