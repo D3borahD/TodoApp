@@ -69,7 +69,7 @@ export class TimeEntryService {
       });
   }
 
-  public addTimeEntry(timeEntry:ITimeEntry):void
+  /*public addTimeEntry(timeEntry:ITimeEntry):void
   {
     this.http.post<ITimeEntryFull>(this.baseURL, timeEntry)
       .subscribe(createdEntry => {
@@ -85,6 +85,25 @@ export class TimeEntryService {
           ...entries
         ]);
       });
+  }*/
+
+  // pas de subscribe dans le service
+  public addTimeEntry(timeEntry: ITimeEntry): Observable<ITimeEntryFull> {
+    return this.http.post<ITimeEntryFull>(this.baseURL, timeEntry).pipe(
+      tap(createdEntry => {
+        this._entries.update(entries => [
+          {
+            ...createdEntry,
+            team: createdEntry.team ?? { id: 0, label: 'inconnu' },
+            product: createdEntry.product ?? { id: 0, label: 'inconnu' },
+            module: createdEntry.module ?? { id: 0, label: 'inconnu' },
+            activity: createdEntry.activity ?? { id: 0, label: 'inconnu' },
+            workDate: createdEntry.workDate ?? new Date()
+          },
+          ...entries
+        ]);
+      })
+    );
   }
 
   public updateEntryTimes(timeEntry: ITimeEntry): Observable<ITimeEntryFull> {
