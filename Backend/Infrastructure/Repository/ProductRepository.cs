@@ -6,10 +6,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository;
 
-public class ProductRepository(AppDbContext context) : IBaseRepository<ProductDao>
+public class ProductRepository(AppDbContext context) : IBaseRepository<ProductDao>, IProductRepository
 {
     public async Task<List<ProductDao>> GetAllAsync() => await context.Products.ToListAsync();
     public async Task<ProductDao?> GetByIdAsync(int id) => await context.Products.FindAsync(id);
+   
+    public async Task<List<ProductDao>> GetProductByTeamAsync(int teamId)
+    {
+        var products =  await context.Products
+            .Where(p  => p.TeamId == teamId)
+            .Select(p => new ProductDao()
+            {
+                Id = p.Id,
+                Label = p.Label,
+                TeamId = p.TeamId,
+                Code = p.Code,
+            }).ToListAsync();
+
+        return products;
+    }
+    
     public async Task<ProductDao> CreateAsync(ProductDao productDto)
     {
         context.Products.Add(productDto);

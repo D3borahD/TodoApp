@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ITeam} from '../models/team.model';
 import {APP_CONFIG, AppConfig} from '../../app.config';
+import {Product} from '../models/product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,4 +23,7 @@ export class TeamService {
     return this.http.get<ITeam[]>(this.baseURL)
   }
 
+  public getProductsByTeam(teamId:number | null): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseURL}/${teamId}/product`);
+  }
 }
