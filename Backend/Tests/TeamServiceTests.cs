@@ -2,6 +2,7 @@ using Application.Interfaces;
 using Application.Services;
 using BackendApi.Entities;
 using Domain.DTO;
+using Domain.Entities;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
@@ -19,7 +20,7 @@ public class TeamServiceTests
     {
         // ARRANGE
         // moq équipe 1
-        var existing = new List<TeamDao> { new TeamDao() { Id = 1, Label = "Test" } };
+        var existing = new List<TeamDao> { new TeamDao() { Id = 1, Label = "Test", Code = "TEST"} };
         // récupère l'équipe créée
         _repo.Setup(x => x.GetAllAsync()).ReturnsAsync(existing);
         // crée la première équipe

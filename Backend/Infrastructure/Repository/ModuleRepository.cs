@@ -1,6 +1,7 @@
 using Application.Interfaces;
 using BackendApi.Entities;
 using Domain.DTO;
+using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,7 +26,10 @@ public class ModuleRepository(AppDbContext context) : IBaseRepository<ModuleDao>
             {
                 Id = m.Id,
                 Label = m.Label,
-                ProductId = m.ProductId
+                ProductId = m.ProductId,
+                SegmentCode = m.SegmentCode,
+                StartDate = m.StartDate,
+                Code = m.Code,
             }).ToListAsync();
 
         return modules;

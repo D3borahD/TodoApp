@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Services;
 using BackendApi.Entities;
 using Domain.DTO;
+using Domain.Entities;
 using Infrastructure.Data;
 using Infrastructure.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=timeSheet.db"));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Configuration CORS
 builder.Services.AddCors(options =>

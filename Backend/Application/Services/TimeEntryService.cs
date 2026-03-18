@@ -1,6 +1,7 @@
 using Application.Interfaces;
 using BackendApi.Entities;
 using Domain.DTO;
+using Domain.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
@@ -50,13 +51,15 @@ public class TimeEntryService(
                     {
                         Id = product.Id,
                         Label = product.Label,
-                        BusinessUnitId = 0
+                        
                     }
                     : null,
                 Module = module != null ? new ModuleSummaryDto()
                 {
                     Id = module.Id, 
-                    Label = module.Label
+                    Label = module.Label,
+           
+                    
                 } : null
             };
         }).ToList();
@@ -94,7 +97,7 @@ public class TimeEntryService(
                 Comment = t.Comment,
                 Activity = activity != null ? new ActivityDto { Id = activity.Id, Label = activity.Label } : null,
                 Team = team != null ? new TeamDto { Id = team.Id, Label = team.Label } : null,
-                Product = product != null ? new ProductDto { Id = product.Id, Label = product.Label, BusinessUnitId = product.BusinessUnitId} : null,
+                Product = product != null ? new ProductDto { Id = product.Id, Label = product.Label} : null,
                 Module = module != null ? new ModuleSummaryDto()  { Id = module.Id, Label = module.Label } : null
             };
         }).ToList();
@@ -138,8 +141,7 @@ public class TimeEntryService(
                 Product = product != null ? new ProductDto
                     {
                         Id = product.Id,
-                        Label = product.Label,
-                        BusinessUnitId = 0
+                        Label = product.Label
                     }
                     : null,
                 Team = team != null ? new TeamDto { Id = team.Id, Label = team.Label } : null,
@@ -186,7 +188,7 @@ public class TimeEntryService(
                     ? new ActivityDto { Id = activity.Id, Label = activity.Label } 
                     : null,
                 Product = product != null 
-                    ? new ProductDto { Id = product.Id, Label = product.Label, BusinessUnitId = product.BusinessUnitId } 
+                    ? new ProductDto { Id = product.Id, Label = product.Label} 
                     : null,
                 Team = team != null 
                     ? new TeamDto { Id = team.Id, Label = team.Label } 

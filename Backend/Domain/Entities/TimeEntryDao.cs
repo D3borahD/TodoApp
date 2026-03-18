@@ -1,4 +1,4 @@
-namespace BackendApi.Entities;
+namespace Domain.Entities;
 
 public class TimeEntryDao
 {
