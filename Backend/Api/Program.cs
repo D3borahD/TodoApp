@@ -1,7 +1,6 @@
 using System.Text.Json;
 using Application.Interfaces;
 using Application.Services;
-using BackendApi.Entities;
 using Domain.DTO;
 using Domain.Entities;
 using Infrastructure.Data;
@@ -45,6 +44,7 @@ builder.Services.AddScoped<IBaseRepository<ModuleDao>, ModuleRepository>();
 builder.Services.AddScoped<IBaseRepository<ActivityDao>, ActivityRepository>();
 builder.Services.AddScoped<ITimeEntryRepository, TimeEntryRepository>();
 builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 // Injection des dépendances : Service
 builder.Services.AddScoped<IBaseService<TeamDto>, TeamService>();
@@ -53,6 +53,7 @@ builder.Services.AddScoped<IBaseService<ModuleDto>, ModuleService>();
 builder.Services.AddScoped<IBaseService<ActivityDto>, ActivityService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ITimeEntryService, TimeEntryService>();
+builder.Services.AddScoped<ITeamService, TeamService>();
 
 builder.Logging.AddConsole();
 

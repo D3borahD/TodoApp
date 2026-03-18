@@ -6,8 +6,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-public class TeamService(IBaseRepository<TeamDao> teamRepository, ILogger<TeamService> logger)
-    : IBaseService<TeamDto>
+public class TeamService(IBaseRepository<TeamDao> teamRepository, 
+    ILogger<TeamService> logger, IProductRepository productRepository)
+    : IBaseService<TeamDto>, ITeamService
 {
     public async Task<List<TeamDto>> GetAllAsync()
     {
@@ -26,6 +27,17 @@ public class TeamService(IBaseRepository<TeamDao> teamRepository, ILogger<TeamSe
             Label = t.Label
         }).ToList();
 
+    }
+    
+    public async Task<List<ProductDto>> GetProductByTeamAsync(int teamId)
+    {
+        var products = await productRepository.GetProductByTeamAsync(teamId);
+        
+        return products.Select(p => new ProductDto()
+        {
+            Id = p.Id,
+            Label = p.Label,
+        }).ToList();
     }
 
     public async Task<TeamDto?> GetByIdAsync(int id)

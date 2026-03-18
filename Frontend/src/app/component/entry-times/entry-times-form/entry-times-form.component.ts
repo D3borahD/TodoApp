@@ -14,6 +14,7 @@ import {Workload, WORKLOAD_OPTIONS} from '../../../core/models/workload.model';
 import {TimeEntryService} from '../../../core/services/timeEntry.service';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 import {Module} from '../../../core/models/module.model';
+import {Product} from '../../../core/models/product.model';
 
 @Component({
   selector: 'app-entry-times-form',
@@ -46,7 +47,7 @@ export class EntryTimesFormComponent implements OnInit {
   private formBuilder: FormBuilder = inject(FormBuilder);
 
   public teams$ = this.teamService.getTeams$();
-  public products$ = this.productService.getProducts$();
+  public products$: Observable<Product[]> = this.productService.getProducts$();
   public modules$: Observable<Module[]> = this.moduleService.getModules$();
   public activities$ = this.activityService.getActivities$();
   public readonly workloads$ = of(WORKLOAD_OPTIONS)
@@ -71,13 +72,31 @@ export class EntryTimesFormComponent implements OnInit {
         this.productService.getModulesByProducts(productId)
       )
     );
+
+    this.products$ = this.entryTimesForm.get('teamId')!.valueChanges.pipe(
+      startWith(this.entryTimesForm.get('teamId')!.value),
+      switchMap(teamId =>
+        teamId == null || teamId == 0 ? this.productService.getProducts$() :  this.teamService.getProductsByTeam(teamId)
+      )
+    );
   }
 
 
   public onSubmit() {
     if (this.entryTimesForm.invalid) return;
+
     this.timeEntryService.addTimeEntry(
       this.entryTimesForm.getRawValue() as any
     );
+
+    this.entryTimesForm.reset({
+      workDate: new Date(),
+      teamId: 0,
+      productId: 0,
+      moduleId: 0,
+      activityId: 0,
+      comment: ''
+    });
+
   }
 }
