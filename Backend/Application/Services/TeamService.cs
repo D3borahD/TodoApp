@@ -1,6 +1,7 @@
 using Application.Interfaces;
 using BackendApi.Entities;
 using Domain.DTO;
+using Domain.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
@@ -45,13 +46,15 @@ public class TeamService(IBaseRepository<TeamDao> teamRepository, ILogger<TeamSe
         };
     }
 
-    public async Task<TeamDto> CreateAsync(TeamDto teamDto)
+    public async Task<TeamDto?> CreateAsync(TeamDto teamDto)
     {
         logger.LogInformation("Creating new team.");
         
         TeamDao newTeamDao = new TeamDao
         {
-            Label = teamDto.Label.ToLower(),
+            Label = teamDto.Label.ToLower(), 
+            Code = teamDto.Code,
+            
         };
         
         var createdTeam = await teamRepository.CreateAsync(newTeamDao);

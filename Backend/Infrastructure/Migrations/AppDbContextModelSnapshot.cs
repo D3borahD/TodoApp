@@ -17,11 +17,15 @@ namespace Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
 
-            modelBuilder.Entity("BackendApi.Entities.ActivityDao", b =>
+            modelBuilder.Entity("Domain.Entities.ActivityDao", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Label")
                         .IsRequired()
@@ -32,11 +36,15 @@ namespace Infrastructure.Migrations
                     b.ToTable("Activity");
                 });
 
-            modelBuilder.Entity("BackendApi.Entities.ModuleDao", b =>
+            modelBuilder.Entity("Domain.Entities.ModuleDao", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Label")
                         .IsRequired()
@@ -45,34 +53,49 @@ namespace Infrastructure.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("SegmentCode")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("Modules");
                 });
 
-            modelBuilder.Entity("BackendApi.Entities.ProductDao", b =>
+            modelBuilder.Entity("Domain.Entities.ProductDao", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("BusinessUnitId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("BackendApi.Entities.TeamDao", b =>
+            modelBuilder.Entity("Domain.Entities.TeamDao", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Label")
                         .IsRequired()
@@ -83,7 +106,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("BackendApi.Entities.TimeEntryDao", b =>
+            modelBuilder.Entity("Domain.Entities.TimeEntryDao", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

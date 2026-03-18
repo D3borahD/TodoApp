@@ -1,13 +1,13 @@
 using Application.Interfaces;
 using BackendApi.Entities;
 using Domain.DTO;
+using Domain.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
 public class ModuleService(
     IBaseRepository<ModuleDao> moduleRepository, 
-    IBaseRepository<ProductDao> productRepository, 
     ILogger<ModuleService> logger) : IBaseService<ModuleDto>
 {
     
@@ -15,7 +15,6 @@ public class ModuleService(
     {
         logger.LogInformation("Getting all modules.");
         var modules = await moduleRepository.GetAllAsync();
-//var products: await productRepository.GetAllAsync();
 
         if (!modules.Any())
         {
@@ -50,14 +49,26 @@ public class ModuleService(
         };
     }
 
-    public async  Task<ModuleDto> CreateAsync(ModuleDto moduleDto)
+    public async  Task<ModuleDto?> CreateAsync(ModuleDto moduleDto)
     {
         logger.LogInformation("Creating new module.");
+        if (moduleDto.Code == null)
+        {
+            return null;
+        }
+
+        if (moduleDto.SegmentCode == null || moduleDto.StartDate == null)
+        {
+            return null;
+        }
 
         ModuleDao moduleDao = new ModuleDao()
         {
             Label = moduleDto.Label.ToLower(),
-     
+            Code = moduleDto.Code,
+            StartDate = moduleDto.StartDate.Value,
+            SegmentCode = moduleDto.SegmentCode
+            
         };
         
         var createdModule = await moduleRepository.CreateAsync(moduleDao);

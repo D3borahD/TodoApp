@@ -1,5 +1,8 @@
 :host{
-  padding: 20px;
+  display: flex;
+  mat-tab-group{
+    flex-grow: 2;
+  }
 }
 
 .header{
@@ -14,11 +17,6 @@ span {
   color: white;
 }
 
-button{
-  background-color: deeppink;
-  color: white;
-  width: 100px;
-}
 
 // TAB MATERIAL ANG
 .example-small-box, .example-large-box {

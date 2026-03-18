@@ -1,6 +1,7 @@
 using Application.Interfaces;
 using BackendApi.Entities;
 using Domain.DTO;
+using Domain.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
@@ -25,7 +26,6 @@ public class ProductService(ILogger<ProductService> logger, IBaseRepository<Prod
         {
             Id = p.Id,
             Label = p.Label,
-            BusinessUnitId = p.BusinessUnitId
         }).ToList();
     }
 
@@ -55,18 +55,18 @@ public class ProductService(ILogger<ProductService> logger, IBaseRepository<Prod
         {
             Id = productsDao.Id,
             Label = productsDao.Label,
-            BusinessUnitId = productsDao.BusinessUnitId
         };
     }
 
-    public async Task<ProductDto> CreateAsync(ProductDto productDto)
+    public async Task<ProductDto?> CreateAsync(ProductDto productDto)
     {
         logger.LogInformation("Creating new product");
+        if (productDto.Code == null) return null;
         
         ProductDao newProductDao = new ProductDao()
         {
             Label = productDto.Label.ToLower(),
-            BusinessUnitId = productDto.BusinessUnitId
+            Code = productDto.Code
         };
         
         var createdProduct = await productRepository.CreateAsync(newProductDao);
@@ -75,7 +75,7 @@ public class ProductService(ILogger<ProductService> logger, IBaseRepository<Prod
         {
             Id = createdProduct.Id,
             Label = createdProduct.Label,
-            BusinessUnitId = createdProduct.BusinessUnitId
+
         };
     }
 
@@ -89,15 +89,13 @@ public class ProductService(ILogger<ProductService> logger, IBaseRepository<Prod
         }
         
         productDao.Label = productDto.Label.ToLower();
-        productDao.BusinessUnitId = productDto.BusinessUnitId;
         
         var updatedProduct = await productRepository.UpdateAsync(productDao);
         
         return new ProductDto()
         {
             Id = updatedProduct!.Id,
-            Label = updatedProduct.Label,
-            BusinessUnitId = updatedProduct.BusinessUnitId
+            Label = updatedProduct.Label
         };
     }
 
