@@ -81,21 +81,25 @@ export class EntryTimesFormComponent implements OnInit {
     );
   }
 
-
   public onSubmit() {
     if (this.entryTimesForm.invalid) return;
 
     this.timeEntryService.addTimeEntry(
       this.entryTimesForm.getRawValue() as any
-    );
-
-    this.entryTimesForm.reset({
-      workDate: new Date(),
-      teamId: 0,
-      productId: 0,
-      moduleId: 0,
-      activityId: 0,
-      comment: ''
+    ).subscribe({
+      next: () => {
+        this.entryTimesForm.reset({
+          workDate: new Date(),
+          teamId: 0,
+          productId: 0,
+          moduleId: 0,
+          activityId: 0,
+          comment: ''
+          });
+      },
+      error: (err) => {
+        console.error(err);
+      }
     });
 
   }
