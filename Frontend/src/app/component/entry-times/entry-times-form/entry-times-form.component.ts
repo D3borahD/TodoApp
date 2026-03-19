@@ -4,7 +4,7 @@ import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/m
 import {MatFormField, MatInput, MatLabel, MatSuffix} from "@angular/material/input";
 import {MatOption} from "@angular/material/core";
 import {MatSelect} from "@angular/material/select";
-import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
+import { FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {TeamService} from '../../../core/services/team.service';
 import {ProductService} from '../../../core/services/product.service';
 import {ModuleService} from '../../../core/services/module.service';
@@ -53,16 +53,15 @@ export class EntryTimesFormComponent implements OnInit {
   public readonly workloads$ = of(WORKLOAD_OPTIONS)
 
   public entryTimesForm = this.formBuilder.group({
-    activityId: [0, [Validators.required]],
+    activityId: [null, [Validators.required]],
     comment: [''],
-    moduleId: [0, [Validators.required]],
-    productId: [0, [Validators.required]],
-    specificProjectId: [0],
-    teamId: [0],
+    moduleId: [null, [Validators.required]],
+    productId: [null, [Validators.required]],
+    specificProjectId: [null],
+    teamId: [null],
     workDate: this.formBuilder.control<Date | null>(new Date(), [Validators.required]),
-    workload: this.formBuilder.control<Workload | null>(null, Validators.required),
+    workload: this.formBuilder.control<Workload | null>(1, Validators.required),
   })
-
 
   public ngOnInit() {
     this.modules$ = this.entryTimesForm.get('productId')!.valueChanges.pipe(
@@ -82,6 +81,29 @@ export class EntryTimesFormComponent implements OnInit {
   }
 
   public onSubmit() {
+
+    // CHECK FORM
+    /*console.log('invalid : ', this.entryTimesForm.invalid)
+    this.entryTimesForm.statusChanges.subscribe(status => {
+      console.log('Form status:', status);
+    });
+    this.entryTimesForm.valueChanges.subscribe(() => {
+      console.log('Form errors:', this.entryTimesForm.errors);
+    });
+
+    this.entryTimesForm.valueChanges.subscribe(() => {
+      Object.keys(this.entryTimesForm.controls).forEach(key => {
+        const control = this.entryTimesForm.get(key);
+
+        console.log({
+          field: key,
+          value: control?.value,
+          valid: control?.valid,
+          errors: control?.errors
+        });
+      });
+    });*/
+
     if (this.entryTimesForm.invalid) return;
 
     this.timeEntryService.addTimeEntry(
@@ -90,10 +112,10 @@ export class EntryTimesFormComponent implements OnInit {
       next: () => {
         this.entryTimesForm.reset({
           workDate: new Date(),
-          teamId: 0,
-          productId: 0,
-          moduleId: 0,
-          activityId: 0,
+          teamId: null,
+          productId: null,
+          moduleId: null,
+          activityId: null,
           comment: ''
           });
       },
