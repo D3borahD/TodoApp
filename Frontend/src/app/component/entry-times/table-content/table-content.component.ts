@@ -85,7 +85,7 @@ export class TableContentComponent {
     workDate: new FormControl(null, [Validators.required]),
     workload: new FormControl(null, [Validators.required]),
     productId: new FormControl('', [Validators.required]),
-    teamId: new FormControl('', [Validators.required]),
+    teamId: new FormControl(''),
     moduleId: new FormControl('', [Validators.required]),
     activityId: new FormControl('', [Validators.required]),
     specificProjectId: new FormControl(''),
@@ -111,5 +111,4 @@ export class TableContentComponent {
       .afterClosed()
       .subscribe();
   }
-
 }

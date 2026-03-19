@@ -112,6 +112,7 @@ export class EntryTimesFormComponent implements OnInit {
       next: () => {
         this.entryTimesForm.reset({
           workDate: new Date(),
+          workload: 1,
           teamId: null,
           productId: null,
           moduleId: null,
