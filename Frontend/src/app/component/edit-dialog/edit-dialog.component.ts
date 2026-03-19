@@ -44,17 +44,17 @@ import {MatInput} from '@angular/material/input';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditDialogComponent {
-  data = inject<EditDialogData>(MAT_DIALOG_DATA);
+  public data = inject<EditDialogData>(MAT_DIALOG_DATA);
   protected timeEntryService: TimeEntryService = inject(TimeEntryService);
   private dialogRef = inject(MatDialogRef<EditDialogComponent>);
 
-  entryTime = new FormGroup({
-      teamId: new FormControl(this.data.timeEntry.team.id??null, [Validators.required]),
+  public entryTime = new FormGroup({
+      teamId: new FormControl<number|null>(this.data.timeEntry.team?.id??null),
       productId: new FormControl(this.data.timeEntry.product.id??null, [Validators.required]),
-     moduleId: new FormControl(this.data.timeEntry.module.id??null, [Validators.required]),
+      moduleId: new FormControl(this.data.timeEntry.module.id??null, [Validators.required]),
       activityId: new FormControl(this.data.timeEntry.activity.id??null, [Validators.required]),
       workload: new FormControl(this.data.timeEntry.workload??null, [Validators.required]),
-    workDate: new FormControl<Date | null>(
+      workDate: new FormControl<Date | null>(
       this.data.timeEntry.workDate
         ? new Date(this.data.timeEntry.workDate)
         : null,
@@ -62,14 +62,13 @@ export class EditDialogComponent {
     )
   })
 
- products$ = this.data.products$;
-   workloads$ = this.data.workloads$;
-  teams$ = this.data.teams$;
-  modules$ = this.data.modules$;
-  activities$ = this.data.activities$;
+  public products$ = this.data.products$;
+  public workloads$ = this.data.workloads$;
+  public teams$ = this.data.teams$;
+  public modules$ = this.data.modules$;
+  public activities$ = this.data.activities$;
 
-
-  update() {
+  public update() {
     if (this.entryTime.invalid) return;
 
     const formValue = this.entryTime.getRawValue();
