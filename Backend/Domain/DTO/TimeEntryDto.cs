@@ -13,6 +13,6 @@ public class TimeEntryDto
 
     public ModuleSummaryDto? Module { get; set; }
 
-    public int SpecificProjectId { get; set; }
+    public int? SpecificProjectId { get; set; }
     public string? Comment { get; set; }
 }

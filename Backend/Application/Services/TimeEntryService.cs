@@ -1,5 +1,4 @@
 using Application.Interfaces;
-using BackendApi.Entities;
 using Domain.DTO;
 using Domain.Entities;
 using Microsoft.Extensions.Logging;
@@ -121,11 +120,17 @@ public class TimeEntryService(
                 SpecificProjectId = entity.SpecificProjectId,
                 Comment = entity.Comment
             };
+            
         
             var createdTimeEntry = await timeEntryRepository.CreateAsync(newTimeEntry);
             
             var activity = await activityRepository.GetByIdAsync(createdTimeEntry.ActivityId);
-            var team = await teamRepository.GetByIdAsync(createdTimeEntry.TeamId);
+
+            TeamDao? team = null;
+            if (createdTimeEntry.TeamId.HasValue)
+            {
+                 team = await teamRepository.GetByIdAsync(createdTimeEntry.TeamId.Value);
+            }
             var module = await moduleRepository.GetByIdAsync(createdTimeEntry.ModuleId);
             var product = await productRepository.GetByIdAsync(createdTimeEntry.ProductId);
 
@@ -172,7 +177,14 @@ public class TimeEntryService(
         if (updatedTimeEntry == null) return null;
         
             var activity = await activityRepository.GetByIdAsync(updatedTimeEntry.ActivityId);
-            var team = await teamRepository.GetByIdAsync(updatedTimeEntry.TeamId);
+            
+            TeamDao? team = null;
+        
+            if (updatedTimeEntry.TeamId.HasValue)
+            {
+                team = await teamRepository.GetByIdAsync(updatedTimeEntry.TeamId.Value);
+            }
+
             var product = await productRepository.GetByIdAsync(updatedTimeEntry.ProductId);
             var module = await moduleRepository.GetByIdAsync(updatedTimeEntry.ModuleId);
             
