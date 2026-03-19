@@ -45,5 +45,5 @@
       <mat-radio-button [value]="workload.value">{{workload.label}}</mat-radio-button>
     }
   </mat-radio-group>
-  <button type="submit">Sauvegarder</button>
+  <button type="submit" [disabled]="entryTimesForm.invalid">Sauvegarder</button>
 </form>

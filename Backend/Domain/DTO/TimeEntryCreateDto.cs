@@ -13,12 +13,12 @@ public class TimeEntryCreateDto
     }
 
     public int ActivityId { get; set; } 
-    public int TeamId { get; set; } 
+    public int? TeamId { get; set; } 
     public int ProductId { get; set; } 
 
     public int ModuleId { get; set; } 
     
-    public int SpecificProjectId { get; set; }
+    public int? SpecificProjectId { get; set; }
     public string? Comment { get; set; }
     
     public bool IsValid(out string? errorMessage)
