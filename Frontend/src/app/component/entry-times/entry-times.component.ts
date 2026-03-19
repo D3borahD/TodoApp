@@ -4,7 +4,6 @@ import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from '@angular/ma
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { registerLocaleData} from '@angular/common';
 import {ITimeEntry, ITimeEntryFull} from '../../core/models/timeEntry.model';
-import {Observable} from 'rxjs';
 import {TimeEntryService} from '../../core/services/timeEntry.service';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
 import {
@@ -49,14 +48,11 @@ export class EntryTimesComponent implements OnInit {
   protected timeEntryService: TimeEntryService = inject(TimeEntryService);
 
   public entryTimes!: ITimeEntry;
-  public entryTimes$!: Observable<ITimeEntryFull[]>;
+  public dataSource!:  MatTableDataSource<ITimeEntryFull>;
 
-  dataSource!:  MatTableDataSource<ITimeEntryFull>;
-
-  ngOnInit() {
+  public ngOnInit() {
     this.timeEntryService.loadEntries();
     this.timeEntryService.loadPreviousMonthEntries();
-    this.timeEntryService.loadCurrentWeekEntries();
 
     effect(() => {
       this.dataSource.data = this.timeEntryService.entries();
