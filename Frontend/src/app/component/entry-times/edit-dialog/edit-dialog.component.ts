@@ -1,43 +1,25 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {
   MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogClose,
   MatDialogContent, MatDialogRef,
   MatDialogTitle
 } from '@angular/material/dialog';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {AsyncPipe} from '@angular/common';
-import {MatFormField, MatLabel} from '@angular/material/form-field';
-import {MatOption} from '@angular/material/core';
-import {MatSelect} from '@angular/material/select';
-import {MatButton} from '@angular/material/button';
+
 import {EditDialogData} from './EditDialogData';
-import {ITimeEntry, ITimeEntryFull} from '../../core/models/timeEntry.model';
-import {TimeEntryService} from '../../core/services/timeEntry.service';
-import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
-import {MatInput} from '@angular/material/input';
+import {TimeEntryService} from '../../../core/services/timeEntry.service';
+import {ITimeEntry} from '../../../core/models/timeEntry.model';
+import {EntryTimesFormComponent} from '../entry-times-form/entry-times-form.component';
 
 @Component({
   selector: 'edit-dialog',
   standalone: true,
   imports: [
     MatDialogContent,
-    MatDialogActions,
-    AsyncPipe,
     FormsModule,
-    MatFormField,
-    MatLabel,
-    MatOption,
-    MatSelect,
     ReactiveFormsModule,
     MatDialogTitle,
-    MatButton,
-    MatDialogClose,
-    MatDatepickerInput,
-    MatDatepickerToggle,
-    MatDatepicker,
-    MatInput,
+    EntryTimesFormComponent,
   ],
   templateUrl: './edit-dialog.component.html',
   styleUrl: './edit-dialog.component.scss',
@@ -48,7 +30,11 @@ export class EditDialogComponent {
   protected timeEntryService: TimeEntryService = inject(TimeEntryService);
   private dialogRef = inject(MatDialogRef<EditDialogComponent>);
 
+  public id = this.data.timeEntry.id;
+
+
   public entryTime = new FormGroup({
+
       teamId: new FormControl<number|null>(this.data.timeEntry.team?.id??null),
       productId: new FormControl(this.data.timeEntry.product.id??null, [Validators.required]),
       moduleId: new FormControl(this.data.timeEntry.module.id??null, [Validators.required]),
@@ -62,11 +48,6 @@ export class EditDialogComponent {
     )
   })
 
-  public products$ = this.data.products$;
-  public workloads$ = this.data.workloads$;
-  public teams$ = this.data.teams$;
-  public modules$ = this.data.modules$;
-  public activities$ = this.data.activities$;
 
   public update() {
     if (this.entryTime.invalid) return;

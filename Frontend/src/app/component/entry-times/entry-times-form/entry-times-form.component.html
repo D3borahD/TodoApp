@@ -1,6 +1,6 @@
 <h2>Ajouter une nouvelle saisie</h2>
 
-<form id="entryTimesForm" [formGroup]="entryTimesForm" (ngSubmit)="onSubmit()">
+<form id="entryTimesForm" [formGroup]="form" >
   <mat-form-field appearance="fill">
     <mat-label>Date</mat-label>
     <input matInput [matDatepicker]="picker" formControlName="workDate">
@@ -45,5 +45,5 @@
       <mat-radio-button [value]="workload.value">{{workload.label}}</mat-radio-button>
     }
   </mat-radio-group>
-  <button type="submit" [disabled]="entryTimesForm.invalid">Sauvegarder</button>
+<!--  <button type="submit" [disabled]="entryTimesForm.invalid">Sauvegarder</button>-->
 </form>

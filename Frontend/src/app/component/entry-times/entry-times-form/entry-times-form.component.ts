@@ -1,10 +1,10 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import {AsyncPipe} from "@angular/common";
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
 import {MatFormField, MatInput, MatLabel, MatSuffix} from "@angular/material/input";
 import {MatOption} from "@angular/material/core";
 import {MatSelect} from "@angular/material/select";
-import { FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {TeamService} from '../../../core/services/team.service';
 import {ProductService} from '../../../core/services/product.service';
 import {ModuleService} from '../../../core/services/module.service';
@@ -43,16 +43,18 @@ export class EntryTimesFormComponent implements OnInit {
   private productService: ProductService = inject(ProductService);
   private moduleService: ModuleService = inject(ModuleService);
   private activityService: ActivityService = inject(ActivityService);
-  protected timeEntryService: TimeEntryService = inject(TimeEntryService);
+  private timeEntryService: TimeEntryService = inject(TimeEntryService);
   private formBuilder: FormBuilder = inject(FormBuilder);
 
   public teams$ = this.teamService.getTeams$();
   public products$: Observable<Product[]> = this.productService.getProducts$();
-  public modules$: Observable<Module[]> = this.moduleService.getModules$();
+   public modules$: Observable<Module[]> = this.moduleService.getModules$();
   public activities$ = this.activityService.getActivities$();
   public readonly workloads$ = of(WORKLOAD_OPTIONS)
 
-  public entryTimesForm = this.formBuilder.group({
+    // Données initiales du formulaire
+  // si ID présent alors récupère les info, sinon, form de saisie
+  @Input() public form = this.formBuilder.group({
     activityId: [null, [Validators.required]],
     comment: [''],
     moduleId: [null, [Validators.required]],
@@ -63,67 +65,30 @@ export class EntryTimesFormComponent implements OnInit {
     workload: this.formBuilder.control<Workload | null>(1, Validators.required),
   })
 
+
+  @Input() entryTime!: FormGroup<{
+    teamId: FormControl<number | null>;
+    productId: FormControl<number | null>;
+    moduleId: FormControl<number | null>;
+    activityId: FormControl<number | null>;
+    workload: FormControl<1 | 0.75 | 0.5 | 0.25 | 0 | null>;
+    workDate: FormControl<Date | null>
+  }>;
+
   public ngOnInit() {
-    this.modules$ = this.entryTimesForm.get('productId')!.valueChanges.pipe(
-      startWith(this.entryTimesForm.get('productId')!.value), // pour initialisation
+    this.modules$ = this.form.get('productId')!.valueChanges.pipe(
+      startWith(this.form.get('productId')!.value), // pour initialisation
       filter(productId => !!productId),
       switchMap(productId =>
         this.productService.getModulesByProducts(productId)
       )
     );
 
-    this.products$ = this.entryTimesForm.get('teamId')!.valueChanges.pipe(
-      startWith(this.entryTimesForm.get('teamId')!.value),
+    this.products$ = this.form.get('teamId')!.valueChanges.pipe(
+      startWith(this.form.get('teamId')!.value),
       switchMap(teamId =>
         teamId == null || teamId == 0 ? this.productService.getProducts$() :  this.teamService.getProductsByTeam(teamId)
       )
     );
-  }
-
-  public onSubmit() {
-
-    // CHECK FORM
-    /*console.log('invalid : ', this.entryTimesForm.invalid)
-    this.entryTimesForm.statusChanges.subscribe(status => {
-      console.log('Form status:', status);
-    });
-    this.entryTimesForm.valueChanges.subscribe(() => {
-      console.log('Form errors:', this.entryTimesForm.errors);
-    });
-
-    this.entryTimesForm.valueChanges.subscribe(() => {
-      Object.keys(this.entryTimesForm.controls).forEach(key => {
-        const control = this.entryTimesForm.get(key);
-
-        console.log({
-          field: key,
-          value: control?.value,
-          valid: control?.valid,
-          errors: control?.errors
-        });
-      });
-    });*/
-
-    if (this.entryTimesForm.invalid) return;
-
-    this.timeEntryService.addTimeEntry(
-      this.entryTimesForm.getRawValue() as any
-    ).subscribe({
-      next: () => {
-        this.entryTimesForm.reset({
-          workDate: new Date(),
-          workload: 1,
-          teamId: null,
-          productId: null,
-          moduleId: null,
-          activityId: null,
-          comment: ''
-          });
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    });
-
   }
 }

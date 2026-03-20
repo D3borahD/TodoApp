@@ -12,7 +12,7 @@ import {MatIcon} from '@angular/material/icon';
 import {ITimeEntry, ITimeEntryFull} from '../../../core/models/timeEntry.model';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {TimeEntryService} from '../../../core/services/timeEntry.service';
-import {EditDialogComponent} from '../../edit-dialog/edit-dialog.component';
+
 import {MatDialog} from '@angular/material/dialog';
 import {TeamService} from '../../../core/services/team.service';
 import {ProductService} from '../../../core/services/product.service';
@@ -21,6 +21,7 @@ import {ActivityService} from '../../../core/services/activity.service';
 import {of} from 'rxjs';
 import {WORKLOAD_OPTIONS} from '../../../core/models/workload.model';
 import {DatePipe} from '@angular/common';
+import {EditDialogComponent} from '../edit-dialog/edit-dialog.component';
 
 @Component({
   selector: 'app-table-content',
@@ -40,21 +41,24 @@ import {DatePipe} from '@angular/common';
   styleUrl: './table-content.component.scss'
 })
 export class TableContentComponent {
+
   protected timeEntryService: TimeEntryService = inject(TimeEntryService);
+
   private readonly dialog = inject(MatDialog);
   private teamService: TeamService = inject(TeamService);
   private productService: ProductService = inject(ProductService);
   private moduleService: ModuleService = inject(ModuleService);
   private activityService: ActivityService = inject(ActivityService);
   private formBuilder: FormBuilder = inject(FormBuilder);
+
   @Input() public value!: Signal<ITimeEntryFull[]>;
 
   public readonly workloads$ = of(WORKLOAD_OPTIONS)
 
   private readonly _entries = signal<ITimeEntryFull[]>([]);
+  private selectedRow: ITimeEntryFull | null = null;
 
   public displayedColumns: string[] = ['id', 'workDate','product', 'module', 'activity', 'workload', 'delete', 'edit'];
-  private selectedRow: ITimeEntryFull | null = null;
   public teams$ = this.teamService.getTeams$();
   public products$ = this.productService.getProducts$();
   public modules$ = this.moduleService.getModules$();
@@ -63,6 +67,8 @@ export class TableContentComponent {
 
 
   public update(row:ITimeEntryFull) {
+
+
     this.selectedRow = row;
     const update = {
       id: row.id,
@@ -98,6 +104,7 @@ export class TableContentComponent {
   }
   public openDialog(element:ITimeEntryFull) {
     this.dialog.open(EditDialogComponent, {
+
       data: {
         timeEntry: element,
         activities$: this.activities$,
@@ -106,6 +113,7 @@ export class TableContentComponent {
         modules$: this.modules$,
         products$: this.products$,
       },
+
 
     })
       .afterClosed()
