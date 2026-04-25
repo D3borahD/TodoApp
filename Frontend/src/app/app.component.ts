@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {RouterLink, RouterOutlet} from '@angular/router';
+import {RouterOutlet} from '@angular/router';
 import {Observable,} from 'rxjs';
 
 import {TeamService} from './core/services/team.service';
@@ -11,7 +11,6 @@ import {ReactiveFormsModule} from '@angular/forms';
     selector: 'app-root',
     imports: [
         RouterOutlet,
-        RouterLink,
         ReactiveFormsModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,7 +20,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 export class AppComponent {
 
   public teamList$!: Observable<ITeam[]>;
-  public active = false;
+
   public selectedTeam: string = 'Equipe';
 
   constructor(private readonly teamService: TeamService) {}

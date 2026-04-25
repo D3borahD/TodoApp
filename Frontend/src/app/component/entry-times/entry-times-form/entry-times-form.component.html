@@ -44,20 +44,4 @@
       <mat-radio-button [value]="workload.value">{{workload.label}}</mat-radio-button>
     }
   </mat-radio-group>
-
-  <mat-form-field>
-    <mat-label>Specific project</mat-label>
-    <mat-select formControlName="specificProjectId">
-      @for (activity of activities$ | async; track activity.id) {
-        <mat-option [value]="activity.id">{{activity.label}}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field class="example-full-width">
-    <mat-label formControlName="comment">Leave a comment</mat-label>
-    <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
-  </mat-form-field>
-
-
 </form>

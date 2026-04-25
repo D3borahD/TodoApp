@@ -1,14 +1,11 @@
-import {ChangeDetectionStrategy, Component, effect, inject, LOCALE_ID, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, inject, LOCALE_ID} from '@angular/core';
 import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from '@angular/material/core';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { registerLocaleData} from '@angular/common';
-import {ITimeEntry, ITimeEntryFull} from '../../core/models/timeEntry.model';
+import {ITimeEntry} from '../../core/models/timeEntry.model';
 import {TimeEntryService} from '../../core/services/timeEntry.service';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
-import {
-  MatTableDataSource,
-} from '@angular/material/table';
 import {
   MatDatepickerModule,
 } from '@angular/material/datepicker';
@@ -44,21 +41,20 @@ registerLocaleData(localeFr);
     styleUrl: './entry-times.component.scss',
     templateUrl: './entry-times.component.html'
 })
-export class EntryTimesComponent implements OnInit {
+export class EntryTimesComponent {
 
-  protected timeEntryService: TimeEntryService = inject(TimeEntryService);
+  private timeEntryService: TimeEntryService = inject(TimeEntryService);
   private formBuilder: FormBuilder = inject(FormBuilder);
 
-  public entryTimes!: ITimeEntry;
-  public dataSource!:  MatTableDataSource<ITimeEntryFull>;
+  currentWeekEntries = this.timeEntryService.currentWeekEntries;
+  entries = this.timeEntryService.entries;
+  previousMonthEntries = this.timeEntryService.previousMonthEntries;
 
-  public ngOnInit() {
+  public entryTimes!: ITimeEntry;
+
+  constructor() {
     this.timeEntryService.loadEntries();
     this.timeEntryService.loadPreviousMonthEntries();
-
-    effect(() => {
-      this.dataSource.data = this.timeEntryService.entries();
-    });
   }
 
   public entryTimesForm = this.formBuilder.group<TimeEntryFormType>({
@@ -73,29 +69,6 @@ export class EntryTimesComponent implements OnInit {
   })
 
   public onSubmit() {
-
-    // CHECK FORM
-    /*console.log('invalid : ', this.entryTimesForm.invalid)
-    this.entryTimesForm.statusChanges.subscribe(status => {
-      console.log('Form status:', status);
-    });
-    this.entryTimesForm.valueChanges.subscribe(() => {
-      console.log('Form errors:', this.entryTimesForm.errors);
-    });
-
-    this.entryTimesForm.valueChanges.subscribe(() => {
-      Object.keys(this.entryTimesForm.controls).forEach(key => {
-        const control = this.entryTimesForm.get(key);
-
-        console.log({
-          field: key,
-          value: control?.value,
-          valid: control?.valid,
-          errors: control?.errors
-        });
-      });
-    });*/
-
     if (this.entryTimesForm.invalid) return;
 
     this.timeEntryService.addTimeEntry(
