@@ -22,28 +22,27 @@ import {TimeEntryFormType} from '../../core/models/entryTimeFormType';
 registerLocaleData(localeFr);
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    MatOptionModule,
-    MatTabGroup,
-    MatTab,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatFormFieldModule,  // Required for mat-form-field and mat-hint
-    MatInputModule,
-    TableContentComponent,
-    EntryTimesFormComponent,
-  ],
-  providers: [
-    {provide: LOCALE_ID, useValue: 'fr-FR'},
-    {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'}
-  ],
-  selector: 'app-entry-times',
-  standalone: true,
-  styleUrl: './entry-times.component.scss',
-  templateUrl: './entry-times.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatOptionModule,
+        MatTabGroup,
+        MatTab,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatFormFieldModule, // Required for mat-form-field and mat-hint
+        MatInputModule,
+        TableContentComponent,
+        EntryTimesFormComponent,
+    ],
+    providers: [
+        { provide: LOCALE_ID, useValue: 'fr-FR' },
+        { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }
+    ],
+    selector: 'app-entry-times',
+    styleUrl: './entry-times.component.scss',
+    templateUrl: './entry-times.component.html'
 })
 export class EntryTimesComponent implements OnInit {
 

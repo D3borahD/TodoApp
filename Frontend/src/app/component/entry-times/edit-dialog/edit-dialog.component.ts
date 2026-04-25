@@ -13,18 +13,17 @@ import {EntryTimesFormComponent} from '../entry-times-form/entry-times-form.comp
 import {TimeEntryFormType} from '../../../core/models/entryTimeFormType';
 
 @Component({
-  selector: 'edit-dialog',
-  standalone: true,
-  imports: [
-    MatDialogContent,
-    FormsModule,
-    ReactiveFormsModule,
-    MatDialogTitle,
-    EntryTimesFormComponent,
-  ],
-  templateUrl: './edit-dialog.component.html',
-  styleUrl: './edit-dialog.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'edit-dialog',
+    imports: [
+        MatDialogContent,
+        FormsModule,
+        ReactiveFormsModule,
+        MatDialogTitle,
+        EntryTimesFormComponent,
+    ],
+    templateUrl: './edit-dialog.component.html',
+    styleUrl: './edit-dialog.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditDialogComponent {
 

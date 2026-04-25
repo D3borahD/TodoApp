@@ -19,25 +19,24 @@ import {ITeam} from '../../../core/models/team.model';
 import {Activity} from '../../../core/models/activity.model';
 
 @Component({
-  selector: 'app-entry-times-form',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    MatDatepicker,
-    MatDatepickerInput,
-    MatDatepickerToggle,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatOption,
-    MatSelect,
-    MatSuffix,
-    ReactiveFormsModule,
-    MatRadioGroup,
-    MatRadioButton
-  ],
-  templateUrl: './entry-times-form.component.html',
-  styleUrl: './entry-times-form.component.scss'
+    selector: 'app-entry-times-form',
+    imports: [
+        AsyncPipe,
+        MatDatepicker,
+        MatDatepickerInput,
+        MatDatepickerToggle,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatOption,
+        MatSelect,
+        MatSuffix,
+        ReactiveFormsModule,
+        MatRadioGroup,
+        MatRadioButton
+    ],
+    templateUrl: './entry-times-form.component.html',
+    styleUrl: './entry-times-form.component.scss'
 })
 export class EntryTimesFormComponent implements OnInit {
 

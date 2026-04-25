@@ -24,21 +24,20 @@ import {DatePipe} from '@angular/common';
 import {EditDialogComponent} from '../edit-dialog/edit-dialog.component';
 
 @Component({
-  selector: 'app-table-content',
-  standalone: true,
-  imports: [
-    MatTable,
-    MatColumnDef,
-    MatHeaderCell,
-    MatIcon,
-    DatePipe,
-    MatCell, MatCellDef,
-    MatHeaderCellDef,
-    MatHeaderRow, MatHeaderRowDef,
-    MatRow, MatRowDef,
-  ],
-  templateUrl: './table-content.component.html',
-  styleUrl: './table-content.component.scss'
+    selector: 'app-table-content',
+    imports: [
+        MatTable,
+        MatColumnDef,
+        MatHeaderCell,
+        MatIcon,
+        DatePipe,
+        MatCell, MatCellDef,
+        MatHeaderCellDef,
+        MatHeaderRow, MatHeaderRowDef,
+        MatRow, MatRowDef,
+    ],
+    templateUrl: './table-content.component.html',
+    styleUrl: './table-content.component.scss'
 })
 export class TableContentComponent {
 

@@ -8,16 +8,15 @@ import {ITeam} from './core/models/team.model';
 import {ReactiveFormsModule} from '@angular/forms';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-    RouterOutlet,
-    RouterLink,
-    ReactiveFormsModule,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    imports: [
+        RouterOutlet,
+        RouterLink,
+        ReactiveFormsModule,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent {
 
