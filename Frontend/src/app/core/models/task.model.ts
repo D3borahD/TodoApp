@@ -1,5 +1,5 @@
 export class Task {
   id?: number = -1
-  title: string = 'task title'
+  title = 'task title'
   isCompleted? : boolean = false;
 }

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, effect, inject, LOCALE_ID} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, LOCALE_ID} from '@angular/core';
 import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from '@angular/material/core';
 import { MatFormFieldModule} from '@angular/material/form-field';
@@ -72,7 +72,7 @@ export class EntryTimesComponent {
     if (this.entryTimesForm.invalid) return;
 
     this.timeEntryService.addTimeEntry(
-      this.entryTimesForm.getRawValue() as any
+      this.entryTimesForm.getRawValue() as ITimeEntry
     ).subscribe({
       next: () => {
         this.entryTimesForm.reset({

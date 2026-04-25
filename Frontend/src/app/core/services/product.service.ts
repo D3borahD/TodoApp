@@ -1,4 +1,4 @@
-import {Inject, Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {APP_CONFIG, AppConfig} from '../../app.config';
 import {Observable} from 'rxjs';
@@ -10,13 +10,10 @@ import {Module} from '../models/module.model';
   providedIn: 'root'
 })
 export class ProductService {
-  private readonly baseURL:string;
-  constructor(
-    private http: HttpClient,
-    @Inject(APP_CONFIG) private config: AppConfig
-  ) {
-    this.baseURL = `${config.apiBaseUrl}/Products`;
-  }
+
+  private readonly http: HttpClient = inject(HttpClient);
+  private readonly config: AppConfig = inject(APP_CONFIG);
+  private readonly baseURL:string =  `${this.config.apiBaseUrl}/Products`;
 
   public getProducts$(): Observable<Product[]>{
     return this.http.get<Product[]>(this.baseURL);

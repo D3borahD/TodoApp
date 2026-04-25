@@ -1,6 +1,6 @@
-import {computed, Inject, Injectable, signal, WritableSignal} from '@angular/core';
+import {computed, inject, Injectable, signal, WritableSignal} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {APP_CONFIG, AppConfig} from '../../app.config';
+import {APP_CONFIG} from '../../app.config';
 import {ITimeEntry, ITimeEntryFull} from '../models/timeEntry.model';
 import {Observable, tap} from 'rxjs';
 
@@ -9,10 +9,12 @@ import {Observable, tap} from 'rxjs';
 })
 export class TimeEntryService {
 
-  private readonly baseURL!:string;
+  private readonly http: HttpClient = inject(HttpClient);
+  private readonly config = inject(APP_CONFIG);
+  private readonly baseURL:string = `${this.config.apiBaseUrl}/TimeEntry`;
+
   private readonly _entries = signal<ITimeEntryFull[]>([]);
   private readonly _previousMonthEntries = signal<ITimeEntryFull[]>([]);
-
   public readonly entries = this._entries.asReadonly();
   public readonly previousMonthEntries = this._previousMonthEntries.asReadonly();
 
@@ -34,15 +36,8 @@ export class TimeEntryService {
     });
   });
 
-  private constructor(
-    private readonly http: HttpClient,
-    @Inject(APP_CONFIG) private config: AppConfig
-  ) {
-    this.baseURL = `${config.apiBaseUrl}/TimeEntry`;
-  }
-
   public loadEntries(): void {
-    let currentDate = new Date()
+    const currentDate = new Date()
     const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
     const endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
     this.loadRange(startDate, endDate, this._entries);

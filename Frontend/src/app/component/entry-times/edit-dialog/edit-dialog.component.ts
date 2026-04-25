@@ -13,7 +13,7 @@ import {EntryTimesFormComponent} from '../entry-times-form/entry-times-form.comp
 import {TimeEntryFormType} from '../../../core/models/entryTimeFormType';
 
 @Component({
-    selector: 'edit-dialog',
+    selector: 'app-edit-dialog',
     imports: [
         MatDialogContent,
         FormsModule,

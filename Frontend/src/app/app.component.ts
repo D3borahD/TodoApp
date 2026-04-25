@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {Observable,} from 'rxjs';
 
@@ -17,13 +17,14 @@ import {ReactiveFormsModule} from '@angular/forms';
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+  private readonly teamService: TeamService = inject(TeamService);
 
   public teamList$!: Observable<ITeam[]>;
 
-  public selectedTeam: string = 'Equipe';
+  public selectedTeam = 'Equipe';
 
-  constructor(private readonly teamService: TeamService) {}
 
   ngOnInit(): void {
     this.teamList$ = this.teamService.getTeams$();

@@ -1,7 +1,7 @@
 import {FormControl} from '@angular/forms';
 import {Workload} from './workload.model';
 
-export type TimeEntryFormType = {
+export interface TimeEntryFormType {
   activityId: FormControl<number | null>;
   comment: FormControl<string | null>;
   moduleId: FormControl<number | null>;
@@ -10,4 +10,4 @@ export type TimeEntryFormType = {
   teamId: FormControl<number | null>;
   workDate: FormControl<Date | null>;
   workload: FormControl<Workload | null>;
-};
+}
