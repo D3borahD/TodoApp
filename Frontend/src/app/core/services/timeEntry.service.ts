@@ -72,7 +72,12 @@ export class TimeEntryService {
       .pipe(
         tap(updatedEntry => {
           const normalized = this.normalizeEntry(updatedEntry);
+
           this._entries.update(entries =>
+            entries.map(entry => entry.id === normalized.id ? normalized : entry)
+          );
+
+          this._previousMonthEntries.update(entries =>
             entries.map(entry => entry.id === normalized.id ? normalized : entry)
           );
         })

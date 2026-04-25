@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, effect, inject, LOCALE_ID, OnInit} from '@angular/core';
-import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from '@angular/material/core';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { registerLocaleData} from '@angular/common';
@@ -17,6 +17,7 @@ import localeFr from '@angular/common/locales/fr';
 import {TableContentComponent} from './table-content/table-content.component';
 import {EntryTimesFormComponent} from './entry-times-form/entry-times-form.component';
 import {Workload} from '../../core/models/workload.model';
+import {TimeEntryFormType} from '../../core/models/entryTimeFormType';
 
 registerLocaleData(localeFr);
 
@@ -61,17 +62,16 @@ export class EntryTimesComponent implements OnInit {
     });
   }
 
-  public entryTimesForm = this.formBuilder.group({
-    activityId: [null, [Validators.required]],
-    comment: [''],
-    moduleId: [null, [Validators.required]],
-    productId: [null, [Validators.required]],
-    specificProjectId: [null],
-    teamId: [null],
+  public entryTimesForm = this.formBuilder.group<TimeEntryFormType>({
+    activityId: new FormControl<number| null>(null, [Validators.required]),
+    comment: new FormControl<string|null>(null),
+    moduleId: new FormControl<number| null>(null, [Validators.required]),
+    productId: new FormControl<number| null>(null, [Validators.required]),
+    specificProjectId: new FormControl<number| null>(null),
+    teamId: new FormControl<number|null>(null),
     workDate: this.formBuilder.control<Date | null>(new Date(), [Validators.required]),
     workload: this.formBuilder.control<Workload | null>(1, Validators.required),
   })
-  protected form: any;
 
   public onSubmit() {
 

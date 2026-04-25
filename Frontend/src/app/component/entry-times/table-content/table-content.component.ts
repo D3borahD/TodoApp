@@ -104,7 +104,8 @@ export class TableContentComponent {
   }
   public openDialog(element:ITimeEntryFull) {
     this.dialog.open(EditDialogComponent, {
-
+      width: '500px',
+      height: 'auto',
       data: {
         timeEntry: element,
         activities$: this.activities$,
@@ -113,8 +114,6 @@ export class TableContentComponent {
         modules$: this.modules$,
         products$: this.products$,
       },
-
-
     })
       .afterClosed()
       .subscribe();

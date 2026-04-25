@@ -4,17 +4,19 @@ import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/m
 import {MatFormField, MatInput, MatLabel, MatSuffix} from "@angular/material/input";
 import {MatOption} from "@angular/material/core";
 import {MatSelect} from "@angular/material/select";
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import { FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {TeamService} from '../../../core/services/team.service';
 import {ProductService} from '../../../core/services/product.service';
 import {ModuleService} from '../../../core/services/module.service';
 import {ActivityService} from '../../../core/services/activity.service';
 import {filter, Observable, of, startWith, switchMap} from 'rxjs';
-import {Workload, WORKLOAD_OPTIONS} from '../../../core/models/workload.model';
-import {TimeEntryService} from '../../../core/services/timeEntry.service';
+import {WORKLOAD_OPTIONS, WorkloadOption} from '../../../core/models/workload.model';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 import {Module} from '../../../core/models/module.model';
 import {Product} from '../../../core/models/product.model';
+import {TimeEntryFormType} from '../../../core/models/entryTimeFormType';
+import {ITeam} from '../../../core/models/team.model';
+import {Activity} from '../../../core/models/activity.model';
 
 @Component({
   selector: 'app-entry-times-form',
@@ -43,37 +45,14 @@ export class EntryTimesFormComponent implements OnInit {
   private productService: ProductService = inject(ProductService);
   private moduleService: ModuleService = inject(ModuleService);
   private activityService: ActivityService = inject(ActivityService);
-  private timeEntryService: TimeEntryService = inject(TimeEntryService);
-  private formBuilder: FormBuilder = inject(FormBuilder);
 
-  public teams$ = this.teamService.getTeams$();
+  public teams$: Observable<ITeam[]>  = this.teamService.getTeams$();
   public products$: Observable<Product[]> = this.productService.getProducts$();
-   public modules$: Observable<Module[]> = this.moduleService.getModules$();
-  public activities$ = this.activityService.getActivities$();
-  public readonly workloads$ = of(WORKLOAD_OPTIONS)
+  public modules$: Observable<Module[]> = this.moduleService.getModules$();
+  public activities$: Observable<Activity[]>  = this.activityService.getActivities$();
+  public readonly workloads$: Observable<readonly WorkloadOption[]>  = of(WORKLOAD_OPTIONS)
 
-    // Données initiales du formulaire
-  // si ID présent alors récupère les info, sinon, form de saisie
-  @Input() public form = this.formBuilder.group({
-    activityId: [null, [Validators.required]],
-    comment: [''],
-    moduleId: [null, [Validators.required]],
-    productId: [null, [Validators.required]],
-    specificProjectId: [null],
-    teamId: [null],
-    workDate: this.formBuilder.control<Date | null>(new Date(), [Validators.required]),
-    workload: this.formBuilder.control<Workload | null>(1, Validators.required),
-  })
-
-
-  @Input() entryTime!: FormGroup<{
-    teamId: FormControl<number | null>;
-    productId: FormControl<number | null>;
-    moduleId: FormControl<number | null>;
-    activityId: FormControl<number | null>;
-    workload: FormControl<1 | 0.75 | 0.5 | 0.25 | 0 | null>;
-    workDate: FormControl<Date | null>
-  }>;
+  @Input() public form!: FormGroup<TimeEntryFormType>;
 
   public ngOnInit() {
     this.modules$ = this.form.get('productId')!.valueChanges.pipe(

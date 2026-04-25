@@ -4,12 +4,13 @@ import {
   MatDialogContent, MatDialogRef,
   MatDialogTitle
 } from '@angular/material/dialog';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {EditDialogData} from './EditDialogData';
 import {TimeEntryService} from '../../../core/services/timeEntry.service';
 import {ITimeEntry} from '../../../core/models/timeEntry.model';
 import {EntryTimesFormComponent} from '../entry-times-form/entry-times-form.component';
+import {TimeEntryFormType} from '../../../core/models/entryTimeFormType';
 
 @Component({
   selector: 'edit-dialog',
@@ -26,30 +27,30 @@ import {EntryTimesFormComponent} from '../entry-times-form/entry-times-form.comp
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditDialogComponent {
-  public data = inject<EditDialogData>(MAT_DIALOG_DATA);
-  protected timeEntryService: TimeEntryService = inject(TimeEntryService);
+
   private dialogRef = inject(MatDialogRef<EditDialogComponent>);
+  private formBuilder: FormBuilder = inject(FormBuilder);
+  private timeEntryService: TimeEntryService = inject(TimeEntryService);
 
-  public id = this.data.timeEntry.id;
+  public data = inject<EditDialogData>(MAT_DIALOG_DATA);
 
-
-  public entryTime = new FormGroup({
-
-      teamId: new FormControl<number|null>(this.data.timeEntry.team?.id??null),
-      productId: new FormControl(this.data.timeEntry.product.id??null, [Validators.required]),
-      moduleId: new FormControl(this.data.timeEntry.module.id??null, [Validators.required]),
-      activityId: new FormControl(this.data.timeEntry.activity.id??null, [Validators.required]),
-      workload: new FormControl(this.data.timeEntry.workload??null, [Validators.required]),
-      workDate: new FormControl<Date | null>(
+  public entryTime = this.formBuilder.group<TimeEntryFormType>({
+    activityId: new FormControl<number| null>(this.data.timeEntry.activity.id??null, [Validators.required]),
+    comment: new FormControl<string|null>(this.data.timeEntry.comment??null),
+    moduleId: new FormControl<number| null>(this.data.timeEntry.module.id??null, [Validators.required]),
+    productId: new FormControl<number| null>(this.data.timeEntry.product.id??null, [Validators.required]),
+    specificProjectId: new FormControl<number| null>(this.data.timeEntry.product.id??null),
+    teamId: new FormControl<number|null>(this.data.timeEntry.team?.id??null),
+    workDate: new FormControl<Date | null>(
       this.data.timeEntry.workDate
         ? new Date(this.data.timeEntry.workDate)
         : null,
       Validators.required
-    )
+    ),
+    workload: new FormControl(this.data.timeEntry.workload??null, [Validators.required]),
   })
 
-
-  public update() {
+  public onSubmit() {
     if (this.entryTime.invalid) return;
 
     const formValue = this.entryTime.getRawValue();

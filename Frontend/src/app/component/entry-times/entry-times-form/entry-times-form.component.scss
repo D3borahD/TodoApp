@@ -1,8 +1,6 @@
-:host{
-  margin: 20px;
-  h2 {
-    color: white;
-  }
+:host {
+  display: block;
+  width: 100%;
 }
 
 form {
@@ -12,10 +10,8 @@ form {
   align-items: center;
   border-radius: 8px;
   padding: 10px;
+
 }
-
-
-
 
 mat-form-field{
   width: 100%;
