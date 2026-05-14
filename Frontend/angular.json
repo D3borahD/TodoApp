@@ -101,6 +101,17 @@
               "src/**/*.html"
             ]
           }
+        },
+        "e2e": {
+          "builder": "playwright-ng-schematics:playwright",
+          "options": {
+            "devServerTarget": "Frontend:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "Frontend:serve:production"
+            }
+          }
         }
       }
     }
@@ -133,7 +144,8 @@
   },
   "cli": {
     "schematicCollections": [
-      "angular-eslint"
+      "angular-eslint",
+      "playwright-ng-schematics"
     ]
   }
 }

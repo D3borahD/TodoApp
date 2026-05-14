@@ -1,9 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
-$black : #181923;
+
+$dark-primary: #182030;
 $secondary-black : #25263B;
-$blue : #3B68FA;
-$white : azure;
 $grey: #8A8A8A;
+$grey-primary: #F3F3F5;
+$white : azure;
 
 *,
 ::after,
@@ -20,13 +21,13 @@ body {
 }
 
 body {
-  background-color: $black ;
+  background-color: $grey-primary;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 h1,
 p {
-  color: $white;
+  color: $grey-primary;
 }
 
 h1{
