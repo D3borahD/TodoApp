@@ -25,6 +25,11 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/app/ui/tokens"
+              ]
+            },
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -83,6 +88,11 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/app/ui/tokens"
+              ]
+            },
             "assets": [
               "src/assets"
             ],
