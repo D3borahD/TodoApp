@@ -1,7 +1,7 @@
 @import "../styles";
 
 header {
-  background-color: $dark-primary;
+  background-color: $surface-dark;
   width: 100%;
   height: 56px;
   display: flex;
@@ -20,7 +20,7 @@ header {
 }
 
 mat-icon {
-  color: $grey-primary;
+  color: $surface-light;
   margin: auto;
   margin-right: 10px;
 }

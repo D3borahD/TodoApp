@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, inject, LOCALE_ID} from '@angular/co
 import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from '@angular/material/core';
 import { MatFormFieldModule} from '@angular/material/form-field';
-import { registerLocaleData} from '@angular/common';
+import {DatePipe, registerLocaleData, TitleCasePipe} from '@angular/common';
 import {ITimeEntry} from '../../core/models/timeEntry.model';
 import {TimeEntryService} from '../../core/services/timeEntry.service';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
@@ -15,24 +15,28 @@ import {TableContentComponent} from './table-content/table-content.component';
 import {EntryTimesFormComponent} from './entry-times-form/entry-times-form.component';
 import {Workload} from '../../core/models/workload.model';
 import {TimeEntryFormType} from '../../core/models/entryTimeFormType';
+import {MatIcon} from '@angular/material/icon';
 
 registerLocaleData(localeFr);
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        MatOptionModule,
-        MatTabGroup,
-        MatTab,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatFormFieldModule, // Required for mat-form-field and mat-hint
-        MatInputModule,
-        TableContentComponent,
-        EntryTimesFormComponent,
-    ],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatOptionModule,
+    MatTabGroup,
+    MatTab,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule, // Required for mat-form-field and mat-hint
+    MatInputModule,
+    TableContentComponent,
+    EntryTimesFormComponent,
+    MatIcon,
+    DatePipe,
+    TitleCasePipe,
+  ],
     providers: [
         { provide: LOCALE_ID, useValue: 'fr-FR' },
         { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }
@@ -50,11 +54,16 @@ export class EntryTimesComponent {
   entries = this.timeEntryService.entries;
   previousMonthEntries = this.timeEntryService.previousMonthEntries;
 
+
+  public currentMonth = new Date();
+
   public entryTimes!: ITimeEntry;
 
   constructor() {
     this.timeEntryService.loadEntries();
     this.timeEntryService.loadPreviousMonthEntries();
+
+    console.log('month : ', this.currentMonth)
   }
 
   public entryTimesForm = this.formBuilder.group<TimeEntryFormType>({
@@ -67,6 +76,8 @@ export class EntryTimesComponent {
     workDate: this.formBuilder.control<Date | null>(new Date(), [Validators.required]),
     workload: this.formBuilder.control<Workload | null>(1, Validators.required),
   })
+
+
 
   public onSubmit() {
     if (this.entryTimesForm.invalid) return;
