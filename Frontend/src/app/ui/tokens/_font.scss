@@ -1,0 +1,33 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Syne:wght@400..800&display=swap');
+
+// Titles
+.txt-title {
+         font-family: "Syne", sans-serif;
+         font-optical-sizing: auto;
+         font-weight: 500;
+         font-style: normal;
+       }
+
+@font-face {
+  //font-family: "Syne", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  //src: url(Syne.woff2) format('woff2');
+}
+// Body
+.txt-body{
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+          }
+
+// Label
+.txt-label{
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+          }

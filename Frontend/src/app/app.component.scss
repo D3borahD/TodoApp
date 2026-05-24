@@ -1,27 +1,30 @@
-@import "../styles";
+@use "colors" as colors;
 
 header {
-  background-color: $surface-dark;
+  background-color: colors.$dark-medium;
   width: 100%;
   height: 56px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative;
   padding: 0 1em;
   .header {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
   }
   .logo{
-    height: 33px;
+    height: 32px;
     padding-right: 1em;
   }
 }
 
-mat-icon {
-  color: $surface-light;
-  margin: auto;
-  margin-right: 10px;
+h1 {
+  background: colors.$purple;
+  background: colors.$logo-gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: x-large;
 }
 

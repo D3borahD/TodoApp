@@ -1,4 +1,4 @@
-<button>
-  <mat-icon>add</mat-icon>
-  {{ action | uppercase }}
+<button (click)="openDialog()">
+  <mat-icon>{{ icon() }}</mat-icon>
+  {{ action() | uppercase }}
 </button>

@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@use 'mat-form-field';
+
 
 $dark-background: #0D0D14;
 $surface-dark: #161625;
@@ -87,3 +89,5 @@ button.icon-button {
   cursor: pointer;
   border-radius: 8px;
 }
+
+

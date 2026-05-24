@@ -1,0 +1,59 @@
+@use 'colors' as colors;
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: 16px !important;
+}
+
+.custom-field {
+  width: 100%;
+}
+
+/* Fond */
+.custom-field .mdc-text-field {
+  background-color: colors.$dark-light;
+}
+
+/* Border radius */
+.custom-field .mdc-notched-outline__leading {
+  border-radius: 12px 0 0 12px;
+}
+
+.custom-field .mdc-notched-outline__trailing {
+  border-radius: 0 12px 12px 0;
+}
+
+
+/* Bordure normale */
+.custom-field .mdc-notched-outline__leading,
+.custom-field .mdc-notched-outline__notch,
+.custom-field .mdc-notched-outline__trailing {
+  border-color:  colors.$text-medium !important;
+
+}
+
+/* Bordure hover */
+.custom-field:hover .mdc-notched-outline__leading,
+.custom-field:hover .mdc-notched-outline__notch,
+.custom-field:hover .mdc-notched-outline__trailing {
+  border-color: colors.$border !important;
+
+}
+
+
+/* Bordure focus */
+.custom-field.mat-focused .mdc-notched-outline__leading,
+.custom-field.mat-focused .mdc-notched-outline__notch,
+.custom-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: colors.$border !important;
+  border-width: 1px !important;
+
+}
+
+/* Texte input */
+.custom-field input.mat-mdc-input-element {
+  color: colors.$text-light !important;
+}
+
+.mat-mdc-input-element {
+  caret-color: colors.$text-light !important;
+}

@@ -1,9 +1,9 @@
 <header>
   <div class="header">
     <img class="logo" src="./assets/icon-200h.png" alt="logo">
-    <h1>kairos</h1>
+    <h1>{{ title() | titlecase }}</h1>
   </div>
-  <app-button/>
+  <app-button [action]="action()" [icon]="icon()"/>
 </header>
 <body>
 <router-outlet />
