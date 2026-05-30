@@ -3,9 +3,8 @@
     <img class="logo" src="./assets/icon-200h.png" alt="logo">
     <h1>{{ title() | titlecase }}</h1>
   </div>
-  <app-button [action]="action()" [icon]="icon()"/>
+  <app-button [button]="button()" />
 </header>
 <body>
 <router-outlet />
 </body>
-

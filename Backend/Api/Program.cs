@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Application.Interfaces;
 using Application.Services;
 using Domain.DTO;
@@ -29,6 +30,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    // permet de convertir les enums en string
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
 builder.Services.AddEndpointsApiExplorer();
@@ -38,22 +41,12 @@ builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
 // Injection des dépendances : Repository
-builder.Services.AddScoped<IBaseRepository<TeamDao>, TeamRepository>();
-builder.Services.AddScoped<IBaseRepository<ProductDao>, ProductRepository>();
-builder.Services.AddScoped<IBaseRepository<ModuleDao>, ModuleRepository>();
-builder.Services.AddScoped<IBaseRepository<ActivityDao>, ActivityRepository>();
-builder.Services.AddScoped<ITimeEntryRepository, TimeEntryRepository>();
-builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IBaseRepository<ProjectDao>, ProjectRepository>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 
 // Injection des dépendances : Service
-builder.Services.AddScoped<IBaseService<TeamDto>, TeamService>();
-builder.Services.AddScoped<IBaseService<ProductDto>, ProductService>();
-builder.Services.AddScoped<IBaseService<ModuleDto>, ModuleService>();
-builder.Services.AddScoped<IBaseService<ActivityDto>, ActivityService>();
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<ITimeEntryService, TimeEntryService>();
-builder.Services.AddScoped<ITeamService, TeamService>();
+builder.Services.AddScoped<IBaseService<ProjectDto>, ProjectService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
 
 builder.Logging.AddConsole();
 

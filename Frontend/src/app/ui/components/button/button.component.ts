@@ -1,8 +1,7 @@
-import {Component, inject, input} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {UpperCasePipe} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
-import {DialogFormComponent} from '../dialog-form/dialog-form.component';
-import {MatDialog} from '@angular/material/dialog';
+import {IButton} from './button.interface';
 
 @Component({
   selector: 'app-button',
@@ -14,16 +13,9 @@ import {MatDialog} from '@angular/material/dialog';
   styleUrl: './button.component.scss',
 })
 export class ButtonComponent {
+  button = input.required<IButton>()
 
-  action = input<string>();
-  icon = input<string>();
-
-
-  readonly dialog = inject(MatDialog);
-
-  protected openDialog(): void {
-    console.log('click on button: ' )
-    const dialogRef = this.dialog.open(DialogFormComponent)
-
+  protected onClick(): void {
+    this.button().action();
   }
 }

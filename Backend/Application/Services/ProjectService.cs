@@ -1,0 +1,112 @@
+using Application.Interfaces;
+using Domain.DTO;
+using Domain.Entities;
+using Microsoft.Extensions.Logging;
+
+namespace Application.Services;
+
+public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<ProjectDao> projectRepository )
+    : IBaseService<ProjectDto>, IProjectService
+{
+    public async Task<List<ProjectDto>> GetAllAsync()
+    {
+        logger.LogInformation("Getting all Projects");
+        var projects = await projectRepository.GetAllAsync();
+        
+        if (!projects.Any())
+        {
+            logger.LogInformation("No Projects found");
+            return new List<ProjectDto>();
+        }
+        
+        return projects.Select(p => new ProjectDto
+        {
+            Id = p.Id,
+            Label = p.Label,
+            
+           
+            Status = p.Status,
+        }).ToList();
+    }
+    
+
+    public async Task<ProjectDto?> GetByIdAsync(int id)
+    {
+        logger.LogInformation("Getting Projects by id");
+        var projectsDao = await projectRepository.GetByIdAsync(id);
+
+        if (projectsDao == null)
+        {
+            logger.LogInformation("No Projects found");
+            return null;
+        }
+
+        return new ProjectDto()
+        {
+            Id = projectsDao.Id,
+            Label = projectsDao.Label,
+  
+            Status = projectsDao.Status,
+                
+        };
+    }
+
+    public async Task<ProjectDto?> CreateAsync(ProjectDto projectDto)
+    {
+        logger.LogInformation("Creating new Project");
+      
+        
+        ProjectDao newProjectDao = new ProjectDao()
+        {
+            Label = projectDto.Label.ToLower(),
+      
+            Status = projectDto.Status,
+        };
+        
+        var createdProject = await projectRepository.CreateAsync(newProjectDao);
+
+        return new ProjectDto()
+        {
+            Id = createdProject.Id,
+            Label = createdProject.Label,
+        
+            Status = createdProject.Status,
+        };
+    }
+
+    public async Task<ProjectDto?> UpdateAsync(ProjectDto projectDto)
+    {
+        var projectDao = await projectRepository.GetByIdAsync(projectDto.Id);
+        if(projectDao == null)
+        {
+            logger.LogInformation("No Projects found");
+            return null;
+        }
+        
+        projectDao.Label = projectDto.Label.ToLower();
+        
+        var updatedProject = await projectRepository.UpdateAsync(projectDao);
+        
+        return new ProjectDto()
+        {
+            Id = updatedProject!.Id,
+            Label = updatedProject.Label,
+    
+            Status = updatedProject.Status,
+        };
+    }
+
+    public async Task<bool> DeleteAsync(int id)
+    {
+        var projectDao = await projectRepository.GetByIdAsync(id);
+        
+        if (projectDao == null)
+        {
+            logger.LogInformation("No Projects found");
+            return false;
+        }
+        
+        await projectRepository.DeleteAsync(projectDao.Id);
+        return true;
+    }
+}

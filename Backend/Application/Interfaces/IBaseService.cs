@@ -2,7 +2,7 @@ using Domain.DTO;
 
 namespace Application.Interfaces;
 
-public interface IBaseService<T> where T : BaseDto
+public interface IBaseService<T> where T : ProjectDto
 {
     public Task<List<T>> GetAllAsync();
     public Task<T?> GetByIdAsync(int id);

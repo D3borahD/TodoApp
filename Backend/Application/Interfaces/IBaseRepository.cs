@@ -1,8 +1,8 @@
-using BackendApi.Entities;
+using Domain.Entities;
 
 namespace Application.Interfaces;
 
-public interface IBaseRepository<T> where T : BaseDao
+public interface IBaseRepository<T> where T : ProjectDao
 {
     public Task<List<T>> GetAllAsync();
     public Task<T?> GetByIdAsync(int id);
