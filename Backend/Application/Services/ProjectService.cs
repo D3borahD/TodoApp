@@ -23,8 +23,10 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
         {
             Id = p.Id,
             Label = p.Label,
-            
-           
+            Description = p.Description,
+            StartDate = p.StartDate,
+            EndDate = p.EndDate,
+            StepList = p.StepList,
             Status = p.Status,
         }).ToList();
     }

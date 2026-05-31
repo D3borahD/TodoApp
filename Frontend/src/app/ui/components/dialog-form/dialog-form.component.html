@@ -1,21 +1,33 @@
 <div class="container">
   <h1>{{title() | titlecase}}</h1>
 
+  <form (submit)="onSubmit($event)">
   <div>
     <p>Label</p>
     <mat-form-field class="custom-field" appearance="outline"  >
       <input matInput [formField]="formD.label">
     </mat-form-field>
-    <p>Type</p>
+    <p>Description</p>
     <mat-form-field class="custom-field" appearance="outline"  >
-      <input matInput [formField]="formD.type">
+      <input matInput [formField]="formD.description">
     </mat-form-field>
+    <!-- <p>Date de début</p>
+     <mat-form-field class="custom-field" appearance="outline"  >
+     &lt;!&ndash;  <input matInput [formField]="formD.startDate">&ndash;&gt;
+     </mat-form-field>
+     <p>Date de fin</p>
+     <mat-form-field class="custom-field" appearance="outline"  >
+      &lt;!&ndash; <input matInput [formField]="formD.endDate">&ndash;&gt;
+     </mat-form-field>-->
+
     <p>Statut</p>
     <mat-form-field class="custom-field" appearance="outline"  >
       <input matInput [formField]="formD.status">
     </mat-form-field>
-    <app-button [button]="button()"/>
+   <!-- <app-button [button]="button()"/>-->
   </div>
+    <button type="submit">save</button>
+  </form>
 </div>
 
 

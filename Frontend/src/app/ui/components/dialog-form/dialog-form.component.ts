@@ -1,16 +1,13 @@
-import {Component, input, signal} from '@angular/core';
+import {Component, inject, input, signal} from '@angular/core';
 import {TitleCasePipe} from '@angular/common';
 import {MatFormField, MatInput} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
 import {form, FormField} from '@angular/forms/signals';
-import {ButtonComponent} from '../button/button.component';
-import {IButton} from '../button/button.interface';
+import {Observable} from 'rxjs';
+import {ProjectService} from '../../../core/services/project.service';
+import {IProject} from '../../../core/models/project.model';
 
-interface DialogForm<T> {
-  label : string;
-  type: string;
-  status: string;
-}
+
 
 @Component({
   selector: 'app-dialog-form',
@@ -19,29 +16,57 @@ interface DialogForm<T> {
     MatFormField,
     ReactiveFormsModule,
     FormField,
-    MatInput,
-    ButtonComponent,
-
+    MatInput
   ],
   templateUrl: './dialog-form.component.html',
   styleUrl: './dialog-form.component.scss',
 })
 export class DialogFormComponent {
+  private projectService: ProjectService = inject(ProjectService);
 
   title = input<string>('New project');
-  formModel = signal<DialogForm<string>>({label: '', type: '', status: 'En cours'});
+
+  formModel = signal<IProject>(
+    {
+      id: 1,
+      label: '',
+      description: '',
+      startDate: new Date(),
+      endDate : new Date(),
+      status: 'InProgress',
+    }
+  );
   formD = form(this.formModel);
 
-  button= signal<IButton>(
+  /*button= signal<IButton>(
     {
       label: 'ajouter un nouveau projet',
       icon: 'add',
-      action: () => this.save(),
+     // action: () => this.save(event),
       isDisabled: false
     }
-  )
+  )*/
 
-  save(): void {
-    console.log('open dialog');
+
+
+
+  protected onSubmit($event: SubmitEvent) {
+
+    $event.preventDefault();
+    const form = this.formD();
+
+
+    if (!form.valid) return;
+
+    const project = form.value() as IProject;
+
+    console.log('Payload:', JSON.stringify(project));
+
+    this.projectService.addProject$(project).subscribe(
+      {
+        next: (created) => console.log('Project created:', created),
+        error: (err) => console.error('Error:', err),
+      }
+    )
   }
 }

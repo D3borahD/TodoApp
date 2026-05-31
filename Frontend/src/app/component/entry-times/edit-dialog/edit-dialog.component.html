@@ -1,9 +1,0 @@
-<h2 mat-dialog-title>Edition de l'entry time</h2>
-<mat-dialog-content>
-  <form [formGroup]="entryTime" (ngSubmit)="onSubmit()">
-    <app-entry-times-form
-      [form]="entryTime">
-    </app-entry-times-form>
-    <button type="submit" [disabled]="entryTime.invalid">Sauvegarder</button>
-  </form>
-</mat-dialog-content>

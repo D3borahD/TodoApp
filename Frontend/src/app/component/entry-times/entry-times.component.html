@@ -13,28 +13,5 @@
 
 </div>
 
-<div class="content">
-  <mat-tab-group dynamicHeight>
-  <mat-tab label="Current week">
-    <app-table-content [value]="currentWeekEntries"/>
-  </mat-tab>
-  <mat-tab label="Current month">
-    <app-table-content [value]="entries"/>
-  </mat-tab>
-  <mat-tab label="Previous month">
-    <app-table-content [value]="previousMonthEntries"/>
-  </mat-tab>
-  </mat-tab-group>
-
-  <div class="entry-form-container">
-    <h2>Ajouter une nouvelle saisie</h2>
-    <form [formGroup]="entryTimesForm" (ngSubmit)="onSubmit()">
-      <app-entry-times-form
-        [form]="entryTimesForm">
-      </app-entry-times-form>
-      <button class="primary-button" type="submit" [disabled]="entryTimesForm.invalid">Sauvegarder</button>
-    </form>
-  </div>
-</div>
 
 
