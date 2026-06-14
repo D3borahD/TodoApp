@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, Signal, signal} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ButtonComponent} from './ui/components/button/button.component';
@@ -7,6 +7,9 @@ import {DialogFormComponent} from './ui/components/dialog-form/dialog-form.compo
 import {MatDialog} from '@angular/material/dialog';
 import {IButton} from './ui/components/button/button.interface';
 import {MatIconModule} from '@angular/material/icon';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {ReferentialService} from './core/services/referential.service';
+import {IStatus} from './core/models/status.model';
 
 @Component({
     selector: 'app-root',
@@ -26,6 +29,7 @@ export class AppComponent {
   readonly title =  signal('kairos');
 
   private readonly dialog = inject(MatDialog);
+
 
   button= signal<IButton>(
     {

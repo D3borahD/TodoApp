@@ -1,12 +1,12 @@
-import {Component, inject, input, signal} from '@angular/core';
+import {Component, inject, input, Signal, signal} from '@angular/core';
 import {TitleCasePipe} from '@angular/common';
 import {MatFormField, MatInput, MatInputModule} from '@angular/material/input';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {form, FormField, FormRoot} from '@angular/forms/signals';
 import {ProjectService} from '../../../core/services/project.service';
 import {IProject} from '../../../core/models/project.model';
 import {MatDialogClose} from '@angular/material/dialog';
-import {provideNativeDateAdapter} from '@angular/material/core';
+import {MatOption, provideNativeDateAdapter} from '@angular/material/core';
 import {
   MatDatepicker,
 MatDatepickerInput, MatDatepickerModule,
@@ -15,6 +15,12 @@ MatDatepickerInput, MatDatepickerModule,
 
 import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {IButton} from '../button/button.interface';
+import {ReferentialService} from '../../../core/services/referential.service';
+import {IStatus} from '../../../core/models/status.model';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {MatSelect} from '@angular/material/select';
+
 
 
 
@@ -32,7 +38,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MatDatepickerToggle,
     MatDatepicker,
     MatDatepickerInput,
-    MatFormFieldModule, MatInputModule, MatDatepickerModule, FormRoot
+    MatFormFieldModule, MatInputModule, MatDatepickerModule, FormRoot, MatSelect, MatOption, FormsModule
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './dialog-form.component.html',
@@ -40,6 +46,11 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 })
 export class DialogFormComponent {
   private projectService: ProjectService = inject(ProjectService);
+  private referentialService: ReferentialService = inject(ReferentialService);
+
+  status: Signal<IStatus[]> = toSignal(this.referentialService.getStatus$(), { initialValue: [] });
+
+  initialFormValue = this.status()[0]
 
   title = input<string>('New project');
 
@@ -50,9 +61,11 @@ export class DialogFormComponent {
     description: '',
     startDate: new Date(),
     endDate : new Date(),
-    status: 'InProgress',
+    status: this.initialFormValue,
     stepsList: []
   };
+
+
 
   projectModelForm = signal<IProject>(this.projectModel);
 
@@ -62,13 +75,12 @@ export class DialogFormComponent {
       submission: {
         action: async (field) => {
 
-
-
           field().reset({...this.projectModel});
           return {kind: 'serverError', message: 'Failed to submit form'};
         }
       }
     });
+  protected selectedValue: IStatus = this.status()[0];
 
 
 

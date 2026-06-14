@@ -1,3 +1,5 @@
+import {IStatus} from './status.model';
+
 export interface IProject {
   id: number
   label: string
@@ -5,5 +7,5 @@ export interface IProject {
   stepsList?: string[];
   startDate: Date;
   endDate?: Date;
-  status: string;
+  status: IStatus;
 }

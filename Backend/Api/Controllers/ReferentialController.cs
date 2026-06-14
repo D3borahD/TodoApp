@@ -10,7 +10,7 @@ namespace BackendApi.Controllers;
 [Route("api/[controller]")]
 public class ReferentialController(IReferentialService referentialService) : ControllerBase
 {
-    [HttpGet]
+    [HttpGet("status")]
     public async Task<ActionResult<List<StatusDto>>> GetStatusAsync()
     {
         var status =  await referentialService.GetStatusAsync();

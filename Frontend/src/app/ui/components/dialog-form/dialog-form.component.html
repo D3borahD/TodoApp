@@ -20,9 +20,16 @@
     </mat-form-field>
 
     <p>Statut</p>
-    <mat-form-field class="custom-field" appearance="outline"  >
-      <input matInput [formField]="formD.status">
+
+    <mat-form-field class="custom-field" appearance="outline">
+      <mat-select class="white" [formField]="formD.status" >
+        @for (s of status(); track s.label) {
+          <mat-option [value]="s.label">{{s.label}}</mat-option>
+        }
+      </mat-select>
     </mat-form-field>
+
+
    <!-- <app-button [button]="button()"/>-->
   </div>
     <button  [mat-dialog-close]="" type="submit" (click)="onSubmit()">save</button>
