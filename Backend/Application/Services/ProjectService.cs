@@ -61,7 +61,10 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
         ProjectDao newProjectDao = new ProjectDao()
         {
             Label = projectDto.Label.ToLower(),
-      
+            StartDate = projectDto.StartDate,
+            EndDate = projectDto.EndDate,
+            StepList = projectDto.StepList,
+            Description = projectDto.Description,
             Status = projectDto.Status,
         };
         
@@ -71,7 +74,10 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
         {
             Id = createdProject.Id,
             Label = createdProject.Label,
-        
+            StartDate = createdProject.StartDate,
+            EndDate = createdProject.EndDate,
+            StepList = createdProject.StepList,
+            Description = createdProject.Description,
             Status = createdProject.Status,
         };
     }

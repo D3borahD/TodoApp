@@ -6,6 +6,7 @@ import {TitleCasePipe} from '@angular/common';
 import {DialogFormComponent} from './ui/components/dialog-form/dialog-form.component';
 import {MatDialog} from '@angular/material/dialog';
 import {IButton} from './ui/components/button/button.interface';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
     selector: 'app-root',
@@ -14,6 +15,7 @@ import {IButton} from './ui/components/button/button.interface';
     ReactiveFormsModule,
     ButtonComponent,
     TitleCasePipe,
+    MatIconModule,
   ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './app.component.html',
@@ -37,5 +39,12 @@ export class AppComponent {
   openDialog(): void {
     console.log('open dialog');
     const dialogRef = this.dialog.open(DialogFormComponent)
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      console.log('The dialog was closed');
+    });
+
+
   }
 }

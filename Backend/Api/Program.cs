@@ -47,6 +47,7 @@ builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 // Injection des dépendances : Service
 builder.Services.AddScoped<IBaseService<ProjectDto>, ProjectService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IReferentialService, ReferentialService>();
 
 builder.Logging.AddConsole();
 

@@ -1,7 +1,7 @@
 <div class="container">
   <h1>{{title() | titlecase}}</h1>
 
-  <form (submit)="onSubmit($event)">
+  <form [formRoot]="formD">
   <div>
     <p>Label</p>
     <mat-form-field class="custom-field" appearance="outline"  >
@@ -11,14 +11,13 @@
     <mat-form-field class="custom-field" appearance="outline"  >
       <input matInput [formField]="formD.description">
     </mat-form-field>
-    <!-- <p>Date de début</p>
-     <mat-form-field class="custom-field" appearance="outline"  >
-     &lt;!&ndash;  <input matInput [formField]="formD.startDate">&ndash;&gt;
-     </mat-form-field>
-     <p>Date de fin</p>
-     <mat-form-field class="custom-field" appearance="outline"  >
-      &lt;!&ndash; <input matInput [formField]="formD.endDate">&ndash;&gt;
-     </mat-form-field>-->
+
+    <p>Date de début</p>
+    <mat-form-field class="custom-field" appearance="outline">
+      <input matInput [formField]="formD.startDate" [matDatepicker]="picker">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
 
     <p>Statut</p>
     <mat-form-field class="custom-field" appearance="outline"  >
@@ -26,7 +25,7 @@
     </mat-form-field>
    <!-- <app-button [button]="button()"/>-->
   </div>
-    <button type="submit">save</button>
+    <button  [mat-dialog-close]="" type="submit" (click)="onSubmit()">save</button>
   </form>
 </div>
 

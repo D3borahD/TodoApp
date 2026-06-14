@@ -1,11 +1,20 @@
 import {Component, inject, input, signal} from '@angular/core';
 import {TitleCasePipe} from '@angular/common';
-import {MatFormField, MatInput} from '@angular/material/input';
+import {MatFormField, MatInput, MatInputModule} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
-import {form, FormField} from '@angular/forms/signals';
-import {Observable} from 'rxjs';
+import {form, FormField, FormRoot} from '@angular/forms/signals';
 import {ProjectService} from '../../../core/services/project.service';
 import {IProject} from '../../../core/models/project.model';
+import {MatDialogClose} from '@angular/material/dialog';
+import {provideNativeDateAdapter} from '@angular/material/core';
+import {
+  MatDatepicker,
+MatDatepickerInput, MatDatepickerModule,
+  MatDatepickerToggle
+} from '@angular/material/datepicker';
+
+import {MatIconModule} from '@angular/material/icon';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 
 
@@ -16,8 +25,16 @@ import {IProject} from '../../../core/models/project.model';
     MatFormField,
     ReactiveFormsModule,
     FormField,
-    MatInput
+    MatInput,
+    MatIconModule,
+    MatDatepickerModule,
+    MatDialogClose,
+    MatDatepickerToggle,
+    MatDatepicker,
+    MatDatepickerInput,
+    MatFormFieldModule, MatInputModule, MatDatepickerModule, FormRoot
   ],
+  providers: [provideNativeDateAdapter()],
   templateUrl: './dialog-form.component.html',
   styleUrl: './dialog-form.component.scss',
 })
@@ -26,33 +43,38 @@ export class DialogFormComponent {
 
   title = input<string>('New project');
 
-  formModel = signal<IProject>(
+
+   projectModel: IProject = {
+    id: 1,
+    label: '',
+    description: '',
+    startDate: new Date(),
+    endDate : new Date(),
+    status: 'InProgress',
+    stepsList: []
+  };
+
+  projectModelForm = signal<IProject>(this.projectModel);
+
+  formD = form(this.projectModelForm,
     {
-      id: 1,
-      label: '',
-      description: '',
-      startDate: new Date(),
-      endDate : new Date(),
-      status: 'InProgress',
-    }
-  );
-  formD = form(this.formModel);
 
-  /*button= signal<IButton>(
-    {
-      label: 'ajouter un nouveau projet',
-      icon: 'add',
-     // action: () => this.save(event),
-      isDisabled: false
-    }
-  )*/
+      submission: {
+        action: async (field) => {
 
 
 
+          field().reset({...this.projectModel});
+          return {kind: 'serverError', message: 'Failed to submit form'};
+        }
+      }
+    });
 
-  protected onSubmit($event: SubmitEvent) {
 
-    $event.preventDefault();
+
+  async onSubmit() {
+
+
     const form = this.formD();
 
 
