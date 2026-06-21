@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core';
+import {Component, input, ChangeDetectionStrategy} from '@angular/core';
 import {UpperCasePipe} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
 import {IButton} from './button.interface';
@@ -10,6 +10,7 @@ import {IButton} from './button.interface';
     MatIcon
   ],
   templateUrl: './button.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './button.component.scss',
 })
 export class ButtonComponent {

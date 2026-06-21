@@ -1,4 +1,4 @@
-import {Component, inject, input, Signal, signal} from '@angular/core';
+import {Component, inject, input, Signal, signal, ChangeDetectionStrategy} from '@angular/core';
 import {TitleCasePipe} from '@angular/common';
 import {MatFormField, MatInput, MatInputModule} from '@angular/material/input';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -49,6 +49,7 @@ import {MatSelectModule} from '@angular/material/select';
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './dialog-form.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './dialog-form.component.scss',
 })
 export class DialogFormComponent {
