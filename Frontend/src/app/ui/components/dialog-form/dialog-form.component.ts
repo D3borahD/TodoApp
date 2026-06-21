@@ -21,6 +21,8 @@ import {IStatus} from '../../../core/models/status.model';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {MatSelect} from '@angular/material/select';
 
+import {MatSelectModule} from '@angular/material/select';
+
 
 
 
@@ -33,8 +35,13 @@ import {MatSelect} from '@angular/material/select';
     FormField,
     MatInput,
     MatIconModule,
+    MatFormField,
+    MatOption,
+    MatSelect,
     MatDatepickerModule,
     MatDialogClose,
+    MatInputModule,
+    MatSelectModule,
     MatDatepickerToggle,
     MatDatepicker,
     MatDatepickerInput,
@@ -50,7 +57,8 @@ export class DialogFormComponent {
 
   status: Signal<IStatus[]> = toSignal(this.referentialService.getStatus$(), { initialValue: [] });
 
-  initialFormValue = this.status()[0]
+
+
 
   title = input<string>('New project');
 
@@ -61,11 +69,9 @@ export class DialogFormComponent {
     description: '',
     startDate: new Date(),
     endDate : new Date(),
-    status: this.initialFormValue,
+    status: this.status()[0] ?? 'NotStarted',
     stepsList: []
   };
-
-
 
   projectModelForm = signal<IProject>(this.projectModel);
 

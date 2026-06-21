@@ -21,10 +21,11 @@
 
     <p>Statut</p>
 
+
     <mat-form-field class="custom-field" appearance="outline">
-      <mat-select class="white" [formField]="formD.status" >
+      <mat-select class="white" >
         @for (s of status(); track s.label) {
-          <mat-option [value]="s.label">{{s.label}}</mat-option>
+          <mat-option  [value]="s.label">{{s.label}}</mat-option>
         }
       </mat-select>
     </mat-form-field>
