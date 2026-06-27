@@ -29,7 +29,8 @@ public class ProjectsController(IBaseService<ProjectDto> baseService, IProjectSe
     [HttpPost("")]
     public async Task<ActionResult<ProjectDto>> CreateAsync([FromBody] ProjectDto? projectDto)
     {
-        if(projectDto is null) return BadRequest("The project is null");
+        if(projectDto is null ) return BadRequest("The project is null");
+        if(string.IsNullOrEmpty(projectDto.Label)) return BadRequest("The project label is null");
         var createdProject = await baseService.CreateAsync(projectDto);
         return Ok(createdProject);
     }

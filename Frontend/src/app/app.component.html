@@ -7,6 +7,12 @@
 </header>
 <body>
 
+<div>
+  @for (project of projectList() ; track project.id) {
+    <p>{{ project.label }}</p>
+  }
+</div>
+
 
 <router-outlet />
 </body>

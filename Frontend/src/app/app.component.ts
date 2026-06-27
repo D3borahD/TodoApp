@@ -10,9 +10,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ReferentialService} from './core/services/referential.service';
 import {IStatus} from './core/models/status.model';
-import {MatFormField} from '@angular/material/input';
-import {MatOption} from '@angular/material/core';
-import {MatSelect} from '@angular/material/select';
+import {ProjectService} from './core/services/project.service';
+import {IProject} from './core/models/project.model';
 
 @Component({
     selector: 'app-root',
@@ -22,9 +21,6 @@ import {MatSelect} from '@angular/material/select';
     ButtonComponent,
     TitleCasePipe,
     MatIconModule,
-    MatFormField,
-    MatOption,
-    MatSelect,
     FormsModule,
   ],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,12 +31,14 @@ export class AppComponent {
 
   readonly title =  signal('kairos');
 
+
   private readonly dialog = inject(MatDialog);
   private referentialService: ReferentialService = inject(ReferentialService);
+  private readonly projectService: ProjectService = inject(ProjectService);
+
+  projectList: Signal<IProject[]> = toSignal(this.projectService.getProject$(), { initialValue: [] });
 
   status: Signal<IStatus[]> = toSignal(this.referentialService.getStatus$(), { initialValue: [] });
-
-
 
   button= signal<IButton>(
     {
@@ -51,16 +49,13 @@ export class AppComponent {
     }
   )
 
-
   openDialog(): void {
-    console.log('open dialog');
     const dialogRef = this.dialog.open(DialogFormComponent)
 
     dialogRef.afterClosed().subscribe(result => {
-
       console.log('The dialog was closed');
-    });
 
+    });
 
   }
 
