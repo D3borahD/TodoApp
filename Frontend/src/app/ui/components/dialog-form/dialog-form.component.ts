@@ -2,29 +2,24 @@ import {Component, inject, input, Signal, signal, ChangeDetectionStrategy} from 
 import {TitleCasePipe} from '@angular/common';
 import {MatFormField, MatInput, MatInputModule} from '@angular/material/input';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {form, FormField, FormRoot} from '@angular/forms/signals';
+import {form, FormField, FormRoot, required} from '@angular/forms/signals';
 import {ProjectService} from '../../../core/services/project.service';
-import {IProject} from '../../../core/models/project.model';
-import {MatDialogClose} from '@angular/material/dialog';
+import { MatDialogRef} from '@angular/material/dialog';
 import {MatOption, provideNativeDateAdapter} from '@angular/material/core';
 import {
   MatDatepicker,
-MatDatepickerInput, MatDatepickerModule,
+  MatDatepickerInput,
+  MatDatepickerModule,
   MatDatepickerToggle
 } from '@angular/material/datepicker';
-
 import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {IButton} from '../button/button.interface';
 import {ReferentialService} from '../../../core/services/referential.service';
 import {IStatus} from '../../../core/models/status.model';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {MatSelect} from '@angular/material/select';
-
 import {MatSelectModule} from '@angular/material/select';
-
-
-
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-dialog-form',
@@ -39,7 +34,6 @@ import {MatSelectModule} from '@angular/material/select';
     MatOption,
     MatSelect,
     MatDatepickerModule,
-    MatDialogClose,
     MatInputModule,
     MatSelectModule,
     MatDatepickerToggle,
@@ -53,18 +47,16 @@ import {MatSelectModule} from '@angular/material/select';
   styleUrl: './dialog-form.component.scss',
 })
 export class DialogFormComponent {
+
+  private dialogRef: MatDialogRef<DialogFormComponent> = inject(MatDialogRef<DialogFormComponent>);
   private projectService: ProjectService = inject(ProjectService);
   private referentialService: ReferentialService = inject(ReferentialService);
 
   status: Signal<IStatus[]> = toSignal(this.referentialService.getStatus$(), { initialValue: [] });
 
-
-
-
   title = input<string>('New project');
 
-
-   projectModel: IProject = {
+   projectModel = signal({
     id: 1,
     label: '',
     description: '',
@@ -72,42 +64,25 @@ export class DialogFormComponent {
     endDate : new Date(),
     status: this.status()[0] ?? 'NotStarted',
     stepsList: []
-  };
+    });
 
-  projectModelForm = signal<IProject>(this.projectModel);
-
-  formD = form(this.projectModelForm,
+  projectModelForm = form(this.projectModel,
+    (path) => {
+      required(path.label, {message: 'Label is required'});
+      required(path.status, {message: 'Status is required'});
+    },
     {
-
       submission: {
         action: async (field) => {
+          const result = await firstValueFrom(this.projectService.addProject$(field().value()));
+          this.dialogRef.close(DialogFormComponent);
 
-          field().reset({...this.projectModel});
-          return {kind: 'serverError', message: 'Failed to submit form'};
+          if (result) return;
+        },
+        onInvalid: (field) => {
+          const firstError = field().errorSummary()[0];
+          firstError?.fieldTree().focusBoundControl();
         }
       }
     });
-  protected selectedValue: IStatus = this.status()[0];
-
-
-
-  async onSubmit() {
-
-
-    const form = this.formD();
-
-
-    if (!form.valid) return;
-
-    const project = form.value() as IProject;
-
-    console.log('Payload:', JSON.stringify(project));
-
-    this.projectService.addProject$(project).subscribe(
-      {
-        next: (created) => console.log('Project created:', created),
-        error: (err) => console.error('Error:', err),
-      }
-    )
-  }
 }

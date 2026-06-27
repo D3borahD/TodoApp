@@ -91,3 +91,33 @@ button.icon-button {
 }
 
 
+// FORM
+.error {
+  color: $error;
+}
+.error-container{
+  min-height: 1.5rem;
+}
+
+
+button.form{
+  background: $purple-gradient;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  height: 40px;
+  text-align: center;
+  font-weight: bold;
+}
+
+mat-form-field {
+  --mat-datepicker-toggle-icon-color: white;
+}
+
+
+::ng-deep .mat-calendar-body-selected {
+  background: $purple-gradient;
+}

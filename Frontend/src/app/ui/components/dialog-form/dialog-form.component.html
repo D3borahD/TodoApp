@@ -1,27 +1,35 @@
 <div class="container">
   <h1>{{title() | titlecase}}</h1>
 
-  <form [formRoot]="formD">
+  <form [formRoot]="projectModelForm">
   <div>
-    <p>Label</p>
-    <mat-form-field class="custom-field" appearance="outline"  >
-      <input matInput [formField]="formD.label">
+    <p>Label *</p>
+    <mat-form-field class="custom-field bm" appearance="outline"  >
+      <input matInput [formField]="projectModelForm.label">
     </mat-form-field>
+    <div class="error-container">
+      @if (projectModelForm.label().touched() && projectModelForm.label().invalid()) {
+        <mat-error class="error">
+          {{ projectModelForm.label().errors()[0].message }}
+        </mat-error>
+      }
+    </div>
+
     <p>Description</p>
     <mat-form-field class="custom-field" appearance="outline"  >
-      <input matInput [formField]="formD.description">
+      <input matInput [formField]="projectModelForm.description">
     </mat-form-field>
 
     <p>Date de début</p>
     <mat-form-field class="custom-field" appearance="outline">
-      <input matInput [formField]="formD.startDate" [matDatepicker]="picker">
+      <input matInput [formField]="projectModelForm.startDate" [matDatepicker]="picker">
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
-    <p>Statut</p>
+    <p>Status</p>
     <mat-form-field class="custom-field" appearance="outline">
-      <mat-select class="white" [formField]="formD.status">
+      <mat-select class="white" [formField]="projectModelForm.status">
         @for (s of status(); track s.label) {
           <mat-option  [value]="s.label">{{s.label}}</mat-option>
         }
@@ -29,7 +37,7 @@
     </mat-form-field>
 
   </div>
-    <button  [mat-dialog-close]="" type="submit" (click)="onSubmit()">save</button>
+    <button class="form" [disabled]="!projectModelForm().valid" type="submit">SAVE</button>
   </form>
 </div>
 

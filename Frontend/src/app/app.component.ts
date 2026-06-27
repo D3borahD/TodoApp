@@ -29,12 +29,11 @@ import {IProject} from './core/models/project.model';
 })
 export class AppComponent {
 
-  readonly title =  signal('kairos');
-
-
   private readonly dialog = inject(MatDialog);
-  private referentialService: ReferentialService = inject(ReferentialService);
+  private readonly referentialService: ReferentialService = inject(ReferentialService);
   private readonly projectService: ProjectService = inject(ProjectService);
+
+  readonly title =  signal('kairos');
 
   projectList: Signal<IProject[]> = toSignal(this.projectService.getProject$(), { initialValue: [] });
 
@@ -50,17 +49,10 @@ export class AppComponent {
   )
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(DialogFormComponent)
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-
-    });
-
+    const dialogRef = this.dialog.open(DialogFormComponent,
+      {
+        height: 'auto',
+        width: '500px'
+      })
   }
-
-
-
-
-
 }

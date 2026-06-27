@@ -19,3 +19,9 @@ p{
 mat-icon {
   color: white;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
