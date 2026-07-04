@@ -9,23 +9,31 @@ import {IButton} from './ui/components/button/button.interface';
 import {MatIconModule} from '@angular/material/icon';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ReferentialService} from './core/services/referential.service';
-import {IStatus} from './core/models/status.model';
+import {StatusKey} from './core/models/status.model';
 import {ProjectService} from './core/services/project.service';
 import {IProject} from './core/models/project.model';
+import {MatCard, MatCardContent, MatCardFooter, MatCardHeader, MatCardTitle} from '@angular/material/card';
+import {ChipsComponent} from './ui/components/chips/chips.component';
 
 @Component({
     selector: 'app-root',
-  imports: [
-    RouterOutlet,
-    ReactiveFormsModule,
-    ButtonComponent,
-    TitleCasePipe,
-    MatIconModule,
-    FormsModule,
-  ],
+    imports: [
+      RouterOutlet,
+      ReactiveFormsModule,
+      ButtonComponent,
+      TitleCasePipe,
+      MatIconModule,
+      FormsModule,
+      MatCardFooter,
+      MatCardContent,
+      MatCardTitle,
+      MatCardHeader,
+      MatCard,
+      ChipsComponent,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './app.component.html',
-    styleUrl: './app.component.scss'
+    styleUrl: './app.component.scss',
 })
 export class AppComponent {
 
@@ -36,8 +44,7 @@ export class AppComponent {
   readonly title =  signal('kairos');
 
   projectList: Signal<IProject[]> = toSignal(this.projectService.getProject$(), { initialValue: [] });
-
-  status: Signal<IStatus[]> = toSignal(this.referentialService.getStatus$(), { initialValue: [] });
+  status: Signal<StatusKey[]> = toSignal(this.referentialService.getStatus$(), { initialValue: [] });
 
   button= signal<IButton>(
     {
@@ -49,7 +56,7 @@ export class AppComponent {
   )
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(DialogFormComponent,
+    this.dialog.open(DialogFormComponent,
       {
         height: 'auto',
         width: '500px'

@@ -22,13 +22,36 @@ $purple : #7C3AF7;
 $logo-gradient: linear-gradient(to right, #7C3AF7 4%, #EC4899 100%);
 
 
-
-
-
-
 //----------//
 $purple-gradient: linear-gradient(320deg,rgba(124, 58, 237, 1) 32%, rgba(236, 72, 153, 1) 100%);
 $blue-gradient: linear-gradient(200deg,rgba(59, 138, 237, 1) 32%, rgba(34, 211, 190, 1) 100%);
 //----------//
 $border : #E2E8F0;
 $divider : #F1F5F9;
+
+// ---------------------//
+// ------CHIPS color ---//
+// ---------------------//
+
+$purpleBgChip:    #1e1b4b;
+$purpleChip:      #a78bfa;
+$purpleDotChip:   #7c3aed;
+
+$greenBgChip:      #064e3b;
+$greenChip:        #6ee7b7;
+$greenDotChip:     #10b981;
+
+// Cancelled
+$redBgChip:     #450a0a;
+$redChip:       #fca5a5;
+$redDotChip:    #ef4444;
+
+// OnABreak
+$yellowBgChip:      #78350f;
+$yellowChip:        #fcd34d;
+$yellowDotChip:     #f59e0b;
+
+// NotStarted
+$greyBgChip:    #1e293b;
+$greyChip:      #cbd5e1;
+$greyDotChip:   #64748b;

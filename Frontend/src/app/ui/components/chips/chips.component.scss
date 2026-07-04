@@ -1,0 +1,69 @@
+@use "colors" as colors;
+
+div {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  height: 24px;
+}
+
+.dot{
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.finished{
+  background-color: colors.$greenBgChip;
+  p {
+    color: colors.$greenChip;
+  }
+  .dot {
+    background-color: colors.$greenDotChip;
+  }
+}
+
+.inProgress {
+  background-color: colors.$purpleBgChip;
+  p {
+    color: colors.$purpleChip;
+  }
+  .dot {
+    background-color: colors.$purpleDotChip;
+  }
+}
+
+.cancelled {
+  background-color: colors.$redBgChip;
+  p {
+    color: colors.$redChip;
+  }
+  .dot {
+    background-color: colors.$redDotChip;
+  }
+}
+
+.onABreak{
+  background-color: colors.$yellowBgChip;
+  p {
+    color: colors.$yellowChip;
+  }
+  .dot {
+    background-color: colors.$yellowDotChip;
+  }
+}
+
+.notStarted {
+  background-color: colors.$greyBgChip;
+  p {
+    color: colors.$greyChip;
+  }
+  .dot {
+    background-color: colors.$greyDotChip;
+  }
+}

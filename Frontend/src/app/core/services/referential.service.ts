@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {IStatus} from '../models/status.model';
+import {map, Observable} from 'rxjs';
+import {StatusKey} from '../models/status.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +12,7 @@ export class ReferentialService {
   private shortUrl = "http://localhost:5062/api"
   private baseUrl = `${this.shortUrl}/Referential`
 
-  public getStatus$(): Observable<IStatus[]> {
-    return this.http.get<IStatus[]>(`${this.baseUrl}/status`);
+  public getStatus$(): Observable<StatusKey[]> {
+    return this.http.get<StatusKey[]>(`${this.baseUrl}/status`);
   }
-
 }

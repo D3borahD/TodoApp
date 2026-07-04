@@ -1,4 +1,4 @@
-import {IStatus} from './status.model';
+import {StatusKey} from './status.model';
 
 export interface IProject {
   id: number
@@ -7,5 +7,5 @@ export interface IProject {
   stepsList?: string[];
   startDate: Date;
   endDate?: Date;
-  status: IStatus;
+  status: StatusKey;
 }

@@ -7,9 +7,19 @@
 </header>
 <body>
 
-<div>
+<div class="container">
   @for (project of projectList() ; track project.id) {
-    <p>{{ project.label }}</p>
+    <mat-card class="card" appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>{{ project.label }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <!--add content-->
+      </mat-card-content>
+      <mat-card-footer class="card-footer">
+        <app-chips [chips]="project.status"></app-chips>
+      </mat-card-footer>
+    </mat-card>
   }
 </div>
 

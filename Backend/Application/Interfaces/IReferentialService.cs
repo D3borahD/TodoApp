@@ -1,10 +1,8 @@
-
-
-using Domain.DTO;
+using Domain.Enums;
 
 namespace Application.Interfaces;
 
 public interface IReferentialService
 {
-    Task<List<StatusDto>> GetStatusAsync();
+    Task<List<Status>> GetStatusAsync();
 }

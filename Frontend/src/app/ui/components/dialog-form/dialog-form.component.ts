@@ -15,7 +15,7 @@ import {
 import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {ReferentialService} from '../../../core/services/referential.service';
-import {IStatus} from '../../../core/models/status.model';
+import {StatusKey} from '../../../core/models/status.model';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {MatSelect} from '@angular/material/select';
 import {MatSelectModule} from '@angular/material/select';
@@ -52,7 +52,7 @@ export class DialogFormComponent {
   private projectService: ProjectService = inject(ProjectService);
   private referentialService: ReferentialService = inject(ReferentialService);
 
-  status: Signal<IStatus[]> = toSignal(this.referentialService.getStatus$(), { initialValue: [] });
+  status: Signal<StatusKey[]> = toSignal(this.referentialService.getStatus$(), { initialValue: [] });
 
   title = input<string>('New project');
 

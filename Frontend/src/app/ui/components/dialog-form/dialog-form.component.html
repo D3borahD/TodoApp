@@ -30,8 +30,8 @@
     <p>Status</p>
     <mat-form-field class="custom-field" appearance="outline">
       <mat-select class="white" [formField]="projectModelForm.status">
-        @for (s of status(); track s.label) {
-          <mat-option  [value]="s.label">{{s.label}}</mat-option>
+        @for (s of status(); track s) {
+          <mat-option  [value]="s">{{s}}</mat-option>
         }
       </mat-select>
     </mat-form-field>

@@ -8,19 +8,9 @@ namespace Application.Services;
 public class ReferentialService(ILogger<ReferentialService> logger )
     : IReferentialService
 {
-    public Task<List<StatusDto>> GetStatusAsync()
+    public Task<List<Status>> GetStatusAsync()
     {
-        var statuses = Enum.GetValues<Status>()
-            .Select(status => new StatusDto
-            {
-              
-                Label = status.ToString(),
-            
-            })
-            .ToList();
-
+        var statuses = Enum.GetValues<Status>().ToList();
         return Task.FromResult(statuses);
     }
-
-
 }
