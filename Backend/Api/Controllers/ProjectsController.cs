@@ -14,7 +14,6 @@ public class ProjectsController(IBaseService<ProjectDto> baseService, IProjectSe
     public async Task<ActionResult<List<ProjectDto>>> GetProductsAsync()
     {
         var products = await baseService.GetAllAsync();
-        if (!products.Any()) return NotFound("No products found");
         return Ok(products);
     }
 
