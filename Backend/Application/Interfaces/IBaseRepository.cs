@@ -2,7 +2,7 @@ using Domain.Entities;
 
 namespace Application.Interfaces;
 
-public interface IBaseRepository<T> where T : ProjectDao
+public interface IBaseRepository<T> where T : IEntity
 {
     public Task<List<T>> GetAllAsync();
     public Task<T?> GetByIdAsync(int id);

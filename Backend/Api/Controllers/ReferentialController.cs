@@ -1,4 +1,5 @@
 using Application.Interfaces;
+using Domain.DTO;
 using Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,5 +15,12 @@ public class ReferentialController(IReferentialService referentialService) : Con
     {
         var status =  await referentialService.GetStatusAsync();
         return Ok(status);
+    }
+    
+    [HttpGet("projectTypes")]
+    public async Task<ActionResult<List<ProjectTypesDto>>> GetCountriesAsync()
+    {
+        var countries = await referentialService.GetProjectTypeAsync();
+        return Ok(countries);
     }
 }
