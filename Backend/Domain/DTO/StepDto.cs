@@ -10,7 +10,6 @@ public class StepDto
     public int? Rank { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime? EndDate { get; set; }
-    public required TypeDto Type  { get; set; }
+    public required string Type  { get; set; }
     public required Status Status  { get; set; }
-    public int ProjectId { get; set; }
 }
