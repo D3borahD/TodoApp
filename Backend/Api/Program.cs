@@ -42,14 +42,16 @@ builder.Services.AddSwaggerGen();
 
 // Injection des dépendances : Repository
 builder.Services.AddScoped<IBaseRepository<ProjectDao>, ProjectRepository>();
-builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IBaseRepository<TypeDao>, ProjectTypeRepository>();
+builder.Services.AddScoped<IBaseRepository<StepDao>, StepRepository>();
+
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<IStepRepository, StepRepository>(); 
 
 // Injection des dépendances : Service
 builder.Services.AddScoped<IBaseService<ProjectDto>, ProjectService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IReferentialService, ReferentialService>();
-builder.Services.AddScoped<IBaseRepository<TypeDao>, ProjectTypeRepository>();
 
 builder.Logging.AddConsole();
 

@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<ProjectDao> projectRepository )
+public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<ProjectDao> projectRepository, IStepRepository stepRepository )
     : IBaseService<ProjectDto>, IProjectService
 {
     public async Task<List<ProjectDto>> GetAllAsync()
@@ -26,7 +26,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             Description = p.Description,
             StartDate = p.StartDate,
             EndDate = p.EndDate,
-            StepList = p.StepList,
+        //    StepList = p.StepList,
             Status = p.Status,
         }).ToList();
     }
@@ -36,20 +36,21 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
     {
         logger.LogInformation("Getting Projects by id");
         var projectsDao = await projectRepository.GetByIdAsync(id);
-
+        
         if (projectsDao == null)
         {
             logger.LogInformation("No Projects found");
             return null;
         }
-
+        
+        var stepList = await stepRepository.GetStepByProjectAsync(projectsDao.Id);
+        
         return new ProjectDto()
         {
             Id = projectsDao.Id,
             Label = projectsDao.Label,
-  
             Status = projectsDao.Status,
-                
+            StepList = stepList.Select(MapToStepDto).ToList(),
         };
     }
 
@@ -63,7 +64,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             Label = projectDto.Label.ToLower(),
             StartDate = projectDto.StartDate,
             EndDate = projectDto.EndDate,
-            StepList = projectDto.StepList,
+          //  StepList = projectDto.StepList,
             Description = projectDto.Description,
             Status = projectDto.Status,
         };
@@ -76,7 +77,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             Label = createdProject.Label,
             StartDate = createdProject.StartDate,
             EndDate = createdProject.EndDate,
-            StepList = createdProject.StepList,
+           // StepList = createdProject.StepList,
             Description = createdProject.Description,
             Status = createdProject.Status,
         };
@@ -116,5 +117,25 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
         
         await projectRepository.DeleteAsync(projectDao.Id);
         return true;
+    }
+    
+    
+    private static StepDto MapToStepDto(StepDao stepDao)
+    {
+        return new StepDto
+        {
+            Id = stepDao.Id,
+            Label = stepDao.Label,
+            Description = stepDao.Description,
+            Rank = stepDao.Rank,
+            StartDate = stepDao.StartDate,
+            EndDate = stepDao.EndDate,
+            Status = stepDao.Status,
+            Type = new TypeDto
+            {
+                Id = stepDao.Type.Id,
+                Label = stepDao.Type.Label,
+            },
+        };
     }
 }

@@ -1,8 +1,8 @@
-using Domain.DTO;
+using Domain.Entities;
 
 namespace Application.Interfaces;
 
-public interface IBaseService<T> where T : ProjectDto
+public interface IBaseService<T> where T : IEntity
 {
     public Task<List<T>> GetAllAsync();
     public Task<T?> GetByIdAsync(int id);

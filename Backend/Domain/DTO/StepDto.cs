@@ -1,8 +1,8 @@
 using Domain.Enums;
 
-namespace Domain.Entities;
+namespace Domain.DTO;
 
-public class StepDao : IEntity
+public class StepDto
 {
     public int Id { get; set; }
     public required string Label { get; set; }
@@ -10,7 +10,7 @@ public class StepDao : IEntity
     public int? Rank { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime? EndDate { get; set; }
-    public required TypeDao Type  { get; set; }
+    public required TypeDto Type  { get; set; }
     public required Status Status  { get; set; }
     public int ProjectId { get; set; }
 }
