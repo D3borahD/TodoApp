@@ -50,8 +50,12 @@ builder.Services.AddScoped<IStepRepository, StepRepository>();
 
 // Injection des dépendances : Service
 builder.Services.AddScoped<IBaseService<ProjectDto>, ProjectService>();
+builder.Services.AddScoped<IBaseService<ProjectTypesDto>, ProjectTypeService>();
+
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IReferentialService, ReferentialService>();
+builder.Services.AddScoped<IProjectTypeService, ProjectTypeService>();
+
 
 builder.Logging.AddConsole();
 

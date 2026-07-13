@@ -1,11 +1,10 @@
 using Application.Interfaces;
-using Domain.Entities;
 using Domain.Enums;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-public class ReferentialService(ILogger<ReferentialService> logger, IBaseRepository<TypeDao> projectTypeRepository)
+public class ReferentialService(ILogger<ReferentialService> logger)
     : IReferentialService
 {
     public Task<List<Status>> GetStatusAsync()
@@ -14,8 +13,4 @@ public class ReferentialService(ILogger<ReferentialService> logger, IBaseReposit
         return Task.FromResult(statuses);
     }
     
-    public async Task<List<TypeDao>> GetProjectTypeAsync()
-    {
-       return await projectTypeRepository.GetAllAsync();
-    }
 }

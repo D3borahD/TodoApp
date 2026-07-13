@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 namespace Application.Services;
 
 public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<ProjectDao> projectRepository, IStepRepository stepRepository )
-    : IBaseService<ProjectDto>, IProjectService
+    :  IProjectService
 {
     public async Task<List<ProjectDto>> GetAllAsync()
     {
@@ -57,7 +57,6 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
     public async Task<ProjectDto?> CreateAsync(ProjectDto projectDto)
     {
         logger.LogInformation("Creating new Project");
-      
         
         ProjectDao newProjectDao = new ProjectDao()
         {

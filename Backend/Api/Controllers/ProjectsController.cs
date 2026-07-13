@@ -7,7 +7,7 @@ namespace BackendApi.Controllers;
 [Produces("application/json")]
 [ApiController]
 [Route("api/[controller]")]
-public class ProjectsController(IBaseService<ProjectDto> baseService, IProjectService projectService) : ControllerBase
+public class ProjectsController(IBaseService<ProjectDto> baseService) : ControllerBase
 {
 
     [HttpGet]
@@ -51,8 +51,4 @@ public class ProjectsController(IBaseService<ProjectDto> baseService, IProjectSe
         bool isDeleted = await baseService.DeleteAsync(id);
         return isDeleted ? NoContent() : NotFound("Module not found");
     }
-    
-    
-    
-    
 }
