@@ -42,8 +42,7 @@ export class AppComponent {
   private readonly projectService: ProjectService = inject(ProjectService);
 
   readonly title =  signal('kairos');
-
-  projectList: Signal<IProject[]> = toSignal(this.projectService.getProject$(), { initialValue: [] });
+  readonly projectList: Signal<IProject[]> = this.projectService.projects;
   status: Signal<StatusKey[]> = toSignal(this.referentialService.getStatus$(), { initialValue: [] });
 
   button= signal<IButton>(
@@ -54,6 +53,11 @@ export class AppComponent {
       isDisabled: false
     }
   )
+
+  constructor() {
+    // Déclenche le chargement initial; le signal se met à jour via le service
+    this.projectService.getProject$().subscribe();
+  }
 
   openDialog(): void {
     this.dialog.open(DialogFormComponent,
