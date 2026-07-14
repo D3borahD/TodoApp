@@ -1,6 +1,7 @@
 using Application.Interfaces;
 using Domain.DTO;
 using Domain.Entities;
+using Domain.Enums;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
@@ -18,20 +19,20 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             logger.LogInformation("No Projects found");
             return new List<ProjectDto>();
         }
-        
+
         return projects.Select(p => new ProjectDto
-        {
-            Id = p.Id,
-            Label = p.Label,
-            Description = p.Description,
-            StartDate = p.StartDate,
-            EndDate = p.EndDate,
-        //    StepList = p.StepList,
-            Status = p.Status,
-        }).ToList();
+            {
+                Id = p.Id,
+                Label = p.Label,
+                Description = p.Description,
+                StartDate = p.StartDate,
+                EndDate = p.EndDate,
+                //    StepList = p.StepList,
+                Status = p.Status,
+            }).OrderBy(p => p.Status)
+            .ToList();
     }
     
-
     public async Task<ProjectDto?> GetByIdAsync(int id)
     {
         logger.LogInformation("Getting Projects by id");
@@ -117,7 +118,6 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
         await projectRepository.DeleteAsync(projectDao.Id);
         return true;
     }
-    
     
     private static StepDto MapToStepDto(StepDao stepDao)
     {
