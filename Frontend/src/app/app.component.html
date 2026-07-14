@@ -3,29 +3,14 @@
     <img class="logo" src="./assets/icon-200h.png" alt="logo">
     <h1>{{ title() | titlecase }}</h1>
   </div>
+
+  <div class="nav">
+    <a routerLink="/projects">Projets</a>
+  </div>
+
   <app-button [button]="button()" />
 </header>
-<body>
 
-<div class="container">
-  @for (project of projectList() ; track project.id) {
-    <mat-card class="card" appearance="outlined">
-      <mat-card-header>
-        <mat-card-title>{{ project.label }}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <!--add content-->
-      </mat-card-content>
-      <mat-card-footer class="card-footer">
-        <app-chips [chips]="project.status"></app-chips>
-      </mat-card-footer>
-    </mat-card>
-  }
-  @empty {
-    <p>Il n'y a pas encore de projet ici</p>
-  }
-</div>
-
-
+<main>
 <router-outlet />
-</body>
+</main>
