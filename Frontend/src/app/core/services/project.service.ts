@@ -12,16 +12,22 @@ export class ProjectService {
   private readonly shortUrl = "http://localhost:5062/api"
   private readonly baseUrl = `${this.shortUrl}/Projects`
 
-  private readonly projectsSignal = signal<IProject[]>([])
+  private readonly projectsSignal = signal<IProject[]>([]);
+  private readonly projectSignal = signal<IProject | null>(null);
 
   // source de vérité
   public readonly projects : Signal<IProject[]> = this.projectsSignal.asReadonly()
+  public readonly project : Signal<IProject | null> = this.projectSignal.asReadonly()
 
-
-
-  public getProject$(): Observable<IProject[]> {
+  public getAllProjects$(): Observable<IProject[]> {
     return this.http.get<IProject[]>(this.baseUrl).pipe(
       tap(projects => this.projectsSignal.set(projects)));
+  }
+
+  public getProjectById$(id: string): Observable<IProject> {
+    return this.http.get<IProject>(`${this.baseUrl}/${id}`).pipe(
+      tap(project => this.projectSignal.set(project))
+    );
   }
 
   public addProject$(project: IProject): Observable<IProject> {

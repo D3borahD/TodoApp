@@ -1,1 +1,53 @@
-<p>project : project.label</p>
+@if (project(); as project) {
+
+
+  <p>project : {{ project.label }}</p>
+
+
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <p>couture</p>
+        <p>broderie</p>
+      </div>
+      <button>Modifier</button>
+    </div>
+
+
+    <div class="content">
+      <h1>{{ project.label | titlecase}}</h1>
+      <p>Créé le {{ project.startDate | date: 'dd MMMM yyyy' }}  - x tâches</p>
+    </div>
+    <div class="card-footer">
+      <div>Temps total</div>
+      <div>Cette semaine</div>
+      <div>Session</div>
+    </div>
+  </div>
+
+
+  <div class="session">
+
+
+  <div class="card">
+    <div class="card-header">
+      <h2>Tâches</h2>
+      <div>
+        <button><mat-icon>edit</mat-icon></button>
+        <button><mat-icon>add</mat-icon></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+  <div class="card-header">
+    <h2>Sessions récentes</h2>
+    <div>
+      <button><mat-icon>edit</mat-icon></button>
+      <button><mat-icon>add</mat-icon></button>
+    </div>
+  </div>
+  </div>
+
+  </div>
+}

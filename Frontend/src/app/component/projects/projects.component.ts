@@ -68,6 +68,6 @@ export class ProjectsComponent {
 
   constructor() {
     // Déclenche le chargement initial; le signal se met à jour via le service
-    this.projectService.getProject$().subscribe();
+    this.projectService.getAllProjects$().subscribe();
   }
 }

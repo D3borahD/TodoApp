@@ -1,4 +1,4 @@
-import {ApplicationConfig, InjectionToken, provideZoneChangeDetection} from '@angular/core';
+import {ApplicationConfig, InjectionToken, LOCALE_ID, provideZoneChangeDetection} from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import {provideHttpClient, withJsonpSupport, withXhr} from '@angular/common/http';
@@ -22,10 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withXhr(), withJsonpSupport()),
     provideNativeDateAdapter(),
-    provideAnimationsAsync(),
-    {
-      provide: APP_CONFIG,
-      useValue: DEFAULT_APP_CONFIG
-    }
+    { provide: APP_CONFIG, useValue: DEFAULT_APP_CONFIG},
+    { provide: LOCALE_ID, useValue: 'fr-FR'}
   ]
 };

@@ -1,0 +1,27 @@
+.session{
+  display: flex;
+  flex-grow: 1;
+}
+
+.card{
+  width: 100%;
+}
+
+.card-header{
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  div{
+    display: flex;
+    p{
+      margin-right: 10px;
+    }
+  }
+}
+
+.card-footer{
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+}
+

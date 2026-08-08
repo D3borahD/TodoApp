@@ -51,6 +51,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             Id = projectsDao.Id,
             Label = projectsDao.Label,
             Status = projectsDao.Status,
+            StartDate = projectsDao.StartDate,
             StepList = stepList.Select(MapToStepDto).ToList(),
         };
     }

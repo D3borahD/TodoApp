@@ -1,32 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @use 'mat-form-field';
-
-
-$dark-background: #0D0D14;
-$surface-dark: #161625;
-
-
-//----------//
-$surface: #FFFFFF;
-$surface-light: #F6F8FC;
-//----------//
-$primary: #5B7FFF;
-$primary-light: #7DA2FF;
-//----------//
-$accent: #EC4899;
-$success: #22D3EE;
-$error: #F43F5E;
-//----------//
-$text-primary: #111027;
-$text-secondary: #475669;
-//----------//
-$purple-gradient: linear-gradient(200deg,rgba(124, 58, 237, 1) 32%, rgba(236, 72, 153, 1) 100%);
-$blue-gradient: linear-gradient(200deg,rgba(59, 138, 237, 1) 32%, rgba(34, 211, 190, 1) 100%);
-//----------//
-$border : #E2E8F0;
-$divider : #F1F5F9;
-
-
+@use "colors" as colors;
 
 *,
 ::after,
@@ -43,13 +17,13 @@ body {
 }
 
 body {
-  background-color: $dark-background;
+  background-color: colors.$dark-background;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 h1,
 p {
-  color: $surface;
+  color: colors.$surface;
 }
 
 h1{
@@ -63,28 +37,28 @@ input {
   all: unset;
   flex-grow: 1;
   padding: 10px 20px;
-  background-color: $surface-dark;
+  background-color: colors.$dark-medium;
 }
 
 button.primary-button {
-  border: solid 1px $border;
+  border: solid 1px colors.$border;
   margin: 10px;
   padding: 10px;
-  background: $surface-light;
-  color: $text-primary;
+  background: colors.$surface-light;
+  color: colors.$text-dark;
   width: 100px;
   cursor: pointer;
   border-radius: 8px;
   &:disabled{
-    background: $purple-gradient;
+    background: colors.$purple-gradient;
     opacity: 0.5;
   }
 }
 
 button.icon-button {
-  border: solid 1px $border;
-  background: $surface-light;
-  color: $text-primary;
+  border: solid 1px colors.$border;
+  background: colors.$surface-light;
+  color: colors.$text-dark;
   width: 50px;
   cursor: pointer;
   border-radius: 8px;
@@ -93,7 +67,7 @@ button.icon-button {
 
 // FORM
 .error {
-  color: $error;
+  color: colors.$error;
 }
 .error-container{
   min-height: 1.5rem;
@@ -101,7 +75,7 @@ button.icon-button {
 
 
 button.form{
-  background: $purple-gradient;
+  background: colors.$purple-gradient;
   color: white;
   border: none;
   border-radius: 8px;
@@ -114,10 +88,20 @@ button.form{
 }
 
 mat-form-field {
-  --mat-datepicker-toggle-icon-color: white;
+  --mat-datepicker-toggle-icon-color: colors.$surface-light;
 }
 
 
 ::ng-deep .mat-calendar-body-selected {
-  background: $purple-gradient;
+  background: colors.$purple-gradient;
+}
+
+mat-card {
+  background-color: colors.$dark-medium !important;
+  color: colors.$text-light;
+}
+
+.card {
+  background-color: colors.$dark-medium;
+  color: colors.$text-light;
 }
