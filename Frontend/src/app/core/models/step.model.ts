@@ -11,4 +11,5 @@ export interface  IStep {
   type:IType;
   status:StatusKey;
   duration: number;
+  projectId:number;
 }

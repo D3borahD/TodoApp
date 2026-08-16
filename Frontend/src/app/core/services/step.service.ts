@@ -15,14 +15,20 @@ export class StepService {
   private readonly stepSignal = signal<IStep | null>(null);
 
   // source de vérité
-  public readonly projects : Signal<IStep[]> = this.stepsSignal.asReadonly()
-  public readonly project : Signal<IStep | null> = this.stepSignal.asReadonly()
+  public readonly steps : Signal<IStep[]> = this.stepsSignal.asReadonly()
+  public readonly step : Signal<IStep | null> = this.stepSignal.asReadonly()
 
-  public addStep$(project: IStep): Observable<IStep> {
-    return this.http.post<IStep>(this.baseUrl, project).pipe(
+  public addStep$(step: IStep): Observable<IStep> {
+    return this.http.post<IStep>(this.baseUrl, step).pipe(
       tap(createdStep =>
-        this.stepsSignal.update(currentSteps => [...currentSteps, createdStep])
+        this.stepsSignal.update(currentSteps => [...currentSteps, createdStep]),
       )
+    );
+  }
+
+  public getStepsByProjectId(id: string): Observable<IStep[]> {
+    return this.http.get<IStep[]>(`${this.shortUrl}/Projects/${id}/steps`).pipe(
+      tap(steps => this.stepsSignal.set(steps))
     );
   }
 }

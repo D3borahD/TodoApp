@@ -44,7 +44,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IBaseRepository<ProjectDao>, ProjectRepository>();
 builder.Services.AddScoped<IBaseRepository<TypeDao>, ProjectTypeRepository>();
 builder.Services.AddScoped<IBaseRepository<StepDao>, StepRepository>();
-
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IStepRepository, StepRepository>(); 
 
@@ -56,6 +55,7 @@ builder.Services.AddScoped<IBaseService<StepDto>, StepService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IReferentialService, ReferentialService>();
 builder.Services.AddScoped<IProjectTypeService, ProjectTypeService>();
+builder.Services.AddScoped<IStepService, StepService>();
 
 
 builder.Logging.AddConsole();

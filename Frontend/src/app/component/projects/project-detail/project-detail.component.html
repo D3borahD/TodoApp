@@ -37,7 +37,7 @@
 
     <div class="card-body">
       <ul class="" >
-        @for (step of project.stepList; track step.id){
+        @for (step of stepList(); track step.id){
           <div class="list-group">
             <li>{{step.label}} -  {{step.type.label }} - {{step.status}} -- {{ step.duration }}min </li>
             <div>

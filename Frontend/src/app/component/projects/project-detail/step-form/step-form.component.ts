@@ -6,12 +6,14 @@ import {MatError, MatFormField, MatInput, MatSuffix} from '@angular/material/inp
 import {MatOption} from '@angular/material/core';
 import {MatSelect} from '@angular/material/select';
 import {TitleCasePipe} from '@angular/common';
-import {MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {StatusKey} from '../../../../core/models/status.model';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ReferentialService} from '../../../../core/services/referential.service';
 import {firstValueFrom} from 'rxjs';
 import {StepService} from '../../../../core/services/step.service';
+import {IType} from '../../../../core/models/type.model';
+import {TypeService} from '../../../../core/services/type.service';
 
 @Component({
   selector: 'app-step-form',
@@ -36,21 +38,23 @@ import {StepService} from '../../../../core/services/step.service';
 export class StepFormComponent {
 
   private dialogRef: MatDialogRef<StepFormComponent> = inject(MatDialogRef<StepFormComponent>);
+  private data = inject<{projectId: number}>(MAT_DIALOG_DATA);
   private stepService: StepService = inject(StepService);
 
   private referentialService: ReferentialService = inject(ReferentialService);
+  private projectTypeService: TypeService = inject(TypeService);
 
   title = input<string>('New step');
 
-
   status: Signal<StatusKey[]> = toSignal(this.referentialService.getStatus$(), { initialValue: [] });
+  types: Signal<IType[]> = toSignal(this.projectTypeService.getAllTypes$(), { initialValue: [] });
 
 
   stepModel = signal({
     id: 1,
     label: '',
     description: '',
-    rank: 1,
+    rank: 0,
     startDate: new Date(),
     endDate : new Date(),
     status: this.status()[0] ?? 'NotStarted',
@@ -59,7 +63,7 @@ export class StepFormComponent {
       label: ''
     },
     duration: 0,
-    projectId : 62
+    projectId : this.data.projectId,
   });
 
 

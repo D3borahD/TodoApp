@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-public class StepService(ILogger<StepService> logger, IBaseRepository<StepDao> stepRepository) 
+public class StepService(ILogger<StepService> logger, IBaseRepository<StepDao> baseRepository, IStepRepository stepRepository, IBaseRepository<TypeDao> projectTypeRepository) 
     : IStepService
 {
     public Task<List<StepDto>> GetAllAsync()
@@ -35,10 +35,9 @@ public class StepService(ILogger<StepService> logger, IBaseRepository<StepDao> s
             Status = stepDto.Status,
         };
         
-        var createdStep = await stepRepository.CreateAsync(newStepDao);
+        var createdStep = await baseRepository.CreateAsync(newStepDao);
+        var type = await projectTypeRepository.GetByIdAsync(stepDto.Type.Id);
         
-        
-
         return new StepDto()
         {
             Id = createdStep.Id,
@@ -48,7 +47,7 @@ public class StepService(ILogger<StepService> logger, IBaseRepository<StepDao> s
             EndDate = createdStep.EndDate,
             StartDate = createdStep.StartDate,
             Rank = createdStep.Rank,
-            Type = new ProjectTypesDto(){Id = createdStep.Type, Label = ""},
+            Type = new ProjectTypesDto(){ Id = type.Id, Label = type.Label},
             Status = createdStep.Status,
         };
     }
@@ -61,5 +60,42 @@ public class StepService(ILogger<StepService> logger, IBaseRepository<StepDao> s
     public Task<bool> DeleteAsync(int id)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<List<StepDto>> GetStepsByProjectAsync(int projectId)
+    {
+        logger.LogInformation("Getting step by ProjectId");
+        var stepList = await stepRepository.GetStepByProjectAsync(projectId);
+
+        if (!stepList.Any())
+        {
+            return new List<StepDto>();
+        }
+        
+        var stepDtos = new List<StepDto>();
+        
+        foreach (var step in stepList)
+        {
+            var type = await projectTypeRepository.GetByIdAsync(step.Type);
+
+            stepDtos.Add(new StepDto
+            {
+                Id = step.Id,
+                Label = step.Label,
+                Description = step.Description,
+                Duration = step.Duration,
+                EndDate = step.EndDate,
+                StartDate = step.StartDate,
+                Rank = step.Rank,
+                ProjectId = step.ProjectId,
+                Type = new ProjectTypesDto
+                {
+                    Id = type?.Id ?? step.Type,
+                    Label = type?.Label ?? string.Empty
+                },
+                Status = step.Status
+            });
+        }
+        return stepDtos;
     }
 }

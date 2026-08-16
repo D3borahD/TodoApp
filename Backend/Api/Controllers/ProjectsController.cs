@@ -7,7 +7,7 @@ namespace BackendApi.Controllers;
 [Produces("application/json")]
 [ApiController]
 [Route("api/[controller]")]
-public class ProjectsController(IBaseService<ProjectDto> baseService) : ControllerBase
+public class ProjectsController(IBaseService<ProjectDto> baseService, IStepService stepService) : ControllerBase
 {
 
     [HttpGet]
@@ -60,5 +60,12 @@ public class ProjectsController(IBaseService<ProjectDto> baseService) : Controll
     {
         bool isDeleted = await baseService.DeleteAsync(id);
         return isDeleted ? NoContent() : NotFound("Module not found");
+    }
+    
+    [HttpGet("{id:int}/steps")]
+    public async Task<ActionResult<List<StepDto>>> GetStepsByProjectAsync(int id)
+    {
+        var steps = await stepService.GetStepsByProjectAsync(id);
+        return Ok(steps);
     }
 }
