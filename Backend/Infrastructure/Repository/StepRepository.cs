@@ -17,9 +17,11 @@ public class StepRepository(AppDbContext context) : IStepRepository
         throw new NotImplementedException();
     }
 
-    public Task<StepDao> CreateAsync(StepDao entity)
+    public async Task<StepDao> CreateAsync(StepDao stepDao)
     {
-        throw new NotImplementedException();
+        context.Steps.Add(stepDao);
+        await context.SaveChangesAsync();
+        return stepDao;
     }
 
     public Task<StepDao?> UpdateAsync(StepDao entity)
@@ -34,7 +36,7 @@ public class StepRepository(AppDbContext context) : IStepRepository
 
     public async Task<List<StepDao>> GetStepByProjectAsync(int projectId)
     => await context.Steps
-        .Include(s => s.Type)
+       // .Include(s => s.Type)
         .Where(s => s.ProjectId == projectId)
         .ToListAsync();
 }
