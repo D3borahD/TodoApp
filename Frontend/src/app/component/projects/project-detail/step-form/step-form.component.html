@@ -1,0 +1,58 @@
+<div class="container">
+  <h1>{{title() | titlecase}}</h1>
+
+  <form [formRoot]="stepModelForm">
+    <div>
+      <p>Label *</p>
+      <mat-form-field class="custom-field bm" appearance="outline"  >
+        <input matInput [formField]="stepModelForm.label">
+      </mat-form-field>
+      <div class="error-container">
+        @if (stepModelForm.label().touched() && stepModelForm.label().invalid()) {
+          <mat-error class="error">
+            {{ stepModelForm.label().errors()[0].message }}
+          </mat-error>
+        }
+      </div>
+
+      <p>Description</p>
+      <mat-form-field class="custom-field" appearance="outline"  >
+        <input matInput [formField]="stepModelForm.description">
+      </mat-form-field>
+
+      <p>Date de début</p>
+      <mat-form-field class="custom-field" appearance="outline">
+        <input matInput [formField]="stepModelForm.startDate" [matDatepicker]="picker">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <p>Status</p>
+      <mat-form-field class="custom-field" appearance="outline">
+        <mat-select class="white" [formField]="stepModelForm.status">
+          @for (s of status(); track s) {
+            <mat-option  [value]="s">{{s}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <p>Type</p>
+      <mat-form-field class="custom-field" appearance="outline">
+        <mat-select class="white" [formField]="stepModelForm.status">
+          @for (s of status(); track s) {
+            <mat-option  [value]="s">{{s}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+    <button class="form" [disabled]="!stepModelForm().valid" type="submit">SAVE</button>
+  </form>
+</div>
+
+
+
+
+
+
+

@@ -32,21 +32,36 @@
   <div class="card">
     <div class="card-header">
       <h2>Tâches</h2>
-      <div>
-        <button><mat-icon>edit</mat-icon></button>
-        <button><mat-icon>add</mat-icon></button>
-      </div>
+      <button (click)="addStep()"><mat-icon>add</mat-icon></button>
+    </div>
+
+    <div class="card-body">
+      <ul class="" >
+        @for (step of project.stepList; track step.id){
+          <div class="list-group">
+            <li>{{step.label}} -  {{step.type.label }} - {{step.status}} -- {{ step.duration }}min </li>
+            <div>
+              <button><mat-icon>play_circle_outline</mat-icon></button>
+              <button><mat-icon>edit</mat-icon></button>
+              <button><mat-icon>delete</mat-icon></button>
+            </div>
+          </div>
+
+        }
+      </ul>
     </div>
   </div>
 
   <div class="card">
   <div class="card-header">
     <h2>Sessions récentes</h2>
+    <button><mat-icon>add</mat-icon></button>
+  </div>
+
     <div>
       <button><mat-icon>edit</mat-icon></button>
-      <button><mat-icon>add</mat-icon></button>
+      <button><mat-icon>delete</mat-icon></button>
     </div>
-  </div>
   </div>
 
   </div>

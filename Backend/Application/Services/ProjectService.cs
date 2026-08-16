@@ -1,7 +1,6 @@
 using Application.Interfaces;
 using Domain.DTO;
 using Domain.Entities;
-using Domain.Enums;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
@@ -131,7 +130,12 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             StartDate = stepDao.StartDate,
             EndDate = stepDao.EndDate,
             Status = stepDao.Status,
-            Type = stepDao.Type.Label
+            Type = new TypeDto()
+            {
+                Id = stepDao.Type,
+                Label = "",
+            },
+            Duration = stepDao.Duration,
         };
     }
 }
