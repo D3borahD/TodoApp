@@ -11,7 +11,7 @@ public class StepDto: IEntity
     public int? Rank { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime? EndDate { get; set; }
-    public required TypeDto Type  { get; set; }
+    public required ProjectTypesDto Type  { get; set; }
     public int? Duration { get; set; }
     public required Status Status  { get; set; }
     public int ProjectId { get; set; }

@@ -48,7 +48,7 @@ public class StepService(ILogger<StepService> logger, IBaseRepository<StepDao> s
             EndDate = createdStep.EndDate,
             StartDate = createdStep.StartDate,
             Rank = createdStep.Rank,
-            Type = new TypeDto(){Id = createdStep.Type, Label = ""},
+            Type = new ProjectTypesDto(){Id = createdStep.Type, Label = ""},
             Status = createdStep.Status,
         };
     }
