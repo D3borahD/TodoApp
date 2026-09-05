@@ -21,7 +21,7 @@ export class StepService {
   public addStep$(step: IStep): Observable<IStep> {
     return this.http.post<IStep>(this.baseUrl, step).pipe(
       tap(createdStep =>
-        this.stepsSignal.update(currentSteps => [...currentSteps, createdStep]),
+        this.stepsSignal.update(currentSteps => [createdStep, ...currentSteps ]),
       )
     );
   }

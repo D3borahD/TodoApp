@@ -38,5 +38,6 @@ public class StepRepository(AppDbContext context) : IStepRepository
     => await context.Steps
        // .Include(s => s.Type)
         .Where(s => s.ProjectId == projectId)
+        .OrderByDescending(s => s.StartDate)
         .ToListAsync();
 }
