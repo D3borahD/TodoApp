@@ -51,7 +51,7 @@ export class StepFormComponent {
 
 
   stepModel = signal({
-    id: 1,
+    id: '1',
     label: '',
     description: '',
     rank: 0,

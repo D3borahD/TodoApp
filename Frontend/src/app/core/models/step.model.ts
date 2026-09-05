@@ -2,7 +2,7 @@ import {IType} from './type.model';
 import {StatusKey} from './status.model';
 
 export interface  IStep {
-  id: number;
+  id: string;
   label: string;
   description: string;
   rank?: number | null;

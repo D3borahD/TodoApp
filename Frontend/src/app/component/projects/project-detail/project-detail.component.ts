@@ -51,4 +51,8 @@ export class ProjectDetailComponent {
         }
       })
   }
+
+  protected deleteStep$(projectId: string, stepId: string): void {
+    this.stepService.deleteStep$(projectId, stepId).subscribe()
+  }
 }

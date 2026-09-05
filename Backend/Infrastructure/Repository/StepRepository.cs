@@ -5,17 +5,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository;
 
-public class StepRepository(AppDbContext context) : IStepRepository
+public class StepRepository(AppDbContext context) : IBaseRepository<StepDao>, IStepRepository
 {
     public Task<List<StepDao>> GetAllAsync()
     {
         throw new NotImplementedException();
     }
 
-    public Task<StepDao?> GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<StepDao?> GetByIdAsync(int id) => await context.Steps.FindAsync(id);
+   
 
     public async Task<StepDao> CreateAsync(StepDao stepDao)
     {
@@ -29,9 +27,13 @@ public class StepRepository(AppDbContext context) : IStepRepository
         throw new NotImplementedException();
     }
 
-    public Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+       var step = await context.Steps.FindAsync(id);
+        
+        context.Steps.Remove(step);
+        context.SaveChangesAsync();
+        
     }
 
     public async Task<List<StepDao>> GetStepByProjectAsync(int projectId)

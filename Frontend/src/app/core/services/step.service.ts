@@ -31,5 +31,12 @@ export class StepService {
       tap(steps => this.stepsSignal.set(steps))
     );
   }
+
+  public deleteStep$(projectId: string, stepId: string): Observable<boolean> {
+    return this.http.delete<boolean>(`${this.shortUrl}/Projects/${projectId}/steps/${stepId}`).pipe(
+      tap(() => this.stepsSignal.update(currentSteps => currentSteps.filter(step => step.id !== stepId)))
+    );
+  }
+
 }
 

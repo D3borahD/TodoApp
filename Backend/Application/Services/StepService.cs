@@ -47,7 +47,7 @@ public class StepService(ILogger<StepService> logger, IBaseRepository<StepDao> b
             EndDate = createdStep.EndDate,
             StartDate = createdStep.StartDate,
             Rank = createdStep.Rank,
-            Type = new ProjectTypesDto(){ Id = type.Id, Label = type.Label},
+            Type = new ProjectTypesDto(){ Id = type!.Id, Label = type.Label},
             Status = createdStep.Status,
         };
     }
@@ -57,9 +57,18 @@ public class StepService(ILogger<StepService> logger, IBaseRepository<StepDao> b
         throw new NotImplementedException();
     }
 
-    public Task<bool> DeleteAsync(int id)
+    public async Task<bool> DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        var stepDao = await baseRepository.GetByIdAsync(id);
+        
+        if (stepDao == null)
+        {
+            logger.LogInformation("No Step found");
+            return false;
+        }
+        
+        await baseRepository.DeleteAsync(stepDao.Id);
+        return true;
     }
 
     public async Task<List<StepDto>> GetStepsByProjectAsync(int projectId)
@@ -72,13 +81,13 @@ public class StepService(ILogger<StepService> logger, IBaseRepository<StepDao> b
             return new List<StepDto>();
         }
         
-        var stepDtos = new List<StepDto>();
+        var stepDto = new List<StepDto>();
         
         foreach (var step in stepList)
         {
             var type = await projectTypeRepository.GetByIdAsync(step.Type);
 
-            stepDtos.Add(new StepDto
+            stepDto.Add(new StepDto
             {
                 Id = step.Id,
                 Label = step.Label,
@@ -96,6 +105,6 @@ public class StepService(ILogger<StepService> logger, IBaseRepository<StepDao> b
                 Status = step.Status
             });
         }
-        return stepDtos;
+        return stepDto;
     }
 }

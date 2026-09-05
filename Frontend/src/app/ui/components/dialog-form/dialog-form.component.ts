@@ -57,7 +57,7 @@ export class DialogFormComponent {
   title = input<string>('New project');
 
    projectModel = signal({
-    id: 1,
+    id: '1',
     label: '',
     description: '',
     startDate: new Date(),

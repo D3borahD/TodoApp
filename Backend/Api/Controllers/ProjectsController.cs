@@ -68,4 +68,11 @@ public class ProjectsController(IBaseService<ProjectDto> baseService, IStepServi
         var steps = await stepService.GetStepsByProjectAsync(id);
         return Ok(steps);
     }
+    
+    [HttpDelete("{id:int}/steps/{stepId:int}")]
+    public async Task<ActionResult> DeleteStepAsync(int id, int stepId)
+    {
+        bool isDeleted = await stepService.DeleteAsync(stepId);
+        return isDeleted ? NoContent() : NotFound("Step not found");
+    }
 }
