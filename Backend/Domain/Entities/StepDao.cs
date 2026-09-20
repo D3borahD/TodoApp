@@ -10,7 +10,10 @@ public class StepDao : IEntity
     public int? Rank { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime? EndDate { get; set; }
-    public required int Type  { get; set; }
+    
+    public required int TypeId  { get; set; }
+    public TypeDao Type { get; set; } = null!; // Populated by EF Core
+    
     public required Status Status  { get; set; }
     public int? Duration { get; set; }
     public int ProjectId { get; set; }

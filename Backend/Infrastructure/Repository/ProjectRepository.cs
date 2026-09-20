@@ -9,21 +9,7 @@ public class ProjectRepository(AppDbContext context) : IBaseRepository<ProjectDa
 {
     public async Task<List<ProjectDao>> GetAllAsync() => await context.Projects.ToListAsync();
     public async Task<ProjectDao?> GetByIdAsync(int id) => await context.Projects.FindAsync(id);
-   
-    /*public async Task<List<ProjectDao>> GetProjectByTypeAsync(int typeId)
-    {
-        /*var projectList =  await context.Projects
-            .Where(p  => p.Type.Id == typeId)
-            .Select(p => new ProjectDao()
-            {
-                Id = p.Id,
-                Label = p.Label,
-                Type = p.Type,
-                Status = p.Status,
-            }).ToListAsync();#1#
-
-        return projectList;
-    }*/
+    
     
     public async Task<ProjectDao> CreateAsync(ProjectDao pojectDto)
     {

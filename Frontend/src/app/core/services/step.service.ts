@@ -9,7 +9,7 @@ import {Observable, tap} from 'rxjs';
 export class StepService {
   private readonly http: HttpClient = inject(HttpClient);
   private readonly shortUrl = "http://localhost:5062/api"
-  private readonly baseUrl = `${this.shortUrl}/Steps`
+  private readonly baseUrl = `${this.shortUrl}/Projects`
 
   private readonly stepsSignal = signal<IStep[]>([]);
   private readonly stepSignal = signal<IStep | null>(null);
@@ -19,7 +19,7 @@ export class StepService {
   public readonly step : Signal<IStep | null> = this.stepSignal.asReadonly()
 
   public addStep$(step: IStep): Observable<IStep> {
-    return this.http.post<IStep>(this.baseUrl, step).pipe(
+    return this.http.post<IStep>(`${this.baseUrl}/${step.projectId}/steps`, step).pipe(
       tap(createdStep =>
         this.stepsSignal.update(currentSteps => [createdStep, ...currentSteps ]),
       )
@@ -27,13 +27,13 @@ export class StepService {
   }
 
   public getStepsByProjectId(id: string): Observable<IStep[]> {
-    return this.http.get<IStep[]>(`${this.shortUrl}/Projects/${id}/steps`).pipe(
+    return this.http.get<IStep[]>(`${this.baseUrl}/${id}/steps`).pipe(
       tap(steps => this.stepsSignal.set(steps))
     );
   }
 
   public deleteStep$(projectId: string, stepId: string): Observable<boolean> {
-    return this.http.delete<boolean>(`${this.shortUrl}/Projects/${projectId}/steps/${stepId}`).pipe(
+    return this.http.delete<boolean>(`${this.baseUrl}/${projectId}/steps/${stepId}`).pipe(
       tap(() => this.stepsSignal.update(currentSteps => currentSteps.filter(step => step.id !== stepId)))
     );
   }

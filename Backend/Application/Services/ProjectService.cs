@@ -132,7 +132,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             Status = stepDao.Status,
             Type = new ProjectTypesDto()
             {
-                Id = stepDao.Type,
+                Id = stepDao.TypeId,
                 Label = "",
             },
             Duration = stepDao.Duration,

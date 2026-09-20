@@ -12,7 +12,12 @@ public class StepRepository(AppDbContext context) : IBaseRepository<StepDao>, IS
         throw new NotImplementedException();
     }
 
-    public async Task<StepDao?> GetByIdAsync(int id) => await context.Steps.FindAsync(id);
+    public async Task<StepDao?> GetByIdAsync(int id)
+    {
+        return await context.Steps
+            .Include(step => step.Type)
+            .FirstOrDefaultAsync(step => step.Id == id);
+    }
    
 
     public async Task<StepDao> CreateAsync(StepDao stepDao)
@@ -22,9 +27,11 @@ public class StepRepository(AppDbContext context) : IBaseRepository<StepDao>, IS
         return stepDao;
     }
 
-    public Task<StepDao?> UpdateAsync(StepDao entity)
+    public async Task<StepDao?> UpdateAsync(StepDao stepDao)
     {
-        throw new NotImplementedException();
+        context.Steps.Update(stepDao);
+        await context.SaveChangesAsync();
+        return stepDao;
     }
 
     public async Task DeleteAsync(int id)
