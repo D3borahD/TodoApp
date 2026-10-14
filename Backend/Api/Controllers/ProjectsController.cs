@@ -11,14 +11,14 @@ public class ProjectsController(IBaseService<ProjectDto> baseService, IStepServi
 {
 
     [HttpGet]
-    public async Task<ActionResult<List<ProjectDto>>> GetProductsAsync()
+    public async Task<ActionResult<List<ProjectDto>>> GetProjectAsync()
     {
         var products = await baseService.GetAllAsync();
         return Ok(products);
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<ProjectDto>> GetProductByIdAsync(int id)
+    public async Task<ActionResult<ProjectDto>> GetProjectByIdAsync(int id)
     {
         var product = await baseService.GetByIdAsync(id);
         return Ok(product);
@@ -26,7 +26,7 @@ public class ProjectsController(IBaseService<ProjectDto> baseService, IStepServi
     
 
     [HttpPost("")]
-    public async Task<ActionResult<ProjectDto>> CreateProductAsync([FromBody] ProjectDto? projectDto)
+    public async Task<ActionResult<ProjectDto>> CreateProjectAsync([FromBody] ProjectDto? projectDto)
     {
         if(projectDto is null ) return BadRequest("The project is null");
         if(string.IsNullOrEmpty(projectDto.Label)) return BadRequest("The project label is null");
@@ -46,7 +46,7 @@ public class ProjectsController(IBaseService<ProjectDto> baseService, IStepServi
     }
     
     [HttpDelete("{id}")]
-    public async Task<ActionResult<ProjectDto>> DeleteProductAsync(int id)
+    public async Task<ActionResult<ProjectDto>> DeleteProjectAsync(int id)
     {
         bool isDeleted = await baseService.DeleteAsync(id);
         return isDeleted ? NoContent() : NotFound("Module not found");

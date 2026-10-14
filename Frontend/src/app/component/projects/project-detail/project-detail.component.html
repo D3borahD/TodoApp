@@ -7,8 +7,8 @@
   <div class="card">
     <div class="card-header">
       <div>
-        <p>couture</p>
-        <p>broderie</p>
+        <p>type : broderie</p>
+        <app-chips [chips]="project.status"></app-chips>
       </div>
       <button>Modifier</button>
     </div>
@@ -16,7 +16,7 @@
 
     <div class="content">
       <h1>{{ project.label | titlecase}}</h1>
-      <p>Créé le {{ project.startDate | date: 'dd MMMM yyyy' }}  - x tâches</p>
+      <p>Créé le {{ project.startDate | date: 'dd MMMM yyyy' }}  - {{ stepList().length }} tâches</p>
     </div>
     <div class="card-footer">
       <div>Temps total</div>
@@ -41,8 +41,8 @@
           <div class="list-group">
             <li>{{step.label}} -  {{step.type.label }} - {{step.status}} -- {{ step.duration }}min </li>
             <div>
-              <button><mat-icon>play_circle_outline</mat-icon></button>
-              <button><mat-icon>edit</mat-icon></button>
+            <!--  <button><mat-icon>play_circle_outline</mat-icon></button>
+              <button><mat-icon>edit</mat-icon></button>-->
               <button  (click)="deleteStep$(project.id, step.id)"><mat-icon>delete</mat-icon></button>
             </div>
           </div>
@@ -52,17 +52,11 @@
     </div>
   </div>
 
-  <div class="card">
-  <div class="card-header">
-    <h2>Sessions récentes</h2>
-    <button><mat-icon>add</mat-icon></button>
-  </div>
-
-    <div>
-      <button><mat-icon>edit</mat-icon></button>
-      <button><mat-icon>delete</mat-icon></button>
+    <div class="card">
+      <div class="card-header">
+        <h2>Sessions récentes</h2>
+        <button><mat-icon>add</mat-icon></button>
+      </div>
     </div>
-  </div>
-
   </div>
 }

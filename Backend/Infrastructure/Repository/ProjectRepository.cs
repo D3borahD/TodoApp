@@ -7,7 +7,15 @@ namespace Infrastructure.Repository;
 
 public class ProjectRepository(AppDbContext context) : IBaseRepository<ProjectDao>, IProjectRepository
 {
-    public async Task<List<ProjectDao>> GetAllAsync() => await context.Projects.ToListAsync();
+    public async Task<List<ProjectDao>> GetAllAsync()
+    {
+        var project = await context.Projects
+            .Include(project => project.ProjectTypes)
+            .Include(project => project.StepList)
+            .ToListAsync();
+        
+        return await context.Projects.ToListAsync();
+    }
     public async Task<ProjectDao?> GetByIdAsync(int id) => await context.Projects.FindAsync(id);
     
     

@@ -12,4 +12,6 @@ public class ProjectDto : IEntity
     public DateTime? EndDate { get; set; }
     public List<StepDto> StepList { get; set; } = new List<StepDto>();
     public required Status Status  { get; set; } 
+    
+    public List<ProjectTypesDto> ProjectTypes { get; set; } = new List<ProjectTypesDto>();
 }

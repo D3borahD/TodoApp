@@ -9,6 +9,7 @@ import {MatIcon} from '@angular/material/icon';
 import {MatDialog} from '@angular/material/dialog';
 import {StepFormComponent} from './step-form/step-form.component';
 import {StepService} from '../../../core/services/step.service';
+import {ChipsComponent} from '../../../ui/components/chips/chips.component';
 
 
 @Component({
@@ -16,7 +17,8 @@ import {StepService} from '../../../core/services/step.service';
   imports: [
     TitleCasePipe,
     DatePipe,
-    MatIcon
+    MatIcon,
+    ChipsComponent
   ],
   templateUrl: './project-detail.component.html',
   styleUrl: './project-detail.component.scss',

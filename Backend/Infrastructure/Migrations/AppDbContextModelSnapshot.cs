@@ -99,7 +99,12 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("ProjectDaoId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectDaoId");
 
                     b.ToTable("ProjectTypes");
                 });
@@ -121,8 +126,17 @@ namespace Infrastructure.Migrations
                     b.Navigation("Type");
                 });
 
+            modelBuilder.Entity("Domain.Entities.TypeDao", b =>
+                {
+                    b.HasOne("Domain.Entities.ProjectDao", null)
+                        .WithMany("ProjectTypes")
+                        .HasForeignKey("ProjectDaoId");
+                });
+
             modelBuilder.Entity("Domain.Entities.ProjectDao", b =>
                 {
+                    b.Navigation("ProjectTypes");
+
                     b.Navigation("StepList");
                 });
 #pragma warning restore 612, 618
