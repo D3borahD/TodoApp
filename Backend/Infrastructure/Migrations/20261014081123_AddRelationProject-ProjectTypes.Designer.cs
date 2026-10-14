@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20261012095438_updateProjectTable")]
-    partial class updateProjectTable
+    [Migration("20261014081123_AddRelationProject-ProjectTypes")]
+    partial class AddRelationProjectProjectTypes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -102,14 +102,24 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ProjectDaoId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ProjectDaoId");
-
                     b.ToTable("ProjectTypes");
+                });
+
+            modelBuilder.Entity("ProjectProjectTypes", b =>
+                {
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ProjectTypeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ProjectId", "ProjectTypeId");
+
+                    b.HasIndex("ProjectTypeId");
+
+                    b.ToTable("ProjectProjectTypes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.StepDao", b =>
@@ -129,17 +139,23 @@ namespace Infrastructure.Migrations
                     b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("Domain.Entities.TypeDao", b =>
+            modelBuilder.Entity("ProjectProjectTypes", b =>
                 {
                     b.HasOne("Domain.Entities.ProjectDao", null)
-                        .WithMany("ProjectTypes")
-                        .HasForeignKey("ProjectDaoId");
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.TypeDao", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Entities.ProjectDao", b =>
                 {
-                    b.Navigation("ProjectTypes");
-
                     b.Navigation("StepList");
                 });
 #pragma warning restore 612, 618

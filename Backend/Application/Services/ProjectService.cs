@@ -28,7 +28,6 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
                 EndDate = p.EndDate,
                 Status = p.Status,
                 ProjectTypes = p.ProjectTypes.Select(MapToProjectTypesDto).ToList(),
-                
             }).OrderBy(p => p.Status)
             .ToList();
     }

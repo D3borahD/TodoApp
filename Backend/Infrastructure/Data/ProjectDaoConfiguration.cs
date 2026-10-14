@@ -24,5 +24,23 @@ public class ProjectDaoConfiguration : IEntityTypeConfiguration<ProjectDao>
             .WithOne()
             .HasForeignKey(s => s.ProjectId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.HasMany(p => p.ProjectTypes)
+            .WithMany(t => t.Projects)
+            .UsingEntity<Dictionary<string, object>>(
+                "ProjectProjectTypes",
+                right => right
+                    .HasOne<TypeDao>()
+                    .WithMany()
+                    .HasForeignKey("ProjectTypeId"),
+                left => left
+                    .HasOne<ProjectDao>()
+                    .WithMany()
+                    .HasForeignKey("ProjectId"),
+                joinEntity =>
+                {
+                    joinEntity.ToTable("ProjectProjectTypes");
+                    joinEntity.HasKey("ProjectId", "ProjectTypeId");
+                });
     }
 }
