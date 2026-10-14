@@ -14,7 +14,14 @@ public class ProjectRepository(AppDbContext context) : IBaseRepository<ProjectDa
             .ThenInclude(step => step.Type)
             .ToListAsync();
     }
-    public async Task<ProjectDao?> GetByIdAsync(int id) => await context.Projects.FindAsync(id);
+    
+    public async Task<ProjectDao?> GetByIdAsync(int id)
+    { 
+        return await context.Projects
+        .Include(project => project.StepList)
+        .ThenInclude(step => step.Type)
+        .FirstOrDefaultAsync();
+    }
     
     
     public async Task<ProjectDao> CreateAsync(ProjectDao pojectDto)

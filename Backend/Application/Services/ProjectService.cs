@@ -62,7 +62,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             Label = projectsDao.Label,
             Status = projectsDao.Status,
             StartDate = projectsDao.StartDate,
-          
+            ProjectTypes = GetAllProjectTypes(projectsDao),
             StepList = stepList.Select(MapToStepDto).ToList(),
            
         };
