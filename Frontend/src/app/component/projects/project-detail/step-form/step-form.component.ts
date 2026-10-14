@@ -12,8 +12,8 @@ import {toSignal} from '@angular/core/rxjs-interop';
 import {ReferentialService} from '../../../../core/services/referential.service';
 import {firstValueFrom} from 'rxjs';
 import {StepService} from '../../../../core/services/step.service';
-import {IType} from '../../../../core/models/type.model';
 import {TypeService} from '../../../../core/services/type.service';
+import {IProjectType} from '../../../../core/models/projectType.model';
 
 @Component({
   selector: 'app-step-form',
@@ -47,7 +47,7 @@ export class StepFormComponent {
   title = input<string>('New step');
 
   status: Signal<StatusKey[]> = toSignal(this.referentialService.getStatus$(), { initialValue: [] });
-  types: Signal<IType[]> = toSignal(this.projectTypeService.getAllTypes$(), { initialValue: [] });
+  types: Signal<IProjectType[]> = toSignal(this.projectTypeService.getAllTypes$(), { initialValue: [] });
 
 
   stepModel = signal({

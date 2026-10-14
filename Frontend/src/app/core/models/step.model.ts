@@ -1,5 +1,5 @@
-import {IType} from './type.model';
 import {StatusKey} from './status.model';
+import {IProjectType} from './projectType.model';
 
 export interface  IStep {
   id: string;
@@ -8,7 +8,7 @@ export interface  IStep {
   rank?: number | null;
   startDate?: Date;
   endDate?: Date;
-  type:IType;
+  type:IProjectType;
   status:StatusKey;
   duration: number;
   projectId:number;

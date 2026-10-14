@@ -1,5 +1,6 @@
 import {StatusKey} from './status.model';
 import {IStep} from './step.model';
+import {IProjectType} from './projectType.model';
 
 export interface IProject {
   id: string
@@ -9,5 +10,5 @@ export interface IProject {
   startDate: Date;
   endDate?: Date;
   status: StatusKey;
-
 }
+
