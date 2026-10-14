@@ -26,8 +26,9 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
                 Description = p.Description,
                 StartDate = p.StartDate,
                 EndDate = p.EndDate,
-                //    StepList = p.StepList,
                 Status = p.Status,
+                ProjectTypes = p.ProjectTypes.Select(MapToProjectTypesDto).ToList(),
+                
             }).OrderBy(p => p.Status)
             .ToList();
     }
@@ -51,7 +52,9 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             Label = projectsDao.Label,
             Status = projectsDao.Status,
             StartDate = projectsDao.StartDate,
+            ProjectTypes = projectsDao.ProjectTypes.Select(MapToProjectTypesDto).ToList(),
             StepList = stepList.Select(MapToStepDto).ToList(),
+           
         };
     }
 
@@ -80,6 +83,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
            // StepList = createdProject.StepList,
             Description = createdProject.Description,
             Status = createdProject.Status,
+            ProjectTypes = createdProject.ProjectTypes.Select(MapToProjectTypesDto).ToList(),
         };
     }
 
@@ -102,6 +106,8 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             Label = updatedProject.Label,
     
             Status = updatedProject.Status,
+            ProjectTypes = updatedProject.ProjectTypes.Select(MapToProjectTypesDto).ToList(),
+
         };
     }
 
@@ -136,6 +142,15 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
                 Label = "",
             },
             Duration = stepDao.Duration,
+        };
+    }
+    
+    private static ProjectTypesDto MapToProjectTypesDto(TypeDao typeDao)
+    {
+        return new ProjectTypesDto()
+            {
+                Id = typeDao.Id,
+                Label = typeDao.Label,
         };
     }
 }
