@@ -12,6 +12,5 @@ public class ProjectDao : IEntity
     public DateTime? EndDate { get; set; }
     public List<StepDao> StepList { get; set; } = new List<StepDao>();  
     public required Status Status { get; set; }
-    public List<TypeDao> ProjectTypes { get; set; } = new List<TypeDao>();
 }
 

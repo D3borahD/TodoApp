@@ -41,7 +41,12 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("TypeDaoId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TypeDaoId");
 
                     b.ToTable("Projects", (string)null);
                 });
@@ -86,7 +91,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("Steps", (string)null);
+                    b.ToTable("Steps");
                 });
 
             modelBuilder.Entity("Domain.Entities.TypeDao", b =>
@@ -101,7 +106,14 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProjectTypes", (string)null);
+                    b.ToTable("ProjectTypes");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProjectDao", b =>
+                {
+                    b.HasOne("Domain.Entities.TypeDao", null)
+                        .WithMany("Projects")
+                        .HasForeignKey("TypeDaoId");
                 });
 
             modelBuilder.Entity("Domain.Entities.StepDao", b =>
@@ -124,6 +136,11 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.ProjectDao", b =>
                 {
                     b.Navigation("StepList");
+                });
+
+            modelBuilder.Entity("Domain.Entities.TypeDao", b =>
+                {
+                    b.Navigation("Projects");
                 });
 #pragma warning restore 612, 618
         }

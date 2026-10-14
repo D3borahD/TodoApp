@@ -27,11 +27,22 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
                 StartDate = p.StartDate,
                 EndDate = p.EndDate,
                 Status = p.Status,
-                ProjectTypes = p.ProjectTypes.Select(MapToProjectTypesDto).ToList(),
+                StepList = p.StepList.Select(MapToStepDto).ToList(),
+                ProjectTypes = GetAllProjectTypes(p),
             }).OrderBy(p => p.Status)
             .ToList();
     }
+
+    private List<ProjectTypesDto> GetAllProjectTypes(ProjectDao projectDao)
+    {
+        return projectDao.StepList
+            .Select(step => step.Type)
+            .DistinctBy(type => type.Id)
+            .Select(MapToProjectTypesDto)
+            .ToList();
+    }
     
+
     public async Task<ProjectDto?> GetByIdAsync(int id)
     {
         logger.LogInformation("Getting Projects by id");
@@ -51,7 +62,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             Label = projectsDao.Label,
             Status = projectsDao.Status,
             StartDate = projectsDao.StartDate,
-            ProjectTypes = projectsDao.ProjectTypes.Select(MapToProjectTypesDto).ToList(),
+          
             StepList = stepList.Select(MapToStepDto).ToList(),
            
         };
@@ -82,7 +93,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
            // StepList = createdProject.StepList,
             Description = createdProject.Description,
             Status = createdProject.Status,
-            ProjectTypes = createdProject.ProjectTypes.Select(MapToProjectTypesDto).ToList(),
+           // ProjectTypes = createdProject.ProjectTypes.Select(MapToProjectTypesDto).ToList(),
         };
     }
 
@@ -105,7 +116,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             Label = updatedProject.Label,
     
             Status = updatedProject.Status,
-            ProjectTypes = updatedProject.ProjectTypes.Select(MapToProjectTypesDto).ToList(),
+         //   ProjectTypes = updatedProject.ProjectTypes.Select(MapToProjectTypesDto).ToList(),
 
         };
     }
@@ -138,7 +149,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             Type = new ProjectTypesDto()
             {
                 Id = stepDao.TypeId,
-                Label = "",
+                Label = stepDao.Type?.Label ?? string.Empty,
             },
             Duration = stepDao.Duration,
         };

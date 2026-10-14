@@ -10,8 +10,8 @@ public class ProjectRepository(AppDbContext context) : IBaseRepository<ProjectDa
     public async Task<List<ProjectDao>> GetAllAsync()
     {
         return await context.Projects
-            .Include(project => project.ProjectTypes)
             .Include(project => project.StepList)
+            .ThenInclude(step => step.Type)
             .ToListAsync();
     }
     public async Task<ProjectDao?> GetByIdAsync(int id) => await context.Projects.FindAsync(id);
