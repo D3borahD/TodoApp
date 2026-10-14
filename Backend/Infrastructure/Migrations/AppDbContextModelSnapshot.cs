@@ -86,7 +86,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("Steps");
+                    b.ToTable("Steps", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.TypeDao", b =>
@@ -101,22 +101,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProjectTypes");
-                });
-
-            modelBuilder.Entity("ProjectProjectTypes", b =>
-                {
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ProjectTypeId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("ProjectId", "ProjectTypeId");
-
-                    b.HasIndex("ProjectTypeId");
-
-                    b.ToTable("ProjectProjectTypes", (string)null);
+                    b.ToTable("ProjectTypes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.StepDao", b =>
@@ -134,21 +119,6 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Type");
-                });
-
-            modelBuilder.Entity("ProjectProjectTypes", b =>
-                {
-                    b.HasOne("Domain.Entities.ProjectDao", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.TypeDao", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Entities.ProjectDao", b =>
