@@ -20,6 +20,7 @@ public class ProjectRepository(AppDbContext context) : IBaseRepository<ProjectDa
         return await context.Projects
         .Include(project => project.StepList)
         .ThenInclude(step => step.Type)
+        .Where(project => project.Id == id)
         .FirstOrDefaultAsync();
     }
     
