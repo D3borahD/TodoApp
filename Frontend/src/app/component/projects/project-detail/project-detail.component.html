@@ -7,8 +7,11 @@
   <div class="card">
     <div class="card-header">
       <div>
-        <p>type : broderie</p>
-        <app-chips [chips]="project.status"></app-chips>
+        @for (p of project.projectTypes; track p.id){
+          <app-chips [label]="p.label"></app-chips>
+        }
+
+        <app-chips [label]="project.status"></app-chips>
       </div>
       <button>Modifier</button>
     </div>

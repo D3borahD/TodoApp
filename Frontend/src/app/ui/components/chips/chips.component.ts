@@ -1,15 +1,15 @@
 import {Component, computed, input} from '@angular/core';
-import {STATUS_COLOR_MAP, StatusKey} from '../../../core/models/status.model';
+import {ChipColor} from './chipColor';
+
 
 @Component({
   selector: 'app-chips',
-  imports: [
-
-  ],
+  imports: [],
   templateUrl: './chips.component.html',
   styleUrl: './chips.component.scss',
 })
 export class ChipsComponent {
-  chips = input.required<StatusKey>()
-  protected colorClass = computed(() => STATUS_COLOR_MAP[this.chips()]);
+  label = input.required<string>();
+  color = input<ChipColor>('gray');
+  protected colorClass = computed(() => `chip--${this.color()}`);
 }

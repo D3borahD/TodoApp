@@ -18,7 +18,7 @@ div {
   border-radius: 50%;
 }
 
-.finished{
+.chip--green{
   background-color: colors.$greenBgChip;
   p {
     color: colors.$greenChip;
@@ -28,7 +28,7 @@ div {
   }
 }
 
-.inProgress {
+.chip--purple {
   background-color: colors.$purpleBgChip;
   p {
     color: colors.$purpleChip;
@@ -38,7 +38,7 @@ div {
   }
 }
 
-.cancelled {
+.chip--red{
   background-color: colors.$redBgChip;
   p {
     color: colors.$redChip;
@@ -48,7 +48,7 @@ div {
   }
 }
 
-.onABreak{
+.chip--orange{
   background-color: colors.$yellowBgChip;
   p {
     color: colors.$yellowChip;
@@ -58,7 +58,7 @@ div {
   }
 }
 
-.notStarted {
+.chip--gray {
   background-color: colors.$greyBgChip;
   p {
     color: colors.$greyChip;

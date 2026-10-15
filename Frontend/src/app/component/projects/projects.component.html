@@ -4,7 +4,13 @@
       <mat-card-header class="card-header">
 
         <!--project type-->
-        <mat-card-title>couture</mat-card-title>
+
+        <mat-card-title>
+          @for (p of project.projectTypes; track p.id){
+            {{ p.label }}
+          }
+
+        </mat-card-title>
         <mat-card-subtitle>{{ project.label }}</mat-card-subtitle>
         <a [routerLink]="['/projectDetail', project.id]"><mat-icon>more_vert</mat-icon></a>
 
@@ -13,7 +19,7 @@
         <!--add content-->
       </mat-card-content>
       <mat-card-footer class="card-footer">
-        <app-chips [chips]="project.status"></app-chips>
+        <app-chips [label]="project.status" [color]="statusColors[project.status]"></app-chips>
       </mat-card-footer>
     </mat-card>
   }

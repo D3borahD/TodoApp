@@ -19,7 +19,7 @@ import {
   MatCardTitle
 } from '@angular/material/card';
 import {MatIcon} from '@angular/material/icon';
-import {StatusKey} from '../../core/models/status.model';
+import {STATUS_COLOR_MAP, StatusKey} from '../../core/models/status.model';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {IProject} from '../../core/models/project.model';
 import {ProjectService} from '../../core/services/project.service';
@@ -60,6 +60,8 @@ export class ProjectsComponent {
 
   private readonly projectService: ProjectService = inject(ProjectService);
   private readonly referentialService: ReferentialService = inject(ReferentialService);
+
+  protected readonly statusColors = STATUS_COLOR_MAP;
 
   readonly projectList: Signal<IProject[]> = this.projectService.projects;
 
