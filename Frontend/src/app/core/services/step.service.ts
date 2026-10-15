@@ -1,7 +1,8 @@
-import {inject, Injectable, Signal, signal} from '@angular/core';
+import {computed, inject, Injectable, Signal, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {IStep} from '../models/step.model';
 import {Observable, tap} from 'rxjs';
+import {IProjectType} from '../models/projectType.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,15 @@ export class StepService {
   // source de vérité
   public readonly steps : Signal<IStep[]> = this.stepsSignal.asReadonly()
   public readonly step : Signal<IStep | null> = this.stepSignal.asReadonly()
+
+  public readonly projectTypes: Signal<IProjectType[]> = computed(() => {
+    const typesById = new Map(
+      this.stepsSignal()
+        .filter(step => step.type)
+        .map(step => [step.type.id, step.type] as const)
+    );
+    return [...typesById.values()];
+  });
 
   public addStep$(step: IStep): Observable<IStep> {
     return this.http.post<IStep>(`${this.baseUrl}/${step.projectId}/steps`, step).pipe(
@@ -37,6 +47,4 @@ export class StepService {
       tap(() => this.stepsSignal.update(currentSteps => currentSteps.filter(step => step.id !== stepId)))
     );
   }
-
 }
-

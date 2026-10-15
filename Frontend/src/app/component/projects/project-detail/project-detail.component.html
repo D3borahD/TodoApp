@@ -7,11 +7,11 @@
   <div class="card">
     <div class="card-header">
       <div>
-        @for (p of project.projectTypes; track p.id){
+        @for (p of projectTypes(); track p.id){
           <app-chips [label]="p.label"></app-chips>
         }
 
-        <app-chips [label]="project.status"></app-chips>
+        <app-chips [label]="project.status" [color]="statusColors[project.status]"></app-chips>
       </div>
       <button>Modifier</button>
     </div>

@@ -1,15 +1,14 @@
 import {Component, inject, Signal} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {DatePipe, TitleCasePipe} from '@angular/common';
-
 import {ProjectService} from '../../../core/services/project.service';
 import {IProject} from '../../../core/models/project.model';
-
 import {MatIcon} from '@angular/material/icon';
 import {MatDialog} from '@angular/material/dialog';
 import {StepFormComponent} from './step-form/step-form.component';
 import {StepService} from '../../../core/services/step.service';
 import {ChipsComponent} from '../../../ui/components/chips/chips.component';
+import {STATUS_COLOR_MAP} from '../../../core/models/status.model';
 
 
 @Component({
@@ -24,15 +23,16 @@ import {ChipsComponent} from '../../../ui/components/chips/chips.component';
   styleUrl: './project-detail.component.scss',
 })
 export class ProjectDetailComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly dialog = inject(MatDialog);
   private readonly projectService: ProjectService = inject(ProjectService);
   private readonly stepService: StepService = inject(StepService);
-  private readonly route = inject(ActivatedRoute);
   private readonly id :string = this.route.snapshot.params["id"];
 
+  protected readonly statusColors = STATUS_COLOR_MAP;
   protected readonly project : Signal<IProject | null> = this.projectService.project;
   protected readonly stepList = this.stepService.steps;
-
-  private readonly dialog = inject(MatDialog);
+  protected readonly projectTypes = this.stepService.projectTypes;
 
   constructor() {
     this.loadProject();
