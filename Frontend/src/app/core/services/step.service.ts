@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {IStep} from '../models/step.model';
 import {Observable, tap} from 'rxjs';
 import {IProjectType} from '../models/projectType.model';
+import {StepForm} from '../models/stepForm';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class StepService {
     return [...typesById.values()];
   });
 
-  public addStep$(step: IStep): Observable<IStep> {
+  public addStep$(step: StepForm): Observable<IStep> {
     return this.http.post<IStep>(`${this.baseUrl}/${step.projectId}/steps`, step).pipe(
       tap(createdStep =>
         this.stepsSignal.update(currentSteps => [createdStep, ...currentSteps ]),
@@ -45,6 +46,17 @@ export class StepService {
   public deleteStep$(projectId: string, stepId: string): Observable<boolean> {
     return this.http.delete<boolean>(`${this.baseUrl}/${projectId}/steps/${stepId}`).pipe(
       tap(() => this.stepsSignal.update(currentSteps => currentSteps.filter(step => step.id !== stepId)))
+    );
+  }
+
+  public updateStep$(projectId: number, step: StepForm): Observable<IStep> {
+       return this.http.put<IStep>(`${this.baseUrl}/${projectId}/steps/${step.id}`, step).pipe(
+      tap(updatedStep =>
+        this.stepsSignal.update(currentSteps =>
+          currentSteps.map(current => (current.id === updatedStep.id ? updatedStep : current))
+        )
+      )
+
     );
   }
 }

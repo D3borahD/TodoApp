@@ -9,6 +9,7 @@ import {StepFormComponent} from './step-form/step-form.component';
 import {StepService} from '../../../core/services/step.service';
 import {ChipsComponent} from '../../../ui/components/chips/chips.component';
 import {STATUS_COLOR_MAP} from '../../../core/models/status.model';
+import {IStep} from '../../../core/models/step.model';
 
 
 @Component({
@@ -56,5 +57,17 @@ export class ProjectDetailComponent {
 
   protected deleteStep$(projectId: string, stepId: string): void {
     this.stepService.deleteStep$(projectId, stepId).subscribe()
+  }
+
+  protected updateStep$(projectId: string, step: IStep) {
+    this.dialog.open(StepFormComponent,
+      {
+        height: 'auto',
+        width: '500px',
+        data: {
+          projectId: projectId,
+          step: step
+        }
+      })
   }
 }

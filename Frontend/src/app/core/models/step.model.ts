@@ -6,10 +6,10 @@ export interface  IStep {
   label: string;
   description: string;
   rank?: number | null;
-  startDate?: Date;
-  endDate?: Date;
+  startDate: Date;
+  endDate: Date;
   type:IProjectType;
   status:StatusKey;
   duration: number;
-  projectId:number;
+  projectId: number;
 }

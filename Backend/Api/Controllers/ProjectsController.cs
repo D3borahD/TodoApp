@@ -72,23 +72,15 @@ public class ProjectsController(IBaseService<ProjectDto> baseService, IStepServi
     }
     
     
-    
-    
-    
     [HttpPut("{id:int}/steps/{stepId:int}")]
     public async Task<ActionResult> UpdateStepAsync(int id, [FromBody] StepDto? stepDto)
     {
         if (stepDto is null) return BadRequest("The product is null");
         
-        stepDto.Id = id;
-        var updatedProduct = await stepService.UpdateAsync(stepDto);
-            //return updatedProduct is null ? NotFound("Module could not be updated") : Ok(updatedProduct);
-        return NoContent();
+        var updatedStep = await stepService.UpdateAsync(stepDto);
+        return updatedStep is null ? NotFound("Module could not be updated") : Ok(updatedStep);
     }
-
-   
     
-
     
     [HttpDelete("{id:int}/steps/{stepId:int}")]
     public async Task<ActionResult> DeleteStepAsync(int id, int stepId)

@@ -28,37 +28,25 @@
     </div>
   </div>
 
-
-  <div class="session">
-
-
-  <div class="card">
-    <div class="card-header">
-      <h2>Tâches</h2>
-      <button (click)="addStep()"><mat-icon>add</mat-icon></button>
-    </div>
-
-    <div class="card-body">
-      <ul >
-        @for (step of stepList(); track step.id){
-          <div class="list-group">
-            <li>{{step.label}} -  {{step.type.label }} - {{step.status}} -- {{ step.duration }}min </li>
-            <div>
-            <!--  <button><mat-icon>play_circle_outline</mat-icon></button>
-              <button><mat-icon>edit</mat-icon></button>-->
-              <button  (click)="deleteStep$(project.id, step.id)"><mat-icon>delete</mat-icon></button>
-            </div>
-          </div>
-
-        }
-      </ul>
-    </div>
-  </div>
-
+   <div class="session">
     <div class="card">
       <div class="card-header">
-        <h2>Sessions récentes</h2>
-        <button><mat-icon>add</mat-icon></button>
+        <h2>Tâches</h2>
+        <button (click)="addStep()"><mat-icon>add</mat-icon></button>
+      </div>
+
+      <div class="card-body">
+        <ul >
+          @for (step of stepList(); track step.id){
+            <div class="list-group">
+              <li>{{step.label}} -  {{step.type.label }} - {{step.status}} -- {{ step.duration }}min </li>
+              <div>
+                <button (click)="updateStep$(project.id, step)"><mat-icon>edit</mat-icon></button>
+                <button (click)="deleteStep$(project.id, step.id)"><mat-icon>delete</mat-icon></button>
+              </div>
+            </div>
+          }
+        </ul>
       </div>
     </div>
   </div>
