@@ -1,5 +1,5 @@
+using Application.DTO;
 using Application.Interfaces;
-using Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackendApi.Controllers;
@@ -7,7 +7,10 @@ namespace BackendApi.Controllers;
 [Produces("application/json")]
 [ApiController]
 [Route("api/[controller]")]
-public class ProjectsController(IBaseService<ProjectDto> baseService, IStepService stepService) : ControllerBase
+public class ProjectsController(
+    IBaseService<ProjectDto> baseService, 
+    IStepService stepService) 
+    : ControllerBase
 {
 
     [HttpGet]
@@ -24,8 +27,7 @@ public class ProjectsController(IBaseService<ProjectDto> baseService, IStepServi
         return Ok(product);
     }
     
-
-    [HttpPost("")]
+    [HttpPost]
     public async Task<ActionResult<ProjectDto>> CreateProjectAsync([FromBody] ProjectDto? projectDto)
     {
         if(projectDto is null ) return BadRequest("The project is null");
@@ -55,14 +57,14 @@ public class ProjectsController(IBaseService<ProjectDto> baseService, IStepServi
     
     
     [HttpGet("{id:int}/steps")]
-    public async Task<ActionResult<List<StepDto>>> GetStepsByProjectAsync(int id)
+    public async Task<ActionResult<List<StepResponseDto>>> GetStepsByProjectAsync(int id)
     {
         var steps = await stepService.GetStepsByProjectAsync(id);
         return Ok(steps);
     }
     
     [HttpPost("{id:int}/steps")]
-    public async Task<ActionResult<StepDto>> CreateStepAsync(int id, [FromBody] StepDto? stepDto)
+    public async Task<ActionResult<StepResponseDto>> CreateStepAsync(int id, [FromBody] StepRequestDto? stepDto)
     {
         if (stepDto is null) return BadRequest("The step is null");
         
@@ -73,7 +75,7 @@ public class ProjectsController(IBaseService<ProjectDto> baseService, IStepServi
     
     
     [HttpPut("{id:int}/steps/{stepId:int}")]
-    public async Task<ActionResult> UpdateStepAsync(int id, [FromBody] StepDto? stepDto)
+    public async Task<ActionResult> UpdateStepAsync(int id, [FromBody] StepResponseDto? stepDto)
     {
         if (stepDto is null) return BadRequest("The product is null");
         

@@ -1,8 +1,11 @@
-using Domain.DTO;
+using Application.DTO;
 
 namespace Application.Interfaces;
 
-public interface IStepService : IBaseService<StepDto>
+public interface IStepService 
 {
-    Task<List<StepDto>> GetStepsByProjectAsync(int id);
+    Task<List<StepResponseDto>> GetStepsByProjectAsync(int id);
+    Task<StepResponseDto?> CreateAsync(StepRequestDto stepDto);
+    Task<StepResponseDto?> UpdateAsync(StepResponseDto stepDto);
+    Task<bool> DeleteAsync(int stepId);
 }

@@ -1,50 +1,45 @@
+using Application.DTO;
 using Application.Interfaces;
-using Domain.DTO;
 using Domain.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-public class StepService(ILogger<StepService> logger, IBaseRepository<StepDao> baseRepository, IStepRepository stepRepository, IBaseRepository<TypeDao> projectTypeRepository) 
+public class StepService(
+    ILogger<StepService> logger, 
+    IStepRepository stepRepository, 
+    IBaseRepository<TypeDao> projectTypeRepository) 
     : IStepService
 {
-    public Task<List<StepDto>> GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
+    
 
-    public Task<StepDto?> GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<StepDto?> CreateAsync(StepDto stepDto)
+    public async Task<StepResponseDto?> CreateAsync(StepRequestDto stepResquestDto)
     {
         logger.LogInformation("Creating new Step");
-        var type = await projectTypeRepository.GetByIdAsync(stepDto.Type.Id);
+        var type = await projectTypeRepository.GetByIdAsync(stepResquestDto.TypeId);
         if (type is null)
         {
-            logger.LogWarning("Type {TypeId} not found, step not created", stepDto.Type.Id);
+            logger.LogWarning("Type {TypeId} not found, step not created", stepResquestDto.TypeId);
             return null;
         }
         
         var newStepDao = new StepDao()
         {
-            Label = stepDto.Label,
-            Description = stepDto.Description,
-            Duration = stepDto.Duration,
-            EndDate = stepDto.EndDate,
-            Rank = stepDto.Rank,
-            ProjectId = stepDto.ProjectId,
-            StartDate = stepDto.StartDate,
+            Label = stepResquestDto.Label,
+            Description = stepResquestDto.Description,
+            Duration = stepResquestDto.Duration,
+            EndDate = stepResquestDto.EndDate,
+            Rank = stepResquestDto.Rank,
+            ProjectId = stepResquestDto.ProjectId,
+            StartDate = stepResquestDto.StartDate,
             TypeId = type.Id,
-            Status = stepDto.Status,
+            Status = stepResquestDto.Status,
         };
         
-        var createdStep = await baseRepository.CreateAsync(newStepDao);
+        var createdStep = await stepRepository.CreateAsync(newStepDao);
  
         
-        return new StepDto()
+        return new StepResponseDto()
         {
             Id = createdStep.Id,
             Label = createdStep.Label,
@@ -58,10 +53,10 @@ public class StepService(ILogger<StepService> logger, IBaseRepository<StepDao> b
         };
     }
 
-    public async Task<StepDto?> UpdateAsync(StepDto stepDto)
+    public async Task<StepResponseDto?> UpdateAsync(StepResponseDto stepResponseDto)
     {
-        logger.LogInformation("update Step {id}", stepDto.Id);
-        var stepDao =  await stepRepository.GetByIdAsync(stepDto.Id);
+        logger.LogInformation("update Step {id}", stepResponseDto.Id);
+        var stepDao =  await stepRepository.GetByIdAsync(stepResponseDto.Id);
         
         if (stepDao == null)
         {
@@ -69,31 +64,27 @@ public class StepService(ILogger<StepService> logger, IBaseRepository<StepDao> b
             return null;
         }
         
+        stepDao.Label = stepResponseDto.Label;
+        stepDao.Description = stepResponseDto.Description;
+        stepDao.Duration = stepResponseDto.Duration;
+        stepDao.StartDate = stepResponseDto.StartDate;
+        stepDao.EndDate = stepResponseDto.EndDate;
+        stepDao.Rank = stepResponseDto.Rank;
+        stepDao.TypeId = stepResponseDto.Type.Id;
+        stepDao.Status = stepResponseDto.Status;
         
-  
-        stepDao.Label = stepDto.Label;
-        stepDao.Description = stepDto.Description;
-        stepDao.Duration = stepDto.Duration;
-        stepDao.StartDate = stepDto.StartDate;
-        stepDao.EndDate = stepDto.EndDate;
-        stepDao.Rank = stepDto.Rank;
-        stepDao.TypeId = stepDto.Type.Id;
-        stepDao.Status = stepDto.Status;
-
-            
-          
-        var updateStep =  await stepRepository.UpdateAsync(stepDao);
+       await stepRepository.UpdateAsync(stepDao);
         
-        var type = await projectTypeRepository.GetByIdAsync(stepDto.Type.Id);
+        var type = await projectTypeRepository.GetByIdAsync(stepResponseDto.Type.Id);
         
-        return MapToDto(stepDao, type);
+        return StepMappingExtensions.MapToDto(stepDao, type);
         
         
     }
 
     public async Task<bool> DeleteAsync(int id)
     {
-        var stepDao = await baseRepository.GetByIdAsync(id);
+        var stepDao = await stepRepository.GetByIdAsync(id);
         
         if (stepDao == null)
         {
@@ -101,44 +92,25 @@ public class StepService(ILogger<StepService> logger, IBaseRepository<StepDao> b
             return false;
         }
         
-        await baseRepository.DeleteAsync(stepDao.Id);
+        await stepRepository.DeleteAsync(stepDao.Id);
         return true;
     }
 
-    public async Task<List<StepDto>> GetStepsByProjectAsync(int projectId)
+    public async Task<List<StepResponseDto>> GetStepsByProjectAsync(int projectId)
     {
         logger.LogInformation("Getting steps for project {ProjectId}", projectId);
 
         var steps = await stepRepository.GetStepByProjectAsync(projectId);
-        var stepDtos = new List<StepDto>();
+        var stepDtos = new List<StepResponseDto>();
 
         foreach (var step in steps)
         {
             var type = await projectTypeRepository.GetByIdAsync(step.TypeId);
-            stepDtos.Add(MapToDto(step, type));
+            stepDtos.Add(StepMappingExtensions.MapToDto(step, type));
         }
 
         return stepDtos;
     }
     
-    private static StepDto MapToDto(StepDao step, TypeDao? type)
-    {
-        return new StepDto
-        {
-            Id = step.Id,
-            Label = step.Label,
-            Description = step.Description,
-            Duration = step.Duration,
-            StartDate = step.StartDate,
-            EndDate = step.EndDate,
-            Rank = step.Rank,
-            ProjectId = step.ProjectId,
-            Type = new ProjectTypesDto
-            {
-                Id = step.TypeId,
-                Label = type?.Label ?? string.Empty
-            },
-            Status = step.Status
-        };
-    }
+   
 }

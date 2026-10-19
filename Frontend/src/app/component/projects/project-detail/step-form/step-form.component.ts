@@ -42,19 +42,18 @@ export class StepFormComponent {
   private dialogRef: MatDialogRef<StepFormComponent> = inject(MatDialogRef<StepFormComponent>);
   private data = inject<{projectId: number, step?: IStep}>(MAT_DIALOG_DATA);
   private stepService: StepService = inject(StepService);
-
   private referentialService: ReferentialService = inject(ReferentialService);
   private projectTypeService: TypeService = inject(TypeService);
 
   protected readonly isEditMode = this.data.step !== undefined;
   protected readonly title = this.isEditMode ? 'Edit step' : 'New step';
-
   protected readonly stepModel = signal<StepForm>(
     this.data.step ? this.toFormValue(this.data.step) : this.createEmptyFormValue()
   );
 
   status: Signal<StatusKey[]> = toSignal(this.referentialService.getStatus$(), { initialValue: [] });
   types: Signal<IProjectType[]> = toSignal(this.projectTypeService.getAllTypes$(), { initialValue: [] });
+  type: IProjectType = this.data.step?.type ?? this.types()[0];
 
   protected readonly stepModelForm = form(
     this.stepModel,
@@ -88,7 +87,7 @@ export class StepFormComponent {
       startDate: new Date(),
       endDate: new Date(),
       status: 'NotStarted',
-      type: null,
+      type: this.type,
       projectId: this.data.projectId,
     };
   }

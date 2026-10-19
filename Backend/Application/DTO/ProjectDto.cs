@@ -1,16 +1,15 @@
-using Domain.Entities;
 using Domain.Enums;
 
-namespace Domain.DTO;
+namespace Application.DTO;
 
-public class ProjectDto : IEntity
+public class ProjectDto
 {
     public int Id { get; set; }
     public required string Label { get; set; }
     public string? Description { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime? EndDate { get; set; }
-    public List<StepDto> StepList { get; set; } = new List<StepDto>();
+    public List<StepResponseDto> StepList { get; set; } = new List<StepResponseDto>();
     public required Status Status  { get; set; } 
     
     public List<ProjectTypesDto> ProjectTypes { get; set; } = new List<ProjectTypesDto>();

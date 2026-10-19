@@ -1,9 +1,8 @@
-using Domain.DTO;
 using Domain.Enums;
 
 namespace Domain.Entities;
 
-public class ProjectDao : IEntity
+public class ProjectDao
 {
     public int Id { get; set; }
     public required string Label { get; set; }

@@ -1,5 +1,5 @@
+using Application.DTO;
 using Application.Interfaces;
-using Domain.DTO;
 using Domain.Entities;
 using Microsoft.Extensions.Logging;
 
@@ -135,9 +135,9 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
         return true;
     }
     
-    private static StepDto MapToStepDto(StepDao stepDao)
+    private static StepResponseDto MapToStepDto(StepDao stepDao)
     {
-        return new StepDto
+        return new StepResponseDto
         {
             Id = stepDao.Id,
             Label = stepDao.Label,

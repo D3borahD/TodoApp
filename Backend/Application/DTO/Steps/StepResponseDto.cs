@@ -1,9 +1,8 @@
-using Domain.Entities;
 using Domain.Enums;
 
-namespace Domain.DTO;
+namespace Application.DTO;
 
-public class StepDto: IEntity
+public class StepResponseDto 
 {
     public int Id { get; set; }
     public required string Label { get; set; }

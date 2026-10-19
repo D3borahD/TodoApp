@@ -1,8 +1,8 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Application.DTO;
 using Application.Interfaces;
 using Application.Services;
-using Domain.DTO;
 using Domain.Entities;
 using Infrastructure.Data;
 using Infrastructure.Repository;
@@ -50,13 +50,11 @@ builder.Services.AddScoped<IStepRepository, StepRepository>();
 // Injection des dépendances : Service
 builder.Services.AddScoped<IBaseService<ProjectDto>, ProjectService>();
 builder.Services.AddScoped<IBaseService<ProjectTypesDto>, ProjectTypeService>();
-builder.Services.AddScoped<IBaseService<StepDto>, StepService>();
 
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IReferentialService, ReferentialService>();
 builder.Services.AddScoped<IProjectTypeService, ProjectTypeService>();
 builder.Services.AddScoped<IStepService, StepService>();
-
 
 builder.Logging.AddConsole();
 

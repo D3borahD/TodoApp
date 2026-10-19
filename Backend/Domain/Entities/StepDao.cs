@@ -2,7 +2,7 @@ using Domain.Enums;
 
 namespace Domain.Entities;
 
-public class StepDao : IEntity
+public class StepDao
 {
     public int Id { get; set; }
     public required string Label { get; set; }
