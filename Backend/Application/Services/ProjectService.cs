@@ -27,7 +27,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
                 StartDate = p.StartDate,
                 EndDate = p.EndDate,
                 Status = p.Status,
-                StepList = p.StepList.Select(MapToStepDto).ToList(),
+                StepList = p.StepList.Select(ProjectMappingExtension.MapToStepDto).ToList(),
                 ProjectTypes = GetAllProjectTypes(p),
             }).OrderBy(p => p.Status)
             .ToList();
@@ -38,7 +38,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
         return projectDao.StepList
             .Select(step => step.Type)
             .DistinctBy(type => type.Id)
-            .Select(MapToProjectTypesDto)
+            .Select(ProjectMappingExtension.MapToProjectTypesDto)
             .ToList();
     }
     
@@ -63,12 +63,12 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             Status = projectsDao.Status,
             StartDate = projectsDao.StartDate,
             ProjectTypes = GetAllProjectTypes(projectsDao),
-            StepList = stepList.Select(MapToStepDto).ToList(),
+            StepList = stepList.Select(ProjectMappingExtension.MapToStepDto).ToList(),
            
         };
     }
 
-    public async Task<ProjectResponseDto?> CreateAsync(ProjectResponseDto projectDto)
+    public async Task<ProjectResponseDto?> CreateAsync(ProjectRequestDto projectDto)
     {
         logger.LogInformation("Creating new Project");
         
@@ -97,7 +97,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
         };
     }
 
-    public async Task<ProjectResponseDto?> UpdateAsync(ProjectResponseDto projectDto)
+    public async Task<ProjectResponseDto?> UpdateAsync(ProjectRequestDto projectDto)
     {
         var projectDao = await projectRepository.GetByIdAsync(projectDto.Id);
         if(projectDao == null)
@@ -135,32 +135,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
         return true;
     }
     
-    private static StepResponseDto MapToStepDto(StepDao stepDao)
-    {
-        return new StepResponseDto
-        {
-            Id = stepDao.Id,
-            Label = stepDao.Label,
-            Description = stepDao.Description,
-            Rank = stepDao.Rank,
-            StartDate = stepDao.StartDate,
-            EndDate = stepDao.EndDate,
-            Status = stepDao.Status,
-            Type = new ProjectTypesDto()
-            {
-                Id = stepDao.TypeId,
-                Label = stepDao.Type?.Label ?? string.Empty,
-            },
-            Duration = stepDao.Duration,
-        };
-    }
     
-    private static ProjectTypesDto MapToProjectTypesDto(TypeDao typeDao)
-    {
-        return new ProjectTypesDto()
-            {
-                Id = typeDao.Id,
-                Label = typeDao.Label,
-        };
-    }
+    
+    
 }

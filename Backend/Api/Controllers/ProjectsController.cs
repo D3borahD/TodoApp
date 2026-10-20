@@ -28,7 +28,7 @@ public class ProjectsController(
     }
     
     [HttpPost]
-    public async Task<ActionResult<ProjectResponseDto>> CreateProjectAsync([FromBody] ProjectResponseDto? projectDto)
+    public async Task<ActionResult<ProjectResponseDto>> CreateProjectAsync([FromBody] ProjectRequestDto? projectDto)
     {
         if(projectDto is null ) return BadRequest("The project is null");
         if(string.IsNullOrEmpty(projectDto.Label)) return BadRequest("The project label is null");
@@ -38,7 +38,7 @@ public class ProjectsController(
     
     
     [HttpPut("{id:int}")]
-    public async Task<ActionResult> UpdateProjectAsync(int id, [FromBody] ProjectResponseDto? projectDto)
+    public async Task<ActionResult> UpdateProjectAsync(int id, [FromBody] ProjectRequestDto? projectDto)
     {
         if (projectDto is null) return BadRequest("The product is null");
         
