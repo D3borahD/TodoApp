@@ -5,7 +5,7 @@ import {ProjectService} from '../../../core/services/project.service';
 import {IProject} from '../../../core/models/project.model';
 import {MatIcon} from '@angular/material/icon';
 import {MatDialog} from '@angular/material/dialog';
-import {StepFormComponent} from './step-form/step-form.component';
+import StepFormComponent from './step-form/step-form.component';
 import {StepService} from '../../../core/services/step.service';
 import {ChipsComponent} from '../../../ui/components/chips/chips.component';
 import {STATUS_COLOR_MAP} from '../../../core/models/status.model';

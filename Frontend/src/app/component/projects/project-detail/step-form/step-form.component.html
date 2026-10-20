@@ -38,9 +38,10 @@
 
       <p>Type</p>
       <mat-form-field class="custom-field" appearance="outline">
-        <mat-select class="white" [formField]="stepModelForm.type">
-          @for (t of types(); track t.id) {
-            <mat-option  [value]="t">{{t.label}}</mat-option>
+        <mat-select class="white"
+                    [formField]="stepModelForm.typeId">
+          @for (t of types(); track t) {
+            <mat-option  [value]="t.id">{{t.label}}</mat-option>
           }
         </mat-select>
       </mat-form-field>

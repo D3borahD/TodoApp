@@ -1,4 +1,4 @@
-import {Component, inject, Signal, signal} from '@angular/core';
+import {Component, effect, inject, Signal, signal} from '@angular/core';
 import {form, FormField, FormRoot, required} from '@angular/forms/signals';
 import {FormsModule} from '@angular/forms';
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
@@ -37,7 +37,7 @@ import {StepForm} from '../../../../core/models/stepForm';
   templateUrl: './step-form.component.html',
   styleUrl: './step-form.component.scss',
 })
-export class StepFormComponent {
+class StepFormComponent {
 
   private dialogRef: MatDialogRef<StepFormComponent> = inject(MatDialogRef<StepFormComponent>);
   private data = inject<{projectId: number, step?: IStep}>(MAT_DIALOG_DATA);
@@ -53,7 +53,18 @@ export class StepFormComponent {
 
   status: Signal<StatusKey[]> = toSignal(this.referentialService.getStatus$(), { initialValue: [] });
   types: Signal<IProjectType[]> = toSignal(this.projectTypeService.getAllTypes$(), { initialValue: [] });
-  type: IProjectType = this.data.step?.type ?? this.types()[0];
+
+  constructor() {
+    effect(() => {
+      const firstType = this.types()[0];
+      if (!this.isEditMode && firstType && !this.stepModel().typeId) {
+        this.stepModel.update(value => ({
+          ...value,
+          typeId: firstType.id,
+        }));
+      }
+    });
+  }
 
   protected readonly stepModelForm = form(
     this.stepModel,
@@ -74,7 +85,6 @@ export class StepFormComponent {
     });
 
   private saveStep$(formValue: StepForm): Observable<IStep> {
-    console.log('save step', {formValue});
     return this.isEditMode
       ? this.stepService.updateStep$(this.data.projectId, formValue)
       : this.stepService.addStep$(formValue);
@@ -87,7 +97,7 @@ export class StepFormComponent {
       startDate: new Date(),
       endDate: new Date(),
       status: 'NotStarted',
-      type: this.type,
+      typeId: null,
       projectId: this.data.projectId,
     };
   }
@@ -100,8 +110,10 @@ export class StepFormComponent {
       startDate: step.startDate,
       endDate: step.endDate,
       status: step.status,
-      type: step.type,
+      typeId: step.type.id,
       projectId: step.projectId,
     };
   }
 }
+
+export default StepFormComponent

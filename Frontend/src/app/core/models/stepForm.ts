@@ -8,6 +8,6 @@ export interface StepForm {
   startDate: Date;
   endDate: Date;
   status: StatusKey;
-  type: IProjectType | null;
+  typeId: number | null;
   projectId: number;
 }
