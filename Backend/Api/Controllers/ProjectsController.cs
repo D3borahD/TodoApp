@@ -8,49 +8,49 @@ namespace BackendApi.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class ProjectsController(
-    IBaseService<ProjectDto> baseService, 
+    IProjectService projectsService, 
     IStepService stepService) 
     : ControllerBase
 {
 
     [HttpGet]
-    public async Task<ActionResult<List<ProjectDto>>> GetProjectAsync()
+    public async Task<ActionResult<List<ProjectResponseDto>>> GetProjectAsync()
     {
-        var products = await baseService.GetAllAsync();
+        var products = await projectsService.GetAllAsync();
         return Ok(products);
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<ProjectDto>> GetProjectByIdAsync(int id)
+    public async Task<ActionResult<ProjectResponseDto>> GetProjectByIdAsync(int id)
     {
-        var product = await baseService.GetByIdAsync(id);
+        var product = await projectsService.GetByIdAsync(id);
         return Ok(product);
     }
     
     [HttpPost]
-    public async Task<ActionResult<ProjectDto>> CreateProjectAsync([FromBody] ProjectDto? projectDto)
+    public async Task<ActionResult<ProjectResponseDto>> CreateProjectAsync([FromBody] ProjectResponseDto? projectDto)
     {
         if(projectDto is null ) return BadRequest("The project is null");
         if(string.IsNullOrEmpty(projectDto.Label)) return BadRequest("The project label is null");
-        var createdProject = await baseService.CreateAsync(projectDto);
+        var createdProject = await projectsService.CreateAsync(projectDto);
         return Ok(createdProject);
     }
     
     
     [HttpPut("{id:int}")]
-    public async Task<ActionResult> UpdateProjectAsync(int id, [FromBody] ProjectDto? projectDto)
+    public async Task<ActionResult> UpdateProjectAsync(int id, [FromBody] ProjectResponseDto? projectDto)
     {
         if (projectDto is null) return BadRequest("The product is null");
         
         projectDto.Id = id;
-        var updatedProduct = await baseService.UpdateAsync(projectDto);
+        var updatedProduct = await projectsService.UpdateAsync(projectDto);
         return updatedProduct is null ? NotFound("Module could not be updated") : Ok(updatedProduct);
     }
     
     [HttpDelete("{id}")]
-    public async Task<ActionResult<ProjectDto>> DeleteProjectAsync(int id)
+    public async Task<ActionResult<ProjectResponseDto>> DeleteProjectAsync(int id)
     {
-        bool isDeleted = await baseService.DeleteAsync(id);
+        bool isDeleted = await projectsService.DeleteAsync(id);
         return isDeleted ? NoContent() : NotFound("Module not found");
     }
     

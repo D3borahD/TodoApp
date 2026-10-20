@@ -8,7 +8,7 @@ namespace Application.Services;
 public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<ProjectDao> projectRepository, IStepRepository stepRepository )
     :  IProjectService
 {
-    public async Task<List<ProjectDto>> GetAllAsync()
+    public async Task<List<ProjectResponseDto?>> GetAllAsync()
     {
         logger.LogInformation("Getting all Projects");
         var projects = await projectRepository.GetAllAsync();
@@ -16,10 +16,10 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
         if (!projects.Any())
         {
             logger.LogInformation("No Projects found");
-            return new List<ProjectDto>();
+            return new List<ProjectResponseDto>();
         }
 
-        return projects.Select(p => new ProjectDto
+        return projects.Select(p => new ProjectResponseDto
             {
                 Id = p.Id,
                 Label = p.Label,
@@ -43,7 +43,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
     }
     
 
-    public async Task<ProjectDto?> GetByIdAsync(int id)
+    public async Task<ProjectResponseDto?> GetByIdAsync(int id)
     {
         logger.LogInformation("Getting Projects by id");
         var projectsDao = await projectRepository.GetByIdAsync(id);
@@ -56,7 +56,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
         
         var stepList = await stepRepository.GetStepByProjectAsync(projectsDao.Id);
         
-        return new ProjectDto()
+        return new ProjectResponseDto()
         {
             Id = projectsDao.Id,
             Label = projectsDao.Label,
@@ -68,7 +68,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
         };
     }
 
-    public async Task<ProjectDto?> CreateAsync(ProjectDto projectDto)
+    public async Task<ProjectResponseDto?> CreateAsync(ProjectResponseDto projectDto)
     {
         logger.LogInformation("Creating new Project");
         
@@ -84,20 +84,20 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
         
         var createdProject = await projectRepository.CreateAsync(newProjectDao);
 
-        return new ProjectDto()
+        return new ProjectResponseDto()
         {
             Id = createdProject.Id,
             Label = createdProject.Label,
             StartDate = createdProject.StartDate,
             EndDate = createdProject.EndDate,
-           // StepList = createdProject.StepList,
+         //   StepList = createdProject.StepList,
             Description = createdProject.Description,
             Status = createdProject.Status,
            // ProjectTypes = createdProject.ProjectTypes.Select(MapToProjectTypesDto).ToList(),
         };
     }
 
-    public async Task<ProjectDto?> UpdateAsync(ProjectDto projectDto)
+    public async Task<ProjectResponseDto?> UpdateAsync(ProjectResponseDto projectDto)
     {
         var projectDao = await projectRepository.GetByIdAsync(projectDto.Id);
         if(projectDao == null)
@@ -110,7 +110,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
         
         var updatedProject = await projectRepository.UpdateAsync(projectDao);
         
-        return new ProjectDto()
+        return new ProjectResponseDto()
         {
             Id = updatedProject!.Id,
             Label = updatedProject.Label,

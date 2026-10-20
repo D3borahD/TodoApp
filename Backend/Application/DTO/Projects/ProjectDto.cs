@@ -2,7 +2,7 @@ using Domain.Enums;
 
 namespace Application.DTO;
 
-public class ProjectDto
+public class ProjectResponseDto
 {
     public int Id { get; set; }
     public required string Label { get; set; }
