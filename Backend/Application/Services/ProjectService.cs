@@ -62,9 +62,9 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             Label = projectsDao.Label,
             Status = projectsDao.Status,
             StartDate = projectsDao.StartDate,
+            Description = projectsDao.Description,
             ProjectTypes = GetAllProjectTypes(projectsDao),
             StepList = stepList.Select(ProjectMappingExtension.MapToStepDto).ToList(),
-           
         };
     }
 
@@ -77,7 +77,6 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             Label = projectDto.Label.ToLower(),
             StartDate = projectDto.StartDate,
             EndDate = projectDto.EndDate,
-          //  StepList = projectDto.StepList,
             Description = projectDto.Description,
             Status = projectDto.Status,
         };
@@ -90,10 +89,8 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             Label = createdProject.Label,
             StartDate = createdProject.StartDate,
             EndDate = createdProject.EndDate,
-         //   StepList = createdProject.StepList,
             Description = createdProject.Description,
             Status = createdProject.Status,
-           // ProjectTypes = createdProject.ProjectTypes.Select(MapToProjectTypesDto).ToList(),
         };
     }
 
@@ -114,10 +111,10 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
         {
             Id = updatedProject!.Id,
             Label = updatedProject.Label,
-    
+            StartDate = updatedProject.StartDate,
             Status = updatedProject.Status,
-         //   ProjectTypes = updatedProject.ProjectTypes.Select(MapToProjectTypesDto).ToList(),
-
+            EndDate = updatedProject.EndDate,
+            Description = updatedProject.Description,
         };
     }
 
@@ -134,8 +131,4 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
         await projectRepository.DeleteAsync(projectDao.Id);
         return true;
     }
-    
-    
-    
-    
 }

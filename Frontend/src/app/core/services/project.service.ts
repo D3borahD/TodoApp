@@ -41,11 +41,14 @@ export class ProjectService {
 
   public updateProject$(projectId: number, formValue: ProjectForm): Observable<IProject> {
     return this.http.put<IProject>(`${this.baseUrl}/${projectId}`, formValue).pipe(
-      tap(updatedProject =>
-        this.projectsSignal.update(currentSteps =>
-          currentSteps.map(current => (current.id === updatedProject.id ? updatedProject : current))
-        )
-      )
+      tap(updatedProject => {
+        this.projectsSignal.update(currentProjects =>
+          currentProjects.map(current => (current.id === updatedProject.id ? updatedProject : current))
+        );
+        this.projectSignal.update(current =>
+          current?.id === updatedProject.id ? updatedProject : current
+        );
+      })
     );
   }
 }
