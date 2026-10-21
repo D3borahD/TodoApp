@@ -36,7 +36,6 @@ public class ProjectsController(
         return Ok(createdProject);
     }
     
-    
     [HttpPut("{id:int}")]
     public async Task<ActionResult> UpdateProjectAsync(int id, [FromBody] ProjectRequestDto? projectDto)
     {
@@ -53,8 +52,6 @@ public class ProjectsController(
         bool isDeleted = await projectsService.DeleteAsync(id);
         return isDeleted ? NoContent() : NotFound("Module not found");
     }
-    
-    
     
     [HttpGet("{id:int}/steps")]
     public async Task<ActionResult<List<StepResponseDto>>> GetStepsByProjectAsync(int id)
@@ -82,7 +79,6 @@ public class ProjectsController(
         var updatedStep = await stepService.UpdateAsync(stepDto);
         return updatedStep is null ? NotFound("Module could not be updated") : Ok(updatedStep);
     }
-    
     
     [HttpDelete("{id:int}/steps/{stepId:int}")]
     public async Task<ActionResult> DeleteStepAsync(int id, int stepId)

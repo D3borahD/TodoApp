@@ -37,13 +37,12 @@ import {StepForm} from '../../../../core/models/stepForm';
   templateUrl: './step-form.component.html',
   styleUrl: './step-form.component.scss',
 })
-class StepFormComponent {
-
-  private dialogRef: MatDialogRef<StepFormComponent> = inject(MatDialogRef<StepFormComponent>);
+export class StepFormComponent {
   private data = inject<{projectId: number, step?: IStep}>(MAT_DIALOG_DATA);
-  private stepService: StepService = inject(StepService);
+  private dialogRef: MatDialogRef<StepFormComponent> = inject(MatDialogRef<StepFormComponent>);
   private referentialService: ReferentialService = inject(ReferentialService);
   private projectTypeService: TypeService = inject(TypeService);
+  private stepService: StepService = inject(StepService);
 
   protected readonly isEditMode = this.data.step !== undefined;
   protected readonly title = this.isEditMode ? 'Edit step' : 'New step';
@@ -115,5 +114,3 @@ class StepFormComponent {
     };
   }
 }
-
-export default StepFormComponent

@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>{{title() | titlecase}}</h1>
+  <h1>{{title | titlecase}}</h1>
 
   <form [formRoot]="projectModelForm">
   <div>
@@ -42,10 +42,3 @@
     <button class="form" [disabled]="!projectModelForm().valid" type="submit">SAVE</button>
   </form>
 </div>
-
-
-
-
-
-
-

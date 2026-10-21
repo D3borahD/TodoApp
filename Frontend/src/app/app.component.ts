@@ -3,10 +3,9 @@ import {RouterLink, RouterOutlet} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ButtonComponent} from './ui/components/button/button.component';
 import {TitleCasePipe} from '@angular/common';
-import {DialogFormComponent} from './ui/components/dialog-form/dialog-form.component';
-import {MatDialog} from '@angular/material/dialog';
 import {IButton} from './ui/components/button/button.interface';
 import {MatIconModule} from '@angular/material/icon';
+import {ProjectDialogService} from './core/services/project-dialog.service';
 
 @Component({
     selector: 'app-root',
@@ -25,23 +24,17 @@ import {MatIconModule} from '@angular/material/icon';
 })
 export class AppComponent {
 
-  private readonly dialog = inject(MatDialog);
+
   protected readonly title =  signal('kairos');
 
   button= signal<IButton>(
     {
       label: 'ajouter un nouveau projet',
       icon: 'add',
-      action: () => this.openDialog(),
+      action: () => this.projectDialogService.openCreate().subscribe(),
       isDisabled: false
     }
   )
+  private projectDialogService = inject(ProjectDialogService);
 
-  openDialog(): void {
-    this.dialog.open(DialogFormComponent,
-      {
-        height: 'auto',
-        width: '500px'
-      })
-  }
 }

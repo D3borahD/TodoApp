@@ -2,6 +2,7 @@ import {inject, Injectable, Signal, signal} from '@angular/core';
 import {IProject} from '../models/project.model';
 import {HttpClient} from '@angular/common/http';
 import {Observable, tap} from 'rxjs';
+import {ProjectForm} from '../models/projectForm';
 
 @Injectable({
   providedIn: 'root'
@@ -30,11 +31,21 @@ export class ProjectService {
     );
   }
 
-  public addProject$(project: IProject): Observable<IProject> {
+  public addProject$(project: ProjectForm): Observable<IProject> {
     return this.http.post<IProject>(this.baseUrl, project).pipe(
       tap(createdProject =>
         this.projectsSignal.update(currentProjects => [...currentProjects, createdProject])
       )
     );
   }
+
+  public updateProject$(projectId: number, formValue: ProjectForm): Observable<IProject> {
+    return this.http.put<IProject>(`${this.baseUrl}/${projectId}`, formValue).pipe(
+      tap(updatedProject =>
+        this.projectsSignal.update(currentSteps =>
+          currentSteps.map(current => (current.id === updatedProject.id ? updatedProject : current))
+        )
+      )
+    );
   }
+}

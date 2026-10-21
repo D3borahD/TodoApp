@@ -13,7 +13,7 @@
 
         <app-chips [label]="project.status" [color]="statusColors[project.status]"></app-chips>
       </div>
-      <button>Modifier</button>
+      <button (click)="updateProject$(project)">Modifier</button>
     </div>
 
 

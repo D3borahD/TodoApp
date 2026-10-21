@@ -3,7 +3,7 @@ import {IStep} from './step.model';
 import {IProjectType} from './projectType.model';
 
 export interface IProject {
-  id: string
+  id: number;
   label: string
   description: string;
   stepList?: IStep[];
@@ -12,4 +12,3 @@ export interface IProject {
   status: StatusKey;
   projectTypes?: IProjectType[];
 }
-

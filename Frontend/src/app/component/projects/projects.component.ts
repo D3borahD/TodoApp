@@ -1,9 +1,8 @@
-import {ChangeDetectionStrategy, Component, inject, LOCALE_ID, signal, Signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, LOCALE_ID, Signal} from '@angular/core';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from '@angular/material/core';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { registerLocaleData} from '@angular/common';
-
 import {
   MatDatepickerModule,
 } from '@angular/material/datepicker';
@@ -57,14 +56,12 @@ registerLocaleData(localeFr);
     templateUrl: './projects.component.html'
 })
 export class ProjectsComponent {
-
-  private readonly projectService: ProjectService = inject(ProjectService);
   private readonly referentialService: ReferentialService = inject(ReferentialService);
+  private readonly projectService: ProjectService = inject(ProjectService);
 
   protected readonly statusColors = STATUS_COLOR_MAP;
 
   readonly projectList: Signal<IProject[]> = this.projectService.projects;
-
   status: Signal<StatusKey[]> = toSignal(this.referentialService.getStatus$(), { initialValue: [] });
 
 

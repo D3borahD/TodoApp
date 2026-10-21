@@ -43,7 +43,7 @@ export class StepService {
     );
   }
 
-  public deleteStep$(projectId: string, stepId: string): Observable<boolean> {
+  public deleteStep$(projectId: number, stepId: string): Observable<boolean> {
     return this.http.delete<boolean>(`${this.baseUrl}/${projectId}/steps/${stepId}`).pipe(
       tap(() => this.stepsSignal.update(currentSteps => currentSteps.filter(step => step.id !== stepId)))
     );
@@ -56,7 +56,6 @@ export class StepService {
           currentSteps.map(current => (current.id === updatedStep.id ? updatedStep : current))
         )
       )
-
     );
   }
 }
