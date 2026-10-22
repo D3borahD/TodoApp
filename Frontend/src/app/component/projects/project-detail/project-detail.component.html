@@ -16,15 +16,13 @@
       <button (click)="updateProject$(project)">Modifier</button>
     </div>
 
-
     <div class="content">
       <h1>{{ project.label | titlecase}}</h1>
       <p>Créé le {{ project.startDate | date: 'dd MMMM yyyy' }}  - {{ stepList().length }} tâches</p>
     </div>
-    <div class="card-footer">
-      <div>Temps total</div>
-      <div>Cette semaine</div>
-      <div>Session</div>
+    <div >
+      <div>Description : </div>
+      <div>{{ project.description }}</div>
     </div>
   </div>
 

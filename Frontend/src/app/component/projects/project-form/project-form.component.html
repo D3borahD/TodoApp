@@ -20,8 +20,6 @@
       <input matInput [formField]="projectModelForm.description">
     </mat-form-field>
 
-    <p>Steps</p>
-
     <p>Date de début</p>
     <mat-form-field class="custom-field" appearance="outline">
       <input matInput [formField]="projectModelForm.startDate" [matDatepicker]="picker">
@@ -39,6 +37,11 @@
     </mat-form-field>
 
   </div>
-    <button class="form" [disabled]="!projectModelForm().valid" type="submit">SAVE</button>
+    @if(this.dataMode === 'edit'){
+      <button class="form" [disabled]="!projectModelForm().valid" type="submit">CREATE</button>
+    }@else{
+      <button class="form" [disabled]="!projectModelForm().valid" type="submit">ADD STEP</button>
+    }
+
   </form>
 </div>

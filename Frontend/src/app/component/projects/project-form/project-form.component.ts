@@ -22,6 +22,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {firstValueFrom, Observable} from 'rxjs';
 import {IProject} from '../../../core/models/project.model';
 import {ProjectForm} from '../../../core/models/projectForm';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-dialog-form',
@@ -55,13 +56,15 @@ export class ProjectFormComponent {
   private dialogRef: MatDialogRef<ProjectFormComponent, IProject> = inject(MatDialogRef<ProjectFormComponent>);
   private referentialService: ReferentialService = inject(ReferentialService);
   private projectService: ProjectService = inject(ProjectService);
-  private data = inject(MAT_DIALOG_DATA)
+  private router = inject(Router);
+  private data = inject(MAT_DIALOG_DATA);
+  protected dataMode = this.data.mode;
 
-  protected readonly title = this.data.mode === 'edit' ? 'Edit project' : 'New project';
+  protected readonly title = this.dataMode === 'edit' ? 'Edit project' : 'New project';
   protected status: Signal<StatusKey[]> = toSignal(this.referentialService.getStatus$(), { initialValue: [] });
 
   protected readonly projectModel = signal<ProjectForm>(
-    this.data.mode === 'edit'
+    this.dataMode === 'edit'
       ? this.toFormValue(this.data.project)
       : this.createEmptyFormValue()
   );
@@ -75,7 +78,8 @@ export class ProjectFormComponent {
       submission: {
         action: async (field) => {
          const savedProject = await firstValueFrom(this.saveProject$(field().value()));
-         this.dialogRef.close(savedProject);
+          this.router.navigate(['/projectDetail', savedProject.id]);
+          this.dialogRef.close(savedProject);
         },
         onInvalid: (field) => {
           field().errorSummary()[0]?.fieldTree().focusBoundControl();
