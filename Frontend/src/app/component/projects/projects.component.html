@@ -1,30 +1,37 @@
 <div class="container">
-  @for (project of projectList() ; track project.id) {
-    <mat-card class="card" appearance="outlined">
-      <mat-card-header class="card-header">
+  <div class="container-header">
+    <h2>Mes projets</h2>
+    <p>{{projectList().length }} projets </p>
+    @for (status of status(); track status){
+      <app-chips class="chip-list" [label]="status" [isButton]="true"></app-chips>
+    }
+  </div>
 
-        <!--project type-->
-        <mat-card-title>
-          @for (p of project.projectTypes; track p.id){
-            {{ p.label }}
-          }
+  <div class="container-body">
+    @for (project of projectList() ; track project.id) {
+      <mat-card class="card" appearance="outlined">
+        <mat-card-header class="card-header">
+          <!--project type-->
+          <mat-card-title>
+            @for (p of project.projectTypes; track p.id){
+              {{ p.label }}
+            }
 
-        </mat-card-title>
-        <mat-card-subtitle>{{ project.label }}</mat-card-subtitle>
-        <a [routerLink]="['/projectDetail', project.id]"><mat-icon>more_vert</mat-icon></a>
+          </mat-card-title>
+          <mat-card-subtitle>{{ project.label }}</mat-card-subtitle>
+          <a [routerLink]="['/projectDetail', project.id]"><mat-icon>more_vert</mat-icon></a>
 
-      </mat-card-header>
-      <mat-card-content>
-        <!--add content-->
-      </mat-card-content>
-      <mat-card-footer class="card-footer">
-        <app-chips [label]="project.status" [color]="statusColors[project.status]"></app-chips>
-      </mat-card-footer>
-    </mat-card>
-  }
-  @empty {
-    <p>Il n'y a pas encore de projet ici</p>
-  }
+        </mat-card-header>
+        <mat-card-content>
+          <!--add content-->
+        </mat-card-content>
+        <mat-card-footer class="card-footer">
+          <app-chips [label]="project.status" [color]="statusColors[project.status]"></app-chips>
+        </mat-card-footer>
+      </mat-card>
+    }
+    @empty {
+      <p>Il n'y a pas encore de projet ici</p>
+    }
+  </div>
 </div>
-
-

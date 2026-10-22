@@ -1,11 +1,25 @@
 @use "colors" as colors;
 
 .container {
-  margin: 5em;
+  margin: 2em;
+}
+
+.container-header{
+  margin-bottom: 1em;
+  h2{
+    margin-bottom: 0;
+  }
+  p {
+    margin-top: 0;
+    color: colors.$text-medium;
+  }
+}
+
+.container-body{
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  gap: 1em;
+  gap: 0.5em;
 }
 
 .card{

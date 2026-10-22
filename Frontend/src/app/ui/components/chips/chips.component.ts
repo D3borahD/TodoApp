@@ -11,5 +11,6 @@ import {ChipColor} from './chipColor';
 export class ChipsComponent {
   label = input.required<string>();
   color = input<ChipColor>('gray');
+  isButton = input<boolean>(false)
   protected colorClass = computed(() => `chip--${this.color()}`);
 }

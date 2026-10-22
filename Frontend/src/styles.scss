@@ -2,6 +2,12 @@
 @use 'mat-form-field';
 @use "colors" as colors;
 
+
+:root {
+  --font-heading: "Syne", sans-serif;
+  --font-body: "Cormorant Garamond", serif;
+}
+
 *,
 ::after,
 ::before {
@@ -18,19 +24,16 @@ body {
 
 body {
   background-color: colors.$dark-background;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: var(--font-body), sans-serif;
+  color: colors.$surface;
 }
 
-h1,
-p {
-  color: colors.$surface;
+h1, h2{
+  font-family: var(--font-body), sans-serif;
 }
 
 h1{
   font-size: 1em;
-}
-h2 {
-  margin-left: 1em;
 }
 
 input {
@@ -99,9 +102,15 @@ mat-form-field {
 mat-card {
   background-color: colors.$dark-medium !important;
   color: colors.$text-light;
+  border-radius: 12px;
 }
 
 .card {
   background-color: colors.$dark-medium;
   color: colors.$text-light;
+}
+
+
+.chip-list {
+  margin-right: 8px;
 }

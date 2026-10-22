@@ -62,8 +62,7 @@ export class ProjectsComponent {
   protected readonly statusColors = STATUS_COLOR_MAP;
 
   readonly projectList: Signal<IProject[]> = this.projectService.projects;
-  status: Signal<StatusKey[]> = toSignal(this.referentialService.getStatus$(), { initialValue: [] });
-
+  protected readonly status: Signal<StatusKey[]> = toSignal(this.referentialService.getStatus$(), { initialValue: [] });
 
   constructor() {
     // Déclenche le chargement initial; le signal se met à jour via le service

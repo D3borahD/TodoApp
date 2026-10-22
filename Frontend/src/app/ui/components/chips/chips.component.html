@@ -1,5 +1,7 @@
 <div [class]="colorClass()">
-  <span class="dot"></span>
+  @if (!isButton()){
+    <span class="dot"></span>
+  }
   <p >{{ label() }}</p>
 </div>
 
