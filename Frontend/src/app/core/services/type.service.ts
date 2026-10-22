@@ -3,12 +3,13 @@ import {HttpClient} from '@angular/common/http';
 
 import {Observable, tap} from 'rxjs';
 import {IProjectType} from '../models/projectType.model';
+import {APP_CONFIG, AppConfig} from '../../app.config';
 
 @Service()
 export class TypeService {
   private readonly http: HttpClient = inject(HttpClient);
-  private readonly shortUrl = "http://localhost:5062/api"
-  private readonly baseUrl = `${this.shortUrl}/ProjectTypes`
+  private url: AppConfig = inject(APP_CONFIG)
+  private readonly baseUrl: string = `${this.url.apiBaseUrl}/ProjectTypes`
 
   private readonly typesSignal = signal<IProjectType[]>([]);
   private readonly typeSignal = signal<IProjectType | null>(null);

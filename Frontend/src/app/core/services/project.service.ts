@@ -3,6 +3,7 @@ import {IProject} from '../models/project.model';
 import {HttpClient} from '@angular/common/http';
 import {Observable, tap} from 'rxjs';
 import {ProjectForm} from '../models/projectForm';
+import {APP_CONFIG} from '../../app.config';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,9 @@ import {ProjectForm} from '../models/projectForm';
 export class ProjectService {
 
   private readonly http: HttpClient = inject(HttpClient);
-  private readonly shortUrl = "http://localhost:5062/api"
-  private readonly baseUrl = `${this.shortUrl}/Projects`
+  private url = inject(APP_CONFIG)
+  private readonly baseUrl = `${this.url.apiBaseUrl}/Projects`
+
 
   private readonly projectsSignal = signal<IProject[]>([]);
   private readonly projectSignal = signal<IProject | null>(null);

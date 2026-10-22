@@ -50,7 +50,7 @@ public class ProjectsController(
     public async Task<ActionResult<ProjectResponseDto>> DeleteProjectAsync(int id)
     {
         bool isDeleted = await projectsService.DeleteAsync(id);
-        return isDeleted ? NoContent() : NotFound("Module not found");
+        return isDeleted ? NoContent() : NotFound("Project not found");
     }
     
     [HttpGet("{id:int}/steps")]

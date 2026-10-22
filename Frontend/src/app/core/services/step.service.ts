@@ -4,14 +4,15 @@ import {IStep} from '../models/step.model';
 import {Observable, tap} from 'rxjs';
 import {IProjectType} from '../models/projectType.model';
 import {StepForm} from '../models/stepForm';
+import {APP_CONFIG, AppConfig} from '../../app.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StepService {
   private readonly http: HttpClient = inject(HttpClient);
-  private readonly shortUrl = "http://localhost:5062/api"
-  private readonly baseUrl = `${this.shortUrl}/Projects`
+  private url:AppConfig = inject(APP_CONFIG)
+  private readonly baseUrl: string = `${this.url.apiBaseUrl}/Projects`
 
   private readonly stepsSignal = signal<IStep[]>([]);
   private readonly stepSignal = signal<IStep | null>(null);
