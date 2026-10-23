@@ -37,11 +37,9 @@
     </mat-form-field>
 
   </div>
-    @if(this.dataMode === 'edit'){
+
       <button class="form" [disabled]="!projectModelForm().valid" type="submit">CREATE</button>
-    }@else{
-      <button class="form" [disabled]="!projectModelForm().valid" type="submit">ADD STEP</button>
-    }
+
 
   </form>
 </div>
