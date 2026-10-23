@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, LOCALE_ID, Signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, LOCALE_ID, signal, Signal} from '@angular/core';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from '@angular/material/core';
 import { MatFormFieldModule} from '@angular/material/form-field';
@@ -24,6 +24,9 @@ import {IProject} from '../../core/models/project.model';
 import {ProjectService} from '../../core/services/project.service';
 import {ReferentialService} from '../../core/services/referential.service';
 import {RouterLink} from '@angular/router';
+import {ButtonComponent} from '../../ui/components/button/button.component';
+import {IButton} from '../../ui/components/button/button.interface';
+import {ProjectDialogService} from '../../core/services/project-dialog.service';
 
 registerLocaleData(localeFr);
 
@@ -46,6 +49,7 @@ registerLocaleData(localeFr);
     MatCardTitle,
     MatIcon,
     RouterLink,
+    ButtonComponent,
   ],
     providers: [
         { provide: LOCALE_ID, useValue: 'fr-FR' },
@@ -57,12 +61,23 @@ registerLocaleData(localeFr);
 })
 export class ProjectsComponent {
   private readonly referentialService: ReferentialService = inject(ReferentialService);
+  private projectDialogService = inject(ProjectDialogService);
   private readonly projectService: ProjectService = inject(ProjectService);
 
   protected readonly statusColors = STATUS_COLOR_MAP;
 
   readonly projectList: Signal<IProject[]> = this.projectService.projects;
   protected readonly status: Signal<StatusKey[]> = toSignal(this.referentialService.getStatus$(), { initialValue: [] });
+
+  button= signal<IButton>(
+    {
+      label: 'Add project',
+      icon: 'add',
+      action: () => this.projectDialogService.openCreate().subscribe(),
+      isDisabled: false
+    }
+  )
+
 
   constructor() {
     // Déclenche le chargement initial; le signal se met à jour via le service

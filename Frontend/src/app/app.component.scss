@@ -28,11 +28,8 @@ h1 {
   font-size: x-large;
 }
 
-.nav{
-  display: block;
-  background-color: colors.$purpleBgChip;
-  a {
-    color: colors.$purpleChip;
-    text-decoration: none;
-  }
+
+a {
+  text-decoration: none;
 }
+

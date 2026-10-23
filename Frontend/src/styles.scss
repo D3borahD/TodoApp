@@ -41,7 +41,19 @@ input {
   flex-grow: 1;
   padding: 10px 20px;
   background-color: colors.$dark-medium;
+  border-radius: 15px;
 }
+
+.d-flex {
+  display: flex;
+  align-items: center;
+}
+
+.mr-5 {
+  margin-right: 5px;
+}
+
+
 
 button.primary-button {
   border: solid 1px colors.$border;

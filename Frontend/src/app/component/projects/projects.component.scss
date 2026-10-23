@@ -16,17 +16,34 @@
 }
 
 .container-body{
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.5em;
 }
 
+@media screen and (max-width: 900px) {
+  .container-body{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .container-body{
+    grid-template-columns: 1fr;
+  }
+}
+
+.container-header-search{
+  display: flex;
+  justify-content: space-between;
+}
+
 .card{
-  width: 300px;
   mat-chip {
     color: colors.$text-light;
   }
+  border-radius: 15px;
+  min-width: 200px;
 }
 
 .card-header {

@@ -1,16 +1,9 @@
 <header>
   <div class="header">
     <img class="logo" src="./assets/icon-200h.png" alt="logo">
-    <h1>{{ title() | titlecase }}</h1>
+    <a routerLink="/projects"><h1>{{ title() | titlecase }}</h1></a>
   </div>
-
-  <div class="nav">
-    <a routerLink="/projects">Projets</a>
-  </div>
-
-  <app-button [button]="button()" />
 </header>
-
 <main>
 <router-outlet />
 </main>

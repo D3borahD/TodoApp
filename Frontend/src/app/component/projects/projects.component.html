@@ -2,9 +2,23 @@
   <div class="container-header">
     <h2>Mes projets</h2>
     <p>{{projectList().length }} projets </p>
-    @for (status of status(); track status){
-      <app-chips class="chip-list" [label]="status" [isButton]="true"></app-chips>
-    }
+
+    <div class="container-header-search">
+      <div class="container-header-search-chips">
+        @for (status of status(); track status){
+          <app-chips class="chip-list" [label]="status" [isButton]="true"></app-chips>
+        }
+
+      </div>
+      <div class="d-flex">
+        <input type="text" class="mr-5">
+        <app-button [button]="button()" />
+      </div>
+
+
+    </div>
+
+
   </div>
 
   <div class="container-body">
