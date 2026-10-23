@@ -14,9 +14,9 @@ public class ProjectsController(
 {
 
     [HttpGet]
-    public async Task<ActionResult<List<ProjectResponseDto>>> GetProjectAsync()
+    public async Task<ActionResult<List<ProjectResponseDto>>> GetProjectAsync([FromQuery] ProjectQueryDto projectQueryDto)
     {
-        var products = await projectsService.GetAllAsync();
+        var products = await projectsService.GetAllAsync(projectQueryDto);
         return Ok(products);
     }
 

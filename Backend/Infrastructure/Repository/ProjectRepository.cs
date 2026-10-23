@@ -1,3 +1,4 @@
+using Application.DTO;
 using Application.Interfaces;
 using Domain.Entities;
 using Infrastructure.Data;
@@ -12,6 +13,17 @@ public class ProjectRepository(AppDbContext context) : IBaseRepository<ProjectDa
         return await context.Projects
             .Include(project => project.StepList)
             .ThenInclude(step => step.Type)
+            .OrderByDescending(project => project.Status)
+            .ToListAsync();
+    }
+    
+    public async Task<List<ProjectDao>> SearchAsync(ProjectQueryDto projectQueryDto)
+    {
+        return await context.Projects
+            .Include(project => project.StepList)
+            .ThenInclude(step => step.Type)
+            .OrderByDescending(project => project.Status)
+            .Where(project => project.Label.Contains(projectQueryDto.Label))
             .ToListAsync();
     }
     

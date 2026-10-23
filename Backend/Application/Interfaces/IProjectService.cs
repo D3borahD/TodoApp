@@ -8,5 +8,5 @@ public interface IProjectService
     Task<ProjectResponseDto?> UpdateAsync(ProjectRequestDto projectDto);
     Task<ProjectResponseDto?> CreateAsync(ProjectRequestDto projectDto);
     Task<ProjectResponseDto?> GetByIdAsync(int id);
-    Task<List<ProjectResponseDto?>> GetAllAsync();
+    Task<List<ProjectResponseDto?>> GetAllAsync(ProjectQueryDto projectQueryDto);
 }
