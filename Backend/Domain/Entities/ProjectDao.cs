@@ -12,5 +12,6 @@ public class ProjectDao
     public List<StepDao> StepList { get; set; } = new List<StepDao>();  
     public required Status Status { get; set; }
     public int ProjectTypeId { get; set; }
+    public required ProjectTypeDao ProjectType { get; set; } 
 }
 

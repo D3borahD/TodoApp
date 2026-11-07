@@ -12,5 +12,5 @@ public class ProjectResponseDto
     public List<StepResponseDto> StepList { get; set; } = new List<StepResponseDto>();
     public required Status Status  { get; set; } 
     
-    public List<ProjectTypesDto> ProjectTypes { get; set; } = new List<ProjectTypesDto>();
+    public string? ProjectTypeLabel { get; set; } 
 }

@@ -5,10 +5,11 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<ProjectDao> baseRepository, IProjectRepository projectRepository, IStepRepository stepRepository )
+public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<ProjectDao> baseRepository, 
+    IProjectRepository projectRepository, IStepRepository stepRepository, IBaseRepository<ProjectTypeDao> projectTypeRepository)
     :  IProjectService
 {
-    public async Task<List<ProjectResponseDto?>> GetAllAsync(ProjectQueryDto projectQueryDto)
+    public async Task<List<ProjectResponseDto>> GetAllAsync(ProjectQueryDto projectQueryDto)
     {
         logger.LogInformation("Getting all Projects");
         var projects = await projectRepository.SearchAsync(projectQueryDto);
@@ -18,8 +19,14 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             logger.LogInformation("No Projects found");
             return new List<ProjectResponseDto>();
         }
+        
+        var projectTypeLabelsById = new Dictionary<int, string>();
+        foreach (var projectTypeId in projects.Select(p => p.ProjectTypeId).Distinct())
+        {
+            projectTypeLabelsById[projectTypeId] = await GetProjectTypesAsync(projectTypeId);
+        }
 
-        return projects.Select(p => new ProjectResponseDto
+        var project= projects.Select(p => new ProjectResponseDto
             {
                 Id = p.Id,
                 Label = p.Label,
@@ -28,19 +35,14 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
                 EndDate = p.EndDate,
                 Status = p.Status,
                 StepList = p.StepList.Select(ProjectMappingExtension.MapToStepDto).ToList(),
-              //  ProjectTypes = GetAllProjectTypes(p),
+                ProjectTypeLabel = p.ProjectType.Label
             })
             .ToList();
+        
+        return project;
     }
 
-    /*private List<ProjectTypesDto> GetAllProjectTypes(ProjectDao projectDao)
-    {
-        return projectDao.StepList
-            .Select(step => step.Type)
-            .DistinctBy(type => type.Id)
-            .Select(ProjectMappingExtension.MapToProjectTypesDto)
-            .ToList();
-    }*/
+  
     
 
     public async Task<ProjectResponseDto?> GetByIdAsync(int id)
@@ -79,6 +81,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             EndDate = projectDto.EndDate,
             Description = projectDto.Description,
             Status = projectDto.Status,
+            ProjectType = new ProjectTypeDao(){Label = ""}
         };
         
         var createdProject = await baseRepository.CreateAsync(newProjectDao);
@@ -130,5 +133,12 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
         
         await baseRepository.DeleteAsync(projectDao.Id);
         return true;
+    }
+    
+    
+    private async Task<string> GetProjectTypesAsync(int projectTypeId)
+    {
+        var projectType = await projectTypeRepository.GetByIdAsync(projectTypeId);
+        return projectType!.Label;
     }
 }

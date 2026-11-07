@@ -12,6 +12,7 @@ public class ProjectRepository(AppDbContext context) : IBaseRepository<ProjectDa
     {
         return await context.Projects
             .Include(project => project.StepList)
+            .Include(project => project.ProjectType)
             .OrderByDescending(project => project.Status)
             .ToListAsync();
     }
@@ -20,6 +21,7 @@ public class ProjectRepository(AppDbContext context) : IBaseRepository<ProjectDa
     {
         IQueryable<ProjectDao>  query =  context.Projects
             .Include(project => project.StepList)
+            .Include(project => project.ProjectType)
             .AsNoTracking();
         
         if(projectQueryDto != null)
@@ -36,6 +38,7 @@ public class ProjectRepository(AppDbContext context) : IBaseRepository<ProjectDa
     { 
         return await context.Projects
         .Include(project => project.StepList)
+        .Include(project => project.ProjectType)
         .Where(project => project.Id == id)
         .FirstOrDefaultAsync();
     }

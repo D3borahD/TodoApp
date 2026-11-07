@@ -15,7 +15,6 @@ public static class ProjectMappingExtension
             StartDate = stepDao.StartDate,
             EndDate = stepDao.EndDate,
             Status = stepDao.Status,
-            
             Duration = stepDao.Duration,
         };
     }

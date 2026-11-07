@@ -17,7 +17,6 @@ public static class StepMappingExtensions
             StartDate = step.StartDate,
             EndDate = step.EndDate,
             Rank = step.Rank,
-            ProjectId = step.ProjectId,
             Status = step.Status
         };
     }

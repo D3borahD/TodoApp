@@ -32,7 +32,7 @@ public class StepService(
             Rank = stepResquestDto.Rank,
             ProjectId = stepResquestDto.ProjectId,
             StartDate = stepResquestDto.StartDate,
-            TypeId = type.Id,
+ 
             Status = stepResquestDto.Status,
         };
         
@@ -102,11 +102,7 @@ public class StepService(
         var steps = await stepRepository.GetStepByProjectAsync(projectId);
         var stepDtos = new List<StepResponseDto>();
 
-        foreach (var step in steps)
-        {
-            var type = await projectTypeRepository.GetByIdAsync(step.TypeId);
-           // stepDtos.Add(StepMappingExtensions.MapToDto(step, type));
-        }
+     
 
         return stepDtos;
     }

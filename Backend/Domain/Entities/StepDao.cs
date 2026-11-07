@@ -10,9 +10,6 @@ public class StepDao
     public int? Rank { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime? EndDate { get; set; }
-    
-    public required int TypeId  { get; set; }
-    
     public required Status Status  { get; set; }
     public int? Duration { get; set; }
     public int ProjectId { get; set; }

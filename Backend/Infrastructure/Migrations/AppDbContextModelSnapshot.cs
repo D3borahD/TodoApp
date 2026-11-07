@@ -46,6 +46,8 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProjectTypeId");
+
                     b.ToTable("Projects", (string)null);
                 });
 
@@ -99,14 +101,22 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TypeId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
 
                     b.ToTable("Steps");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProjectDao", b =>
+                {
+                    b.HasOne("Domain.Entities.ProjectTypeDao", "ProjectType")
+                        .WithMany()
+                        .HasForeignKey("ProjectTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProjectType");
                 });
 
             modelBuilder.Entity("Domain.Entities.StepDao", b =>

@@ -6,9 +6,9 @@ using Microsoft.Extensions.Logging;
 namespace Application.Services;
 
 public class ProjectTypeService(ILogger<ProjectTypeService> logger, IBaseRepository<ProjectTypeDao> projectTypeRepository )
-    : IProjectTypeService, IBaseService<ProjectTypesDto>
+    : IProjectTypeService, IBaseService<ProjectTypeDto>
 {
-       public async Task<List<ProjectTypesDto>> GetAllAsync()
+       public async Task<List<ProjectTypeDto>> GetAllAsync()
     {
         logger.LogInformation("Getting all Projects");
         var projects = await projectTypeRepository.GetAllAsync();
@@ -16,10 +16,10 @@ public class ProjectTypeService(ILogger<ProjectTypeService> logger, IBaseReposit
         if (!projects.Any())
         {
             logger.LogInformation("No Projects found");
-            return new List<ProjectTypesDto>();
+            return new List<ProjectTypeDto>();
         }
         
-        return projects.Select(p => new ProjectTypesDto
+        return projects.Select(p => new ProjectTypeDto
         {
             Id = p.Id,
             Label = p.Label
@@ -27,7 +27,7 @@ public class ProjectTypeService(ILogger<ProjectTypeService> logger, IBaseReposit
     }
     
 
-    public async Task<ProjectTypesDto?> GetByIdAsync(int id)
+    public async Task<ProjectTypeDto?> GetByIdAsync(int id)
     {
         logger.LogInformation("Getting Projects by id");
         var projectsDao = await projectTypeRepository.GetByIdAsync(id);
@@ -39,14 +39,14 @@ public class ProjectTypeService(ILogger<ProjectTypeService> logger, IBaseReposit
         }
         
         
-        return new ProjectTypesDto()
+        return new ProjectTypeDto()
         {
             Id = projectsDao.Id,
             Label = projectsDao.Label,
         };
     }
 
-    public async Task<ProjectTypesDto?> CreateAsync(ProjectTypesDto projectTypeDto)
+    public async Task<ProjectTypeDto?> CreateAsync(ProjectTypeDto projectTypeDto)
     {
         logger.LogInformation("Creating new Project");
         
@@ -57,14 +57,14 @@ public class ProjectTypeService(ILogger<ProjectTypeService> logger, IBaseReposit
         
         var createdProject = await projectTypeRepository.CreateAsync(newProjectDao);
 
-        return new ProjectTypesDto()
+        return new ProjectTypeDto()
         {
             Id = createdProject.Id,
             Label = createdProject.Label,
         };
     }
 
-    public async Task<ProjectTypesDto?> UpdateAsync(ProjectTypesDto projectTypeDto)
+    public async Task<ProjectTypeDto?> UpdateAsync(ProjectTypeDto projectTypeDto)
     {
         var projectDao = await projectTypeRepository.GetByIdAsync(projectTypeDto.Id);
         if(projectDao == null)
@@ -77,7 +77,7 @@ public class ProjectTypeService(ILogger<ProjectTypeService> logger, IBaseReposit
         
         var updatedProject = await projectTypeRepository.UpdateAsync(projectDao);
         
-        return new ProjectTypesDto()
+        return new ProjectTypeDto()
         {
             Id = updatedProject!.Id,
             Label = updatedProject.Label,
