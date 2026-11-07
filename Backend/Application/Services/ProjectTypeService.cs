@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-public class ProjectTypeService(ILogger<ProjectTypeService> logger, IBaseRepository<TypeDao> projectTypeRepository )
+public class ProjectTypeService(ILogger<ProjectTypeService> logger, IBaseRepository<ProjectTypeDao> projectTypeRepository )
     : IProjectTypeService, IBaseService<ProjectTypesDto>
 {
        public async Task<List<ProjectTypesDto>> GetAllAsync()
@@ -50,7 +50,7 @@ public class ProjectTypeService(ILogger<ProjectTypeService> logger, IBaseReposit
     {
         logger.LogInformation("Creating new Project");
         
-        TypeDao newProjectDao = new TypeDao()
+        ProjectTypeDao newProjectDao = new ProjectTypeDao()
         {
             Label = projectTypeDto.Label.ToLower(),
         };

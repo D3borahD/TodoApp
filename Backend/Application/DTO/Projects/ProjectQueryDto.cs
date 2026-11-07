@@ -9,4 +9,7 @@ public class ProjectQueryDto
     public DateTime? EndDate { get; set; }
     public Status? Status  { get; set; } 
     public int? ProjectTypeId { get; set; }
+    
+    public int? PageNumber { get; set; } = 1;
+    public int? PageSize { get; set; } = 15;
 }

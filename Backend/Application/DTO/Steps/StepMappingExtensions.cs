@@ -6,7 +6,7 @@ namespace Application.DTO;
 
 public static class StepMappingExtensions
 {
-    public static StepResponseDto MapToDto(StepDao step, TypeDao? type)
+    public static StepResponseDto MapToDto(StepDao step)
     {
         return new StepResponseDto
         {
@@ -18,11 +18,6 @@ public static class StepMappingExtensions
             EndDate = step.EndDate,
             Rank = step.Rank,
             ProjectId = step.ProjectId,
-            Type = new ProjectTypesDto
-            {
-                Id = step.TypeId,
-                Label = type?.Label ?? string.Empty
-            },
             Status = step.Status
         };
     }

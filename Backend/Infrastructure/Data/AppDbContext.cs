@@ -6,7 +6,7 @@ namespace Infrastructure.Data;
 public class AppDbContext : DbContext
 {
 
-    public DbSet<TypeDao> ProjectTypes { get; set; }
+    public DbSet<ProjectTypeDao> ProjectTypes { get; set; }
     public DbSet<ProjectDao> Projects { get; set; }
     public DbSet<StepDao> Steps { get; set; }
     

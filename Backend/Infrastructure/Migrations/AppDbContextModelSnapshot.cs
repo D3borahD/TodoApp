@@ -34,6 +34,9 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("ProjectTypeId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("TEXT");
 
@@ -41,14 +44,28 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("TypeDaoId")
+                    b.HasKey("Id");
+
+                    b.ToTable("Projects", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProjectTypeDao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Label")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProjectTypeColor")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TypeDaoId");
-
-                    b.ToTable("Projects", (string)null);
+                    b.ToTable("ProjectTypes");
                 });
 
             modelBuilder.Entity("Domain.Entities.StepDao", b =>
@@ -89,35 +106,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.HasIndex("TypeId");
-
                     b.ToTable("Steps");
-                });
-
-            modelBuilder.Entity("Domain.Entities.TypeDao", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ProjectTypeColor")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProjectTypes");
-                });
-
-            modelBuilder.Entity("Domain.Entities.ProjectDao", b =>
-                {
-                    b.HasOne("Domain.Entities.TypeDao", null)
-                        .WithMany("Projects")
-                        .HasForeignKey("TypeDaoId");
                 });
 
             modelBuilder.Entity("Domain.Entities.StepDao", b =>
@@ -127,24 +116,11 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Domain.Entities.TypeDao", "Type")
-                        .WithMany()
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Type");
                 });
 
             modelBuilder.Entity("Domain.Entities.ProjectDao", b =>
                 {
                     b.Navigation("StepList");
-                });
-
-            modelBuilder.Entity("Domain.Entities.TypeDao", b =>
-                {
-                    b.Navigation("Projects");
                 });
 #pragma warning restore 612, 618
         }

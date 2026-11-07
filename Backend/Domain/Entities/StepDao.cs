@@ -12,7 +12,6 @@ public class StepDao
     public DateTime? EndDate { get; set; }
     
     public required int TypeId  { get; set; }
-    public TypeDao Type { get; set; } = null!; // Populated by EF Core
     
     public required Status Status  { get; set; }
     public int? Duration { get; set; }

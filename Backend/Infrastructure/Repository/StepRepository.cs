@@ -15,7 +15,6 @@ public class StepRepository(AppDbContext context) : IBaseRepository<StepDao>, IS
     public async Task<StepDao?> GetByIdAsync(int id)
     {
         return await context.Steps
-            .Include(step => step.Type)
             .FirstOrDefaultAsync(step => step.Id == id);
     }
    

@@ -8,7 +8,7 @@ namespace Application.Services;
 public class StepService(
     ILogger<StepService> logger, 
     IStepRepository stepRepository, 
-    IBaseRepository<TypeDao> projectTypeRepository) 
+    IBaseRepository<ProjectTypeDao> projectTypeRepository) 
     : IStepService
 {
     
@@ -48,7 +48,6 @@ public class StepService(
             EndDate = createdStep.EndDate,
             StartDate = createdStep.StartDate,
             Rank = createdStep.Rank,
-            Type = new ProjectTypesDto(){ Id = type!.Id, Label = type.Label},
             Status = createdStep.Status,
         };
     }
@@ -70,16 +69,16 @@ public class StepService(
         stepDao.StartDate = stepResponseDto.StartDate;
         stepDao.EndDate = stepResponseDto.EndDate;
         stepDao.Rank = stepResponseDto.Rank;
-        stepDao.TypeId = stepResponseDto.Type.Id;
+ 
         stepDao.Status = stepResponseDto.Status;
         
        await stepRepository.UpdateAsync(stepDao);
         
-        var type = await projectTypeRepository.GetByIdAsync(stepResponseDto.Type.Id);
-        
-        return StepMappingExtensions.MapToDto(stepDao, type);
-        
-        
+       // var type = await projectTypeRepository.GetByIdAsync(stepResponseDto.Type.Id);
+
+        return null;
+
+
     }
 
     public async Task<bool> DeleteAsync(int id)
@@ -106,7 +105,7 @@ public class StepService(
         foreach (var step in steps)
         {
             var type = await projectTypeRepository.GetByIdAsync(step.TypeId);
-            stepDtos.Add(StepMappingExtensions.MapToDto(step, type));
+           // stepDtos.Add(StepMappingExtensions.MapToDto(step, type));
         }
 
         return stepDtos;

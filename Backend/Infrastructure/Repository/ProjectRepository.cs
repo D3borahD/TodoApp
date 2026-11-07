@@ -12,18 +12,23 @@ public class ProjectRepository(AppDbContext context) : IBaseRepository<ProjectDa
     {
         return await context.Projects
             .Include(project => project.StepList)
-            .ThenInclude(step => step.Type)
             .OrderByDescending(project => project.Status)
             .ToListAsync();
     }
     
-    public async Task<List<ProjectDao>> SearchAsync(ProjectQueryDto projectQueryDto)
+    public async Task<List<ProjectDao>> SearchAsync(ProjectQueryDto? projectQueryDto = null)
     {
-        return await context.Projects
+        IQueryable<ProjectDao>  query =  context.Projects
             .Include(project => project.StepList)
-            .ThenInclude(step => step.Type)
-            .OrderByDescending(project => project.Status)
-            .Where(project => project.Label.Contains(projectQueryDto.Label))
+            .AsNoTracking();
+        
+        if(projectQueryDto != null)
+        {
+            GetProjectQuery(projectQueryDto, query);
+        };
+        
+        return await query
+            .OrderBy(project => project.Status)
             .ToListAsync();
     }
     
@@ -31,11 +36,9 @@ public class ProjectRepository(AppDbContext context) : IBaseRepository<ProjectDa
     { 
         return await context.Projects
         .Include(project => project.StepList)
-        .ThenInclude(step => step.Type)
         .Where(project => project.Id == id)
         .FirstOrDefaultAsync();
     }
-    
     
     public async Task<ProjectDao> CreateAsync(ProjectDao pojectDto)
     {
@@ -57,5 +60,25 @@ public class ProjectRepository(AppDbContext context) : IBaseRepository<ProjectDa
         if(product == null) return;
         context.Projects.Remove(product);
         await context.SaveChangesAsync();
+    }
+    
+    private IQueryable<ProjectDao> GetProjectQuery(ProjectQueryDto projectQueryDto, IQueryable<ProjectDao> query)
+    {
+        if (projectQueryDto.Status != null)
+        {
+            query = query.Where(project => project.Status == projectQueryDto.Status);
+        }
+
+        if (!string.IsNullOrWhiteSpace(projectQueryDto.Label))
+        {
+            query = query.Where(project => project.Label.Contains(projectQueryDto.Label));
+        }
+
+        if (projectQueryDto.ProjectTypeId != null)
+        {
+           // query = query.Where(project => project.StepList.Any(step => step.Type.Id == projectQueryDto.ProjectTypeId));
+        }
+        
+        return query;
     }
 }

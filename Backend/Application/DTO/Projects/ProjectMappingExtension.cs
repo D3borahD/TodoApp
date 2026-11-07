@@ -15,21 +15,17 @@ public static class ProjectMappingExtension
             StartDate = stepDao.StartDate,
             EndDate = stepDao.EndDate,
             Status = stepDao.Status,
-            Type = new ProjectTypesDto()
-            {
-                Id = stepDao.TypeId,
-                Label = stepDao.Type?.Label ?? string.Empty,
-            },
+            
             Duration = stepDao.Duration,
         };
     }
     
-    public static ProjectTypesDto MapToProjectTypesDto(TypeDao typeDao)
+    /*public static ProjectTypesDto MapToProjectTypesDto(TypeDao typeDao)
     {
         return new ProjectTypesDto()
         {
             Id = typeDao.Id,
             Label = typeDao.Label,
         };
-    }
+    }*/
 }

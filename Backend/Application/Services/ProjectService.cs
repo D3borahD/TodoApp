@@ -28,19 +28,19 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
                 EndDate = p.EndDate,
                 Status = p.Status,
                 StepList = p.StepList.Select(ProjectMappingExtension.MapToStepDto).ToList(),
-                ProjectTypes = GetAllProjectTypes(p),
+              //  ProjectTypes = GetAllProjectTypes(p),
             })
             .ToList();
     }
 
-    private List<ProjectTypesDto> GetAllProjectTypes(ProjectDao projectDao)
+    /*private List<ProjectTypesDto> GetAllProjectTypes(ProjectDao projectDao)
     {
         return projectDao.StepList
             .Select(step => step.Type)
             .DistinctBy(type => type.Id)
             .Select(ProjectMappingExtension.MapToProjectTypesDto)
             .ToList();
-    }
+    }*/
     
 
     public async Task<ProjectResponseDto?> GetByIdAsync(int id)
@@ -63,7 +63,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             Status = projectsDao.Status,
             StartDate = projectsDao.StartDate,
             Description = projectsDao.Description,
-            ProjectTypes = GetAllProjectTypes(projectsDao),
+            //ProjectTypes = GetAllProjectTypes(projectsDao),
             StepList = stepList.Select(ProjectMappingExtension.MapToStepDto).ToList(),
         };
     }
