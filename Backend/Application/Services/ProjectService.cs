@@ -19,7 +19,7 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             logger.LogInformation("No Projects found");
             return new List<ProjectResponseDto>();
         }
-        
+
         var projectTypeLabelsById = new Dictionary<int, string>();
         foreach (var projectTypeId in projects.Select(p => p.ProjectTypeId).Distinct())
         {
@@ -39,6 +39,10 @@ public class ProjectService(ILogger<ProjectService> logger, IBaseRepository<Proj
             })
             .ToList();
         
+        
+        logger.LogInformation(
+            "Service received {Count} projects for Status={Status}, Label={Label}",
+            projects.Count, projectQueryDto.Status, projectQueryDto.Label);
         return project;
     }
 

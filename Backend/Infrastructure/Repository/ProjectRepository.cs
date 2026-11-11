@@ -26,7 +26,7 @@ public class ProjectRepository(AppDbContext context) : IBaseRepository<ProjectDa
         
         if(projectQueryDto != null)
         {
-            GetProjectQuery(projectQueryDto, query);
+            query = GetProjectQuery(projectQueryDto, query);
         };
         
         return await query
@@ -79,7 +79,7 @@ public class ProjectRepository(AppDbContext context) : IBaseRepository<ProjectDa
 
         if (projectQueryDto.ProjectTypeId != null)
         {
-           // query = query.Where(project => project.StepList.Any(step => step.Type.Id == projectQueryDto.ProjectTypeId));
+            query = query.Where(project => project.ProjectType.Id == projectQueryDto.ProjectTypeId);
         }
         
         return query;

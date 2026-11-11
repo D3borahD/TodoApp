@@ -9,6 +9,7 @@ export interface ProjectForm {
   startDate: Date;
   endDate?: Date;
   status: StatusKey;
+  projectTypeLabel: string;
 }
 
 export type ProjectDialogData =

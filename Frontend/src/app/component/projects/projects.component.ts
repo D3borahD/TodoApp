@@ -27,6 +27,7 @@ import {RouterLink} from '@angular/router';
 import {ButtonComponent} from '../../ui/components/button/button.component';
 import {IButton} from '../../ui/components/button/button.interface';
 import {ProjectDialogService} from '../../core/services/project-dialog.service';
+import {ISearchParameters} from '../../core/models/search-parameters';
 
 registerLocaleData(localeFr);
 
@@ -64,6 +65,8 @@ export class ProjectsComponent {
   private projectDialogService = inject(ProjectDialogService);
   private readonly projectService: ProjectService = inject(ProjectService);
 
+  private searchFilter: ISearchParameters = {};
+
   protected readonly statusColors = STATUS_COLOR_MAP;
 
   readonly projectList: Signal<IProject[]> = this.projectService.projects;
@@ -78,9 +81,13 @@ export class ProjectsComponent {
     }
   )
 
-
   constructor() {
     // Déclenche le chargement initial; le signal se met à jour via le service
     this.projectService.getAllProjects$().subscribe();
+  }
+
+  protected projectFilter(status: StatusKey) {
+    this.searchFilter= {status: status};
+    this.projectService.getAllProjects$(this.searchFilter).subscribe();
   }
 }

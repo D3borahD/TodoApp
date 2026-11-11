@@ -1,9 +1,11 @@
 import {inject, Injectable, Signal, signal} from '@angular/core';
 import {IProject} from '../models/project.model';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable, tap} from 'rxjs';
 import {ProjectForm} from '../models/projectForm';
 import {APP_CONFIG} from '../../app.config';
+import {ISearchParameters} from '../models/search-parameters';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,6 @@ export class ProjectService {
   private url = inject(APP_CONFIG)
   private readonly baseUrl = `${this.url.apiBaseUrl}/Projects`
 
-
   private readonly projectsSignal = signal<IProject[]>([]);
   private readonly projectSignal = signal<IProject | null>(null);
 
@@ -22,8 +23,10 @@ export class ProjectService {
   public readonly projects : Signal<IProject[]> = this.projectsSignal.asReadonly()
   public readonly project : Signal<IProject | null> = this.projectSignal.asReadonly()
 
-  public getAllProjects$(): Observable<IProject[]> {
-    return this.http.get<IProject[]>(this.baseUrl).pipe(
+  public getAllProjects$(searchParameters?: ISearchParameters): Observable<IProject[]> {
+    const params = this.buildHttpParams(searchParameters);
+
+    return this.http.get<IProject[]>(this.baseUrl, {params: params}).pipe(
       tap(projects => this.projectsSignal.set(projects)));
   }
 
@@ -52,5 +55,33 @@ export class ProjectService {
         );
       })
     );
+  }
+
+  private buildHttpParams(searchParameters?: ISearchParameters): HttpParams {
+    const queryParams: Record<string, string | number> = {};
+
+    if (searchParameters?.label) {
+      queryParams['label'] = searchParameters.label;
+    }
+    if (searchParameters?.status) {
+      queryParams['status'] = searchParameters.status;
+    }
+    if (searchParameters?.projectTypeId != null) {
+      queryParams['projectTypeId'] = searchParameters.projectTypeId;
+    }
+    if (searchParameters?.startDate) {
+      queryParams['startDate'] = searchParameters.startDate.toISOString();
+    }
+    if (searchParameters?.endDate) {
+      queryParams['endDate'] = searchParameters.endDate.toISOString();
+    }
+    if (searchParameters?.pageNumber != null) {
+      queryParams['pageNumber'] = searchParameters.pageNumber;
+    }
+    if (searchParameters?.pageSize != null) {
+      queryParams['pageSize'] = searchParameters.pageSize;
+    }
+
+    return new HttpParams({ fromObject: queryParams });
   }
 }

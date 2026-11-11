@@ -42,7 +42,7 @@ import {Router} from '@angular/router';
     MatDatepickerToggle,
     MatDatepicker,
     MatDatepickerInput,
-    MatFormFieldModule, MatInputModule, MatDatepickerModule, FormRoot, MatSelect, MatOption, FormsModule
+    MatFormFieldModule, FormRoot, FormsModule
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './project-form.component.html',
@@ -100,6 +100,7 @@ export class ProjectFormComponent {
       startDate: new Date(),
       endDate : new Date(),
       status: ProjectFormComponent.DEFAULT_STATUS,
+      projectTypeLabel: '',
     };
   }
 
@@ -111,6 +112,7 @@ export class ProjectFormComponent {
       startDate: project.startDate,
       endDate: project.endDate,
       status: project.status,
+      projectTypeLabel: '',
     }
   }
 }
